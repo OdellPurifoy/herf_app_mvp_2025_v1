@@ -20,8 +20,13 @@
         <a href="#" class="text-sm/6 font-semibold text-white">FAQ</a>
       </div>
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-        <a href="#" class="text-sm/6 font-semibold text-white">Sign up</a>
-        <a href="#" class="ml-6 text-sm/6 font-semibold text-white">Log in <span aria-hidden="true">&rarr;</span></a>
+        <% if lounge_owner_signed_in? %>
+          <a href="<%= edit_lounge_owner_registration_path %>" class="text-sm/6 font-semibold text-white">Profile</a>
+          <%= button_to "Log out", destroy_lounge_owner_session_path, method: :delete, class: "ml-6 text-sm/6 font-semibold text-white", data: { confirm: "Are you sure?" } %>
+        <% else %>
+          <a href="<%= new_lounge_owner_registration_path %>" class="text-sm/6 font-semibold text-white">Sign up</a>
+          <a href="<%= new_lounge_owner_session_path %>" class="ml-6 text-sm/6 font-semibold text-white">Log in <span aria-hidden="true">&rarr;</span></a>
+        <% end %>
       </div>
     </nav>
     <!-- Mobile menu, show/hide based on menu open state. -->
@@ -48,8 +53,13 @@
               <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-800">FAQ</a>
             </div>
             <div class="py-6">
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-white hover:bg-gray-800">Sign up</a>
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-white hover:bg-gray-800">Log in</a>
+              <% if lounge_owner_signed_in? %>
+                <a href="<%= edit_lounge_owner_registration_path %>" class="text-sm/6 font-semibold text-white">Profile</a>
+                <%= button_to "Log out", destroy_lounge_owner_session_path, method: :delete, class: "ml-6 text-sm/6 font-semibold text-white", data: { confirm: "Are you sure?" } %>
+              <% else %>
+                <a href="<%= new_lounge_owner_registration_path %>" class="text-sm/6 font-semibold text-white">Sign up</a>
+                <a href="<%= new_lounge_owner_session_path %>" class="ml-6 text-sm/6 font-semibold text-white">Log in <span aria-hidden="true">&rarr;</span></a>
+              <% end %>            
             </div>
           </div>
         </div>
