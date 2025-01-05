@@ -10,6 +10,8 @@ class LoungeOwner < ApplicationRecord
   validate  :date_of_birth_cannot_be_in_the_future
   validate  :must_be_18_or_older
 
+  has_many :lounges, dependent: :destroy
+
   private
 
   def date_of_birth_cannot_be_in_the_future
