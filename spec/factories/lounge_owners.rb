@@ -9,4 +9,10 @@ FactoryBot.define do
     email { Faker::Internet.email }
     password { Faker::Internet.password }
   end
+
+  trait :with_lounge do
+    after(:create) do |lounge_owner|
+      create(:lounge, lounge_owner: lounge_owner)
+    end
+  end
 end
