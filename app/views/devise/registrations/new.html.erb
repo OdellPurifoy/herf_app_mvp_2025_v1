@@ -6,27 +6,35 @@
 
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-6" }) do |f| %>
-      <%= render "devise/shared/error_messages", resource: resource %>
 
       <div>
         <%= f.label :first_name, class: "block text-sm/6 font-medium text-gray-900" %>
         <div class="mt-2">
-          <%= f.text_field :first_name, autofocus: true, autocomplete: "first_name", required: true, class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          <%= f.text_field :first_name, autofocus: true, autocomplete: "first_name", class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
         </div>
+        <% if resource.errors[:first_name].present? %>
+          <p class="mt-2 text-sm text-red-600 font-bold"><%= resource.errors[:first_name].first %></p>
+        <% end %>
       </div>
 
       <div>
         <%= f.label :last_name, class: "block text-sm/6 font-medium text-gray-900" %>
         <div class="mt-2">
-          <%= f.text_field :last_name, autocomplete: "last_name", required: true, class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          <%= f.text_field :last_name, autocomplete: "last_name", class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
         </div>
+        <% if resource.errors[:last_name].present? %>
+          <p class="mt-2 text-sm text-red-600 font-bold"><%= resource.errors[:last_name].first %></p>
+        <% end %>
       </div>
 
       <div>
         <%= f.label :date_of_birth, class: "block text-sm/6 font-medium text-gray-900" %>
         <div class="mt-2">
-          <%= f.date_field :date_of_birth, autocomplete: "date_of_birth", required: true, class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          <%= f.date_field :date_of_birth, autocomplete: "date_of_birth",  class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
         </div>
+        <% if resource.errors[:date_of_birth].present? %>
+          <p class="mt-2 text-sm text-red-600 font-bold"><%= resource.errors[:date_of_birth].first %></p>
+        <% end %>
       </div>
 
       <div>
@@ -34,13 +42,19 @@
         <div class="mt-2">
           <%= f.phone_field :phone_number, autocomplete: "phone_number", class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
         </div>
+        <% if resource.errors[:phone_number].present? %>
+          <p class="mt-2 text-sm text-red-600 font-bold"><%= resource.errors[:phone_number].first %></p>
+        <% end %>
       </div>
 
       <div>
         <%= f.label :email, class: "block text-sm/6 font-medium text-gray-900" %>
         <div class="mt-2">
-          <%= f.email_field :email, autocomplete: "email", required: true, class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          <%= f.email_field :email, autocomplete: "email", class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
         </div>
+        <% if resource.errors[:email].present? %>
+          <p class="mt-2 text-sm text-red-600 font-bold"><%= resource.errors[:email].first %></p>
+        <% end %>
       </div>
 
       <div>
@@ -49,15 +63,21 @@
           <em>(<%= @minimum_password_length %> characters minimum)</em>
         <% end %>
         <div class="mt-2">
-          <%= f.password_field :password, autocomplete: "new-password", required: true, class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          <%= f.password_field :password, autocomplete: "new-password", class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
         </div>
+        <% if resource.errors[:password].present? %>
+          <p class="mt-2 text-sm text-red-600 font-bold"><%= resource.errors[:password].first %></p>
+        <% end %>
       </div>
 
       <div>
         <%= f.label :password_confirmation, class: "block text-sm/6 font-medium text-gray-900" %>
         <div class="mt-2">
-          <%= f.password_field :password_confirmation, autocomplete: "new-password", required: true, class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
         </div>
+        <% if resource.errors[:password_confirmation].present? %>
+          <p class="mt-2 text-sm text-red-600 font-bold"><%= resource.errors[:password_confirmation].first %></p>
+        <% end %>
       </div>
 
       <div>
