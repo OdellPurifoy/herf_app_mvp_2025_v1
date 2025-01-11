@@ -50,6 +50,8 @@ class LoungesController < ApplicationController
 
   def lounge_params
     params.require(:lounge).permit(:name, :address_street_1, :address_street_2, :city, :state, :zip_code,
-                                   :phone_number, :email, :description, :facebook_handle, :x_handle, :instagram_handle, :outside_cigars_allowed, :outside_food_allowed, :alcohol_served, :outside_alcohol_allowed, :food_served, :website)
+                                   :phone_number, :email, :description, :facebook_handle, :x_handle,
+                                   :instagram_handle, :outside_cigars_allowed, :outside_food_allowed,
+                                   :alcohol_served, :outside_alcohol_allowed, :food_served, :website, :logo)
   end
 end
