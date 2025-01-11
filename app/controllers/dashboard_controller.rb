@@ -3,5 +3,6 @@ class DashboardController < ApplicationController
   def index
     @lounge_owner = current_lounge_owner
     @lounge = @lounge_owner&.lounges&.first
+    @upcoming_events = @lounge&.events&.upcoming
   end
 end

@@ -10,6 +10,8 @@ class Event < ApplicationRecord
   validate :end_time_after_start_time
   validate :date_not_in_past
 
+  scope :upcoming, -> { where('date >= ?', Date.today).order(date: :asc, start_time: :asc) }
+
   private
 
   def end_time_after_start_time
