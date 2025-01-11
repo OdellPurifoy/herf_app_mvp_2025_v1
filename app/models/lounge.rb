@@ -5,4 +5,5 @@ class Lounge < ApplicationRecord
 
   has_one_attached :logo
   has_one_attached :cover_image
+  has_many :events, dependent: :destroy
 end
