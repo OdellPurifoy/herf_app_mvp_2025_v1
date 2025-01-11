@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Lounge < ApplicationRecord
   belongs_to :lounge_owner
 

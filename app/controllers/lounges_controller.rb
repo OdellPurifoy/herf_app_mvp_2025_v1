@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LoungesController < ApplicationController
   before_action :authenticate_lounge_owner!, except: %i[index show]
   before_action :set_lounge, only: %i[show edit update destroy]
