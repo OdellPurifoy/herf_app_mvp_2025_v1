@@ -4,6 +4,8 @@ class Event < ApplicationRecord
 
   belongs_to :lounge
 
+  has_one_attached :flyer
+
   validates :name, :event_type, :date, :start_time, :end_time, presence: true
   validate :end_time_after_start_time
   validate :date_not_in_past
