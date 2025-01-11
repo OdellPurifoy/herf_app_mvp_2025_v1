@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_250_111_022_252) do
+ActiveRecord::Schema[7.1].define(version: 20_250_111_223_608) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -41,6 +43,24 @@ ActiveRecord::Schema[7.1].define(version: 20_250_111_022_252) do
     t.uuid 'blob_id', null: false
     t.string 'variation_digest', null: false
     t.index %w[blob_id variation_digest], name: 'index_active_storage_variant_records_uniqueness', unique: true
+  end
+
+  create_table 'events', id: :uuid, default: -> { 'gen_random_uuid()' }, force: :cascade do |t|
+    t.string 'name', null: false
+    t.string 'event_type', null: false
+    t.date 'date', null: false
+    t.time 'start_time', null: false
+    t.time 'end_time', null: false
+    t.boolean 'virtual', default: false
+    t.boolean 'members_only', default: false
+    t.text 'description'
+    t.boolean 'rsvp_needed', default: false
+    t.integer 'capacity'
+    t.string 'entry_fee'
+    t.uuid 'lounge_id', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['lounge_id'], name: 'index_events_on_lounge_id'
   end
 
   create_table 'lounge_owners', id: :uuid, default: -> { 'gen_random_uuid()' }, force: :cascade do |t|
@@ -86,5 +106,6 @@ ActiveRecord::Schema[7.1].define(version: 20_250_111_022_252) do
 
   add_foreign_key 'active_storage_attachments', 'active_storage_blobs', column: 'blob_id'
   add_foreign_key 'active_storage_variant_records', 'active_storage_blobs', column: 'blob_id'
+  add_foreign_key 'events', 'lounges'
   add_foreign_key 'lounges', 'lounge_owners'
 end

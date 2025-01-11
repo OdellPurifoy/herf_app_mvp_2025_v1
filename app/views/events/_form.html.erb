@@ -1,0 +1,100 @@
+<%= form_with(model: [@lounge, @event], local: true) do |form| %>
+  <div class="space-y-12">
+    <div class="border-b border-gray-900/10 pb-12">
+      <h2 class="text-base/7 font-semibold text-gray-900">Event Information</h2>
+      <p class="mt-1 text-sm/6 text-gray-600">This information will be displayed publicly so be careful what you share.</p>
+
+      <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <div class="sm:col-span-4">
+          <%= form.label :name, class: "block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <%= form.text_field :name, class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-2">
+          <%= form.label :event_type, class: "block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <%= form.select :event_type, options_for_select(Event::TYPES), {}, class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-2">
+          <%= form.label :date, class: "block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <%= form.date_field :date, class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-2">
+          <%= form.label :start_time, class: "block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <%= form.time_field :start_time, class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-2">
+          <%= form.label :end_time, class: "block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <%= form.time_field :end_time, class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          </div>
+        </div>
+
+        <div class="col-span-full">
+          <%= form.label :description, class: "block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <%= form.text_area :description, rows: 3, class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          </div>
+          <p class="mt-3 text-sm/6 text-gray-600">Write a few sentences about your event.</p>
+        </div>
+
+        <div class="col-span-2">
+          <%= form.label :flyer, class: "block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <%= form.file_field :flyer, class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-2">
+          <%= form.label :virtual, class: "block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <%= form.check_box :virtual, class: "h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-2">
+          <%= form.label :members_only, class: "block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <%= form.check_box :members_only, class: "h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-2">
+          <%= form.label :rsvp_needed, class: "block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <%= form.check_box :rsvp_needed, class: "h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-2">
+          <%= form.label :capacity, class: "block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <%= form.number_field :capacity, class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-2">
+          <%= form.label :entry_fee, class: "block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <%= form.number_field :entry_fee, step: 0.01, class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-6 flex items-center justify-end gap-x-6">
+    <%= link_to 'Cancel', dashboard_path, class: "text-sm/6 font-semibold text-gray-900" %>
+    <%= form.submit 'Save', class: "rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+  </div>
+<% end %>
