@@ -4,4 +4,5 @@ class Lounge < ApplicationRecord
   validates :name, :address_street_1, :city, :state, :zip_code, :email, presence: true
 
   has_one_attached :logo
+  has_one_attached :cover_image
 end
