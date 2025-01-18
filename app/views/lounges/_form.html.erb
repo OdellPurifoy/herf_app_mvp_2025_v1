@@ -23,6 +23,11 @@
         <div class="col-span-3">
           <%= form.label :cover_image, class: "block text-sm/6 font-medium text-gray-900" %>
           <div class="mt-2">
+            <% if @lounge.cover_image.attached? %>
+              <div class="mb-2">
+                <%= image_tag @lounge.cover_image, class: "h-32 w-full object-cover lg:h-48 rounded-lg" %>
+              </div>
+            <% end %>
             <%= form.file_field :cover_image, class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
           </div>
         </div>
@@ -30,6 +35,11 @@
         <div class="col-span-3">
           <%= form.label :logo, class: "block text-sm/6 font-medium text-gray-900" %>
           <div class="mt-2">
+            <% if @lounge.logo.attached? %>
+              <div class="mb-2">
+                <%= image_tag @lounge.logo, class: "size-24 rounded-full ring-4 ring-white sm:size-32" %>
+              </div>
+            <% end %>
             <%= form.file_field :logo, class: "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
           </div>
         </div>
