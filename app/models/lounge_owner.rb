@@ -14,6 +14,10 @@ class LoungeOwner < ApplicationRecord
 
   has_many :lounges, dependent: :destroy
 
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
   private
 
   def date_of_birth_cannot_be_in_the_future

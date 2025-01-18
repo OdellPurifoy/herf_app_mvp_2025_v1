@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   devise_for :lounge_owners
   resources :lounges do
     resources :events, shallow: true
+    resources :special_offers, shallow: true
   end
   root 'home#index'
   get 'up' => 'rails/health#show', as: :rails_health_check
