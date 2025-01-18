@@ -3,10 +3,10 @@
 class EventsController < ApplicationController
   before_action :authenticate_lounge_owner!
   before_action :set_event, only: %i[show edit update destroy]
-  before_action :set_lounge, only: %i[new create]
+  before_action :set_lounge, only: %i[index new create]
 
   def index
-    @events = Event.all
+    @events = @lounge&.events&.order(date: :asc, start_time: :asc)
   end
 
   def show; end

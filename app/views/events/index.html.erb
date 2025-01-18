@@ -1,0 +1,117 @@
+<nav class="bg-gray-800">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-16 justify-between">
+      <div class="flex">
+        <div class="-ml-2 mr-2 flex items-center md:hidden">
+          <!-- Mobile menu button -->
+          <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+            <span class="absolute -inset-0.5"></span>
+            <span class="sr-only">Open main menu</span>
+            <!-- Icon when menu is closed. -->
+            <svg class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+            <!-- Icon when menu is open. -->
+            <svg class="hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="flex shrink-0 items-center">
+          <img class="h-8 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
+        </div>
+        <div class="hidden md:ml-6 md:flex md:items-center md:space-x-4">
+          <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+          <%= link_to 'Dashboard', dashboard_path, class: "rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white" %>
+        </div>
+      </div>
+      <div class="flex items-center">
+        <div class="shrink-0">
+          <%= link_to 'Create Event', new_lounge_event_path(@lounge), class: "relative inline-flex items-center gap-x-1.5 rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500" %>
+        </div>
+        <div class="hidden md:ml-4 md:flex md:shrink-0 md:items-center">
+          <%= button_to destroy_lounge_owner_session_path, method: :delete, class: "relative inline-flex items-center gap-x-1.5 rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800", data: { confirm: "Are you sure?" } do %>
+            <span class="sr-only">Log out</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M22 10.5h-6m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM4 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 10.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+            </svg>
+            Log out
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu, show/hide based on menu state. -->
+  <div class="md:hidden" id="mobile-menu">
+    <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
+      <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+      <a href="#" class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white" aria-current="page">Dashboard</a>
+      <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Team</a>
+      <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Projects</a>
+      <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Calendar</a>
+    </div>
+    <div class="border-t border-gray-700 pb-3 pt-4">
+      <div class="flex items-center px-5 sm:px-6">
+        <div class="shrink-0">
+          <img class="size-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+        </div>
+        <div class="ml-3">
+          <div class="text-base font-medium text-white">Tom Cook</div>
+          <div class="text-sm font-medium text-gray-400">tom@example.com</div>
+        </div>
+        <%= button_to destroy_lounge_owner_session_path, method: :delete, class: "relative ml-auto shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800", data: { confirm: "Are you sure?" } do %>
+          <span class="sr-only">Log out</span>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M22 10.5h-6m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM4 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 10.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+          </svg>
+        <% end %>
+      </div>
+      <div class="mt-3 space-y-1 px-2 sm:px-3">
+        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Your Profile</a>
+        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Settings</a>
+        <%= button_to destroy_lounge_owner_session_path, method: :delete, class: "block w-full text-left rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white", data: { confirm: "Are you sure?" } do %>
+          Log out
+        <% end %>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="mx-auto max-w-7xl sm:px-6 lg:px-8 py-6 sm:py-6 lg:py-8">
+  <h1 class="text-2xl font-semibold text-gray-900">All Events</h1>
+
+  <ul role="list" class="divide-y divide-gray-300 mt-6">
+    <% @events.each do |event| %>
+      <li class="flex flex-col gap-y-4 py-5">
+        <div class="flex justify-between gap-x-6">
+          <div class="flex min-w-0 gap-x-4">
+            <% if event.flyer.attached? %>
+              <%= image_tag event.flyer, class: "size-12 flex-none rounded-full bg-gray-50" %>
+            <% else %>
+              <div class="size-12 flex-none rounded-full bg-gray-200"></div>
+            <% end %>
+            <div class="min-w-0 flex-auto">
+              <p class="text-sm/6 font-semibold text-gray-900"><%= event.name %></p>
+              <p class="mt-1 text-xs/5 text-gray-500"><%= event.description %></p>
+            </div>
+          </div>
+          <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+            <p class="text-sm/6 text-gray-900"><%= event.event_type %></p>
+            <p class="mt-1 text-xs/5 text-gray-500"><%= event.date.strftime("%B %d, %Y") %> <%= event.start_time.strftime("%I:%M %p") %> - <%= event.end_time.strftime("%I:%M %p") %></p>
+          </div>
+        </div>
+        <div class="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs/5 text-gray-500">
+          <span><strong>Virtual:</strong> <%= event.virtual ? 'Yes' : 'No' %></span>
+          <span><strong>Members Only:</strong> <%= event.members_only ? 'Yes' : 'No' %></span>
+          <span><strong>RSVP Needed:</strong> <%= event.rsvp_needed ? 'Yes' : 'No' %></span>
+          <span><strong>Entry Fee:</strong> <%= event.entry_fee.present? ? event.entry_fee : 'Free' %></span>
+          <span><strong>Capacity:</strong> <%= event.capacity.present? ? event.capacity : 'Unlimited' %></span>
+        </div>
+        <div class="mt-4 text-right">
+          <%= link_to 'Edit Event', edit_event_path(event), class: "inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>
