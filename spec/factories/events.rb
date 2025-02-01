@@ -6,7 +6,7 @@ FactoryBot.define do
   factory :event do
     name { Faker::Lorem.word }
     event_type { Event::TYPES.sample }
-    date { Faker::Date.in_date_period }
+    date { Date.today + 1.week }
     start_time { Faker::Time.between(from: DateTime.now - 1, to: DateTime.now) }
     end_time { Faker::Time.between(from: DateTime.now, to: DateTime.now + 1) }
     virtual { false }

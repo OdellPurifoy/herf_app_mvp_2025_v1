@@ -27,7 +27,7 @@ class Event < ApplicationRecord
   def date_not_in_past
     return if date.blank?
 
-    return unless date < Date.today
+    return unless date.before? Date.today
 
     errors.add(:date, 'must be in the future')
   end
