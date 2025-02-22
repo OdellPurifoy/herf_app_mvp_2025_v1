@@ -14,12 +14,14 @@ class Event < ApplicationRecord
 
   scope :upcoming, -> { where('date >= ?', Date.today).order(date: :asc, start_time: :asc) }
 
+  paginates_per 5
+
   private
 
   def end_time_after_start_time
     return if end_time.blank? || start_time.blank?
 
-    return unless end_time < start_time
+    return unless end_time.before? start_time
 
     errors.add(:end_time, 'must be after the start time')
   end

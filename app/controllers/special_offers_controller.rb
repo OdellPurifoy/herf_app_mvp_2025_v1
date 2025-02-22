@@ -6,7 +6,7 @@ class SpecialOffersController < ApplicationController
   before_action :set_lounge, only: %i[index new create]
 
   def index
-    @special_offers = @lounge&.special_offers&.order(start_date: :asc, end_date: :asc)
+    @special_offers = @lounge&.special_offers&.order(start_date: :asc, end_date: :asc)&.page(params[:page])
   end
 
   def show; end

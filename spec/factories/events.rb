@@ -8,7 +8,7 @@ FactoryBot.define do
     event_type { Event::TYPES.sample }
     date { Date.today + 1.week }
     start_time { Faker::Time.between(from: DateTime.now - 1, to: DateTime.now) }
-    end_time { Faker::Time.between(from: DateTime.now, to: DateTime.now + 1) }
+    end_time { Faker::Time.between(from: DateTime.now + 3, to: DateTime.now + 4) }
     virtual { false }
     members_only { false }
     description { Faker::Lorem.paragraph }
