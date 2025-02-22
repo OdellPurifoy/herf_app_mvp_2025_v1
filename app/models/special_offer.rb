@@ -12,6 +12,8 @@ class SpecialOffer < ApplicationRecord
 
   scope :upcoming, -> { where('end_date >= ?', Date.today).order(end_date: :asc) }
 
+  paginates_per 5
+
   private
 
   def end_date_after_start_date

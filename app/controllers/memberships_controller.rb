@@ -6,7 +6,7 @@ class MembershipsController < ApplicationController
   before_action :set_lounge, only: %i[index new create]
 
   def index
-    @memberships = @lounge.memberships
+    @memberships = @lounge&.memberships&.order(last_name: :asc, first_name: :asc)&.page(params[:page])
   end
 
   def show; end
