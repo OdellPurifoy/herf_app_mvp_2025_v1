@@ -14,6 +14,10 @@ class SpecialOffer < ApplicationRecord
 
   paginates_per 5
 
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[name offer_type start_date end_date members_only offer_code description]
+  end
+
   private
 
   def end_date_after_start_date

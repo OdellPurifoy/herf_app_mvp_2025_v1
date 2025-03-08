@@ -22,6 +22,7 @@
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
         <% if lounge_owner_signed_in? %>
           <a href="<%= edit_lounge_owner_registration_path %>" class="text-sm/6 font-semibold text-white">Profile</a>
+          <a href="<%= dashboard_path %>" class="ml-6 text-sm/6 font-semibold text-white">Dashboard</a>
           <%= button_to "Log out", destroy_lounge_owner_session_path, method: :delete, class: "ml-6 text-sm/6 font-semibold text-white", data: { confirm: "Are you sure?" } %>
         <% else %>
           <a href="<%= new_lounge_owner_registration_path %>" class="text-sm/6 font-semibold text-white">Sign up</a>
@@ -55,6 +56,7 @@
             <div class="py-6">
               <% if lounge_owner_signed_in? %>
                 <a href="<%= edit_lounge_owner_registration_path %>" class="text-sm/6 font-semibold text-white">Profile</a>
+                <a href="<%= dashboard_path %>" class="ml-6 text-sm/6 font-semibold text-white">Dashboard</a>
                 <%= button_to "Log out", destroy_lounge_owner_session_path, method: :delete, class: "ml-6 text-sm/6 font-semibold text-white", data: { confirm: "Are you sure?" } %>
               <% else %>
                 <a href="<%= new_lounge_owner_registration_path %>" class="text-sm/6 font-semibold text-white">Sign up</a>

@@ -6,7 +6,8 @@ class EventsController < ApplicationController
   before_action :set_lounge, only: %i[index new create]
 
   def index
-    @events = @lounge&.events&.order(date: :asc, start_time: :asc)&.page(params[:page])
+    @q = @lounge&.events&.ransack(params[:q])
+    @events = @q&.result(distinct: true)&.order(date: :asc, start_time: :asc)&.page(params[:page])
   end
 
   def show; end
