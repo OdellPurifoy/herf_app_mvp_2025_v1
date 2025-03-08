@@ -16,7 +16,7 @@ class Event < ApplicationRecord
 
   paginates_per 5
 
-  def self.ransackable_attributes(auth_object = nil)
+  def self.ransackable_attributes(_auth_object = nil)
     %w[name event_type date start_time end_time description virtual members_only rsvp_needed capacity entry_fee]
   end
 
