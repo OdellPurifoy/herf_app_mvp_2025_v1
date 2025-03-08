@@ -8,7 +8,6 @@ class SpecialOffersController < ApplicationController
   def index
     @q = @lounge&.special_offers&.ransack(params[:q])
     @special_offers = @q&.result(distinct: true)&.order(start_date: :asc, end_date: :asc)&.page(params[:page])
-    # @special_offers = @lounge&.special_offers&.order(start_date: :asc, end_date: :asc)&.page(params[:page])
   end
 
   def show; end
