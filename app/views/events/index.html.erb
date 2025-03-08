@@ -70,6 +70,19 @@
 </nav>
 
 <div class="mx-auto max-w-7xl sm:px-6 lg:px-8 py-6 sm:py-6 lg:py-8">
+  <div class="flex justify-end mb-6">
+    <%= search_form_for @q, url: lounge_events_path, class: "w-full sm:w-auto" do |f| %>
+      <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
+          <%= f.search_field :name_cont, class: "mt-1 block w-full rounded-md border border-gray-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm h-10 outline-gray-900", placeholder: "Enter event name..." %>
+        </div>
+        <div class="mt-4 sm:mt-0">
+          <%= f.submit 'Search', class: "inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 h-10" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
   <h1 class="text-2xl font-semibold text-gray-900">All Events</h1>
 
   <ul role="list" class="divide-y divide-gray-300 mt-6">
