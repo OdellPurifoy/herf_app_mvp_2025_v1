@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe NewEventMailer, type: :mailer do
   describe 'notify' do
-    let(:member) { FactoryBot.create(:membership) }
-    let(:event) { FactoryBot.create(:event) }
+    let(:member) { FactoryBot.build(:membership) }
+    let(:event) { FactoryBot.build(:event) }
     let(:mail) { NewEventMailer.with(member: member, event: event).notify }
 
     it 'renders the headers' do

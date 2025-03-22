@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NewEventMailer < ApplicationMailer
   default from: 'herf@gmail.com'
   helper :application
