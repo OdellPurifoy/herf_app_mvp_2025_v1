@@ -20,7 +20,7 @@ class EventsController < ApplicationController
     @event = @lounge.events.build(event_params)
     if @event.save
       redirect_to dashboard_path, notice: 'Event was successfully created.'
-      email_members
+      new_event_mailer
     else
       render :new
     end
@@ -31,6 +31,7 @@ class EventsController < ApplicationController
   def update
     if @event.update(event_params)
       redirect_to dashboard_path, notice: 'Event was successfully updated.'
+      updated_event_mailer
     else
       render :edit
     end
@@ -56,9 +57,17 @@ class EventsController < ApplicationController
                                   :members_only, :rsvp_needed, :capacity, :entry_fee, :flyer)
   end
 
-  def email_members
+  def new_event_mailer
     @lounge.memberships.each do |member|
       NewEventMailer.with(member: member, event: @event).notify.deliver_now
+    end
+  end
+
+  def updated_event_mailer
+    changed_attributes = @event.previous_changes.keys
+
+    @event.lounge.memberships.each do |member|
+      UpdatedEventMailer.with(member: member, event: @event, changed_attributes: changed_attributes).notify.deliver_now
     end
   end
 end
