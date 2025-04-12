@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -53,20 +53,23 @@
       </div>
       <div class="content">
         <p>
-          We regret to inform you that our upcoming event, <strong><%= @event.name %></strong>, has been cancelled.
+          We regret to inform you that the special offer, <strong><%= @special_offer.name %></strong>, has been cancelled.
         </p>
         <p>
-          The event was scheduled to take place on <%= @event.date.strftime('%A, %B %d, %Y') %> at <%= @event.start_time.strftime('%I:%M %p') %>. Unfortunately, due to unforeseen circumstances, we are unable to proceed with the event as planned.
+          <strong>Offer Details:</strong><br />
+          <strong>Offer Type:</strong> <%= @special_offer.offer_type %><br />
+          <strong>Original Start Date:</strong> <%= @special_offer.start_date.strftime('%A, %B %d, %Y') %><br />
+          <strong>Original End Date:</strong> <%= @special_offer.end_date.strftime('%A, %B %d, %Y') %>
         </p>
         <p>
-          We apologize for any inconvenience this may cause and appreciate your understanding. We hope to see you at our future events.
+          We apologize for any inconvenience this may have caused. Please stay tuned for future offers and updates from <%= @special_offer.lounge.name %>.
         </p>
       </div>
       <div class="contact">
-        <p>If you have any questions, feel free to contact us at <%= @event.lounge.email %> or call us at <%= format_phone_number(@event.lounge.phone_number) %>.</p>
+        <p>If you have any questions, feel free to contact us at <%= @special_offer.lounge.email %> or call us at <%= format_phone_number(@special_offer.lounge.phone_number) %>.</p>
       </div>
       <div class="footer">
-        <p>Thank you for being a part of our community and have a great day!</p>
+        <p>Thank you for your understanding.</p>
         <p>example.com Team</p>
       </div>
     </div>
