@@ -20,6 +20,7 @@ class SpecialOffersController < ApplicationController
     @special_offer = @lounge.special_offers.build(special_offer_params)
     if @special_offer.save
       redirect_to lounge_special_offers_path(@lounge), notice: 'Special offer was successfully created.'
+      new_special_offer_mailer
     else
       render :new
     end
@@ -54,5 +55,13 @@ class SpecialOffersController < ApplicationController
   def special_offer_params
     params.require(:special_offer).permit(:name, :offer_type, :start_date, :end_date, :members_only, :offer_code,
                                           :description, :flyer)
+  end
+
+  def new_special_offer_mailer
+    @members = @special_offer.lounge.memberships.where(allow_email_notifications: true)
+
+    @members.each do |member|
+      NewSpecialOfferMailer.with(member: member, special_offer: @special_offer).notify.deliver_now
+    end
   end
 end
