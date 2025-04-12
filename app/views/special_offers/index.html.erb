@@ -111,6 +111,7 @@
         </div>
         <div class="mt-4 text-right">
           <%= link_to 'Edit', edit_special_offer_path(special_offer), class: "inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+          <%= button_to 'Delete', special_offer_path(special_offer), method: :delete, data: { confirm: 'Are you sure?' }, class: "inline-flex items-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600" %>
         </div>
       </li>
     <% end %>

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UpdatedSpecialOfferMailer < ApplicationMailer
   default from: 'herf@gmail.com'
   helper :application

@@ -39,8 +39,9 @@ class SpecialOffersController < ApplicationController
   end
 
   def destroy
+    cancelled_special_offer_mailer
     @special_offer.destroy
-    redirect_to special_offers_url, notice: 'Special offer was successfully destroyed.'
+    redirect_to lounge_special_offers_path, notice: 'Special offer was successfully destroyed.'
   end
 
   private
@@ -71,6 +72,14 @@ class SpecialOffersController < ApplicationController
 
     @members.each do |member|
       UpdatedSpecialOfferMailer.with(member: member, special_offer: @special_offer).notify.deliver_now
+    end
+  end
+
+  def cancelled_special_offer_mailer
+    @members = @special_offer.lounge.memberships.where(allow_email_notifications: true)
+
+    @members.each do |member|
+      CancelledSpecialOfferMailer.with(member: member, special_offer: @special_offer).notify.deliver_now
     end
   end
 end
