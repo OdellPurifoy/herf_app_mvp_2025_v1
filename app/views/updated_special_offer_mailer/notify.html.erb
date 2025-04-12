@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        width: 80%;
+        margin: auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        text-align: center;
+        padding: 10px 0;
+      }
+      .header h1 {
+        color: #333333;
+      }
+      .content {
+        margin: 20px 0;
+      }
+      .content p {
+        color: #666666;
+        line-height: 1.6;
+      }
+      .flyer {
+        text-align: center;
+        margin: 20px 0;
+      }
+      .flyer img {
+        max-width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .footer {
+        text-align: center;
+        padding: 10px 0;
+        color: #999999;
+        font-size: 12px;
+      }
+      .contact {
+        margin-top: 20px;
+        text-align: center;
+      }
+      .contact p {
+        color: #666666;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Updated Special Offer for You, <%= @member.first_name %>!</h1>
+      </div>
+      <div class="content">
+        <p>
+          We wanted to let you know that our special offer, <strong><%= @special_offer.name %></strong>, has been updated!
+        </p>
+        <p>
+          <strong>Updated Offer Details:</strong><br />
+          <strong>Offer Type:</strong> <%= @special_offer.offer_type %><br />
+          <strong>Start Date:</strong> <%= @special_offer.start_date.strftime('%A, %B %d, %Y') %><br />
+          <strong>End Date:</strong> <%= @special_offer.end_date.strftime('%A, %B %d, %Y') %><br />
+          <strong>Members Only:</strong> <%= @special_offer.members_only ? 'Yes' : 'No' %>
+        </p>
+        <p>
+          <strong>Description:</strong> <%= @special_offer.description %>
+        </p>
+        <% if @special_offer.offer_code.present? %>
+          <p>
+            <strong>Offer Code:</strong> <%= @special_offer.offer_code %>
+          </p>
+        <% end %>
+        <p>
+          Visit us at <%= @special_offer.lounge.name %>, located at <%= @special_offer.lounge.address_street_1 %>, <%= @special_offer.lounge.city %>, <%= @special_offer.lounge.state %>, to take advantage of this updated offer.
+        </p>
+      </div>
+      <% if @special_offer.flyer.attached? %>
+        <div class="flyer">
+          <img src="<%= url_for(@special_offer.flyer) %>" alt="Updated Special Offer Flyer">
+        </div>
+      <% end %>
+      <div class="contact">
+        <p>If you have any questions, feel free to contact us at <%= @special_offer.lounge.email %> or call us at <%= format_phone_number(@special_offer.lounge.phone_number) %>.</p>
+      </div>
+      <div class="footer">
+        <p>Thank you for being a valued member!</p>
+        <p>example.com Team</p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -32,6 +32,7 @@ class SpecialOffersController < ApplicationController
     if @special_offer.update(special_offer_params)
       redirect_to lounge_special_offers_path(current_lounge_owner.lounges.first),
                   notice: 'Special offer was successfully updated.'
+      updated_special_offer_mailer
     else
       render :edit
     end
@@ -62,6 +63,14 @@ class SpecialOffersController < ApplicationController
 
     @members.each do |member|
       NewSpecialOfferMailer.with(member: member, special_offer: @special_offer).notify.deliver_now
+    end
+  end
+
+  def updated_special_offer_mailer
+    @members = @special_offer.lounge.memberships.where(allow_email_notifications: true)
+
+    @members.each do |member|
+      UpdatedSpecialOfferMailer.with(member: member, special_offer: @special_offer).notify.deliver_now
     end
   end
 end
