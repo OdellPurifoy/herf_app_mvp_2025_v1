@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        width: 80%;
+        margin: auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        text-align: center;
+        padding: 10px 0;
+      }
+      .header h1 {
+        color: #333333;
+      }
+      .content {
+        margin: 20px 0;
+      }
+      .content p {
+        color: #666666;
+        line-height: 1.6;
+      }
+      .highlight {
+        color: #d9534f;
+        font-weight: bold;
+      }
+      .footer {
+        text-align: center;
+        padding: 10px 0;
+        color: #999999;
+        font-size: 12px;
+      }
+      .contact {
+        margin-top: 20px;
+        text-align: center;
+      }
+      .contact p {
+        color: #666666;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Membership Update for <%= @membership.first_name %>!</h1>
+      </div>
+      <div class="content">
+        <p>
+          We wanted to let you know that your membership details have been updated. Below are the updated attributes:
+        </p>
+        <ul>
+          <% if @membership.previous_changes[:first_name] %>
+            <li><strong>First Name:</strong> <span class="highlight"><%= @membership.previous_changes[:first_name].last %></span></li>
+          <% end %>
+          <% if @membership.previous_changes[:last_name] %>
+            <li><strong>Last Name:</strong> <span class="highlight"><%= @membership.previous_changes[:last_name].last %></span></li>
+          <% end %>
+          <% if @membership.previous_changes[:email] %>
+            <li><strong>Email:</strong> <span class="highlight"><%= @membership.previous_changes[:email].last %></span></li>
+          <% end %>
+          <% if @membership.previous_changes[:phone_number] %>
+            <li><strong>Phone Number:</strong> <span class="highlight"><%= @membership.previous_changes[:phone_number].last %></span></li>
+          <% end %>
+          <% if @membership.previous_changes[:allow_text_notifications] %>
+            <li><strong>Text Notifications:</strong> <span class="highlight"><%= @membership.allow_text_notifications ? 'Enabled' : 'Disabled' %></span></li>
+          <% end %>
+          <% if @membership.previous_changes[:allow_email_notifications] %>
+            <li><strong>Email Notifications:</strong> <span class="highlight"><%= @membership.allow_email_notifications ? 'Enabled' : 'Disabled' %></span></li>
+          <% end %>
+        </ul>
+        <p>
+          If you did not request these changes or have any questions, please contact us immediately.
+        </p>
+      </div>
+      <div class="contact">
+        <p>If you have any questions, feel free to contact us at <%= @membership.lounge.email %> or call us at <%= format_phone_number(@membership.lounge.phone_number) %>.</p>
+      </div>
+      <div class="footer">
+        <p>Thank you for being a valued member!</p>
+        <p><%= @membership.lounge.name %> Team</p>
+      </div>
+    </div>
+  </body>
+</html>
