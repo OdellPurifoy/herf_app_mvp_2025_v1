@@ -19,6 +19,7 @@ class MembershipsController < ApplicationController
   def create
     @membership = @lounge.memberships.build(membership_params)
     if @membership.save
+      new_membership_mailer
       redirect_to lounge_memberships_path, notice: 'Membership was successfully created.'
     else
       render :new
@@ -53,5 +54,9 @@ class MembershipsController < ApplicationController
   def membership_params
     params.require(:membership).permit(:first_name, :last_name, :email, :phone_number, :opt_out_text_messaging,
                                        :allow_text_notifications, :allow_email_notifications)
+  end
+
+  def new_membership_mailer
+    NewMembershipMailer.with(membership: @membership).notify.deliver_now
   end
 end
