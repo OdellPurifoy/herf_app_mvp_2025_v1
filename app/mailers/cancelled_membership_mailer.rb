@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CancelledMembershipMailer < ApplicationMailer
   default from: 'herf@gmail.com'
   helper :application
