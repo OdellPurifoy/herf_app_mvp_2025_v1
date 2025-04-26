@@ -30,7 +30,8 @@ class MembershipsController < ApplicationController
 
   def update
     if @membership.update(membership_params)
-      redirect_to lounge_memberships_path, notice: 'Membership was successfully updated.'
+      updated_membership_mailer
+      redirect_to lounge_memberships_path(@membership.lounge), notice: 'Membership was successfully updated.'
     else
       render :edit
     end
@@ -58,5 +59,9 @@ class MembershipsController < ApplicationController
 
   def new_membership_mailer
     NewMembershipMailer.with(membership: @membership).notify.deliver_now
+  end
+
+  def updated_membership_mailer
+    UpdatedMembershipMailer.with(membership: @membership).notify.deliver_now
   end
 end
