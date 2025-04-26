@@ -96,10 +96,9 @@
         <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
           <p class="text-sm/6 text-gray-500"><%= membership.allow_text_notifications ? "Text Notifications" : "No Text Notifications" %></p>
           <p class="text-sm/6 text-gray-500"><%= membership.allow_email_notifications ? "Email Notifications" : "No Email Notifications" %></p>
-
           <div class="mt-4 text-right">
             <%= link_to 'Edit', edit_membership_path(membership), class: "inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
-            <%= link_to 'Delete', membership, method: :delete, data: { confirm: 'Are you sure?' }, class: "inline-flex items-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600" %>
+            <%= button_to 'Delete', membership_path(membership), method: :delete, data: { confirm: 'Are you sure?' }, class: "inline-flex items-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600" %>
           </div>
         </div>
       </li>

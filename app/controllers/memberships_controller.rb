@@ -38,8 +38,9 @@ class MembershipsController < ApplicationController
   end
 
   def destroy
+    cancelled_membership_mailer
     @membership.destroy
-    redirect_to lounge_memberships_path(@membership.lounge), notice: 'Membership was successfully destroyed.'
+    redirect_to dashboard_path, notice: 'Membership was successfully destroyed.'
   end
 
   private
@@ -63,5 +64,9 @@ class MembershipsController < ApplicationController
 
   def updated_membership_mailer
     UpdatedMembershipMailer.with(membership: @membership).notify.deliver_now
+  end
+
+  def cancelled_membership_mailer
+    CancelledMembershipMailer.with(membership: @membership).notify.deliver_now
   end
 end

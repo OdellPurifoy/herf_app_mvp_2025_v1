@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        width: 80%;
+        margin: auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        text-align: center;
+        padding: 10px 0;
+      }
+      .header h1 {
+        color: #333333;
+      }
+      .content {
+        margin: 20px 0;
+      }
+      .content p {
+        color: #666666;
+        line-height: 1.6;
+      }
+      .footer {
+        text-align: center;
+        padding: 10px 0;
+        color: #999999;
+        font-size: 12px;
+      }
+      .contact {
+        margin-top: 20px;
+        text-align: center;
+      }
+      .contact p {
+        color: #666666;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Membership Cancellation Notice</h1>
+      </div>
+      <div class="content">
+        <p>
+          Dear <%= @membership.first_name %> <%= @membership.last_name %>,
+        </p>
+        <p>
+          We regret to inform you that your membership with <%= @membership.lounge.name %> has been cancelled. Below are the details of your cancelled membership:
+        </p>
+        <ul>
+          <li><strong>Name:</strong> <%= @membership.first_name %> <%= @membership.last_name %></li>
+          <li><strong>Email:</strong> <%= @membership.email.presence || 'Not provided' %></li>
+          <li><strong>Phone Number:</strong> <%= @membership.phone_number.presence || 'Not provided' %></li>
+        </ul>
+        <p>
+          If you believe this cancellation was made in error or if you have any questions, please do not hesitate to contact us.
+        </p>
+      </div>
+      <div class="contact">
+        <p>If you have any questions, feel free to contact us at <%= @membership.lounge.email %> or call us at <%= format_phone_number(@membership.lounge.phone_number) %>.</p>
+      </div>
+      <div class="footer">
+        <p>Thank you for your time with us.</p>
+        <p><%= @membership.lounge.name %> Team</p>
+      </div>
+    </div>
+  </body>
+</html>
