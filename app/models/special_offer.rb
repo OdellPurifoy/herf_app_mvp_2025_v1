@@ -12,6 +12,8 @@ class SpecialOffer < ApplicationRecord
 
   scope :upcoming, -> { where('end_date >= ?', Date.today).order(end_date: :asc) }
 
+  after_create :send_notifications
+
   paginates_per 5
 
   def self.ransackable_attributes(_auth_object = nil)
@@ -26,5 +28,9 @@ class SpecialOffer < ApplicationRecord
     return unless end_date.before?(start_date)
 
     errors.add(:end_date, 'must be after the start date')
+  end
+
+  def send_notifications
+    SpecialOfferNotificationService.new(self).notify_members
   end
 end
