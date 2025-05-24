@@ -14,6 +14,8 @@ class Event < ApplicationRecord
 
   scope :upcoming, -> { where('date >= ?', Date.today).order(date: :asc, start_time: :asc) }
 
+  after_create :send_notifications
+
   paginates_per 5
 
   def self.ransackable_attributes(_auth_object = nil)
@@ -36,5 +38,9 @@ class Event < ApplicationRecord
     return unless date.before? Date.today
 
     errors.add(:date, 'must be in the future')
+  end
+
+  def send_notifications
+    EventNotificationService.new(self).notify_members
   end
 end
