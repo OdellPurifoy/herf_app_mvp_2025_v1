@@ -18,15 +18,14 @@ class SpecialOfferNotificationService
   private
 
   def eligible_members
-    members = @lounge.memberships.active
-    @special_offer.members_only? ? members : members
+    @lounge.memberships.active
   end
 
   def build_message
     message = "#{@lounge.name} has a new offer: #{@special_offer.name} "
     message += "valid from #{@special_offer.start_date.strftime('%m/%d/%Y')} to #{@special_offer.end_date.strftime('%m/%d/%Y')}. "
-    message += "#{@special_offer.description}" if @special_offer.description.present?
-    message += " This is a members-only offer." if @special_offer.members_only?
+    message += @special_offer.description.to_s if @special_offer.description.present?
+    message += ' This is a members-only offer.' if @special_offer.members_only?
     message += " Use code: #{@special_offer.offer_code}" if @special_offer.offer_code.present?
     message
   end

@@ -13,7 +13,7 @@ class SmsNotificationService
     begin
       Rails.logger.info "Attempting to send SMS to #{formatted_phone_number}"
       client = Twilio::REST::Client.new(account_sid, auth_token)
-      
+
       message = client.messages.create(
         from: twilio_phone_number,
         to: formatted_phone_number,
@@ -21,7 +21,7 @@ class SmsNotificationService
       )
       Rails.logger.info "SMS sent successfully, SID: #{message.sid}"
       true
-    rescue Twilio::REST::RestError => e
+    rescue Twilio::REST::RestError, StandardError => e
       Rails.logger.error "Twilio error: #{e.message}"
       Rails.logger.error "Using account SID: #{account_sid[0..5]}..."
       Rails.logger.error "Sending to: #{formatted_phone_number}"
@@ -48,7 +48,11 @@ class SmsNotificationService
   end
 
   def formatted_phone_number
-    number = @to.gsub(/\D/, '')
-    "+1#{number}" unless number.start_with?('+1')
+    if @to.start_with?('+1')
+      @to # Return the number as is if it already starts with +1
+    else
+      number = @to.gsub(/\D/, '')
+      "+1#{number}"
+    end
   end
 end
