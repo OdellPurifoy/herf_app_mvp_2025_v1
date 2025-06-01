@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class EventNotificationService
-  def initialize(event)
+  def initialize(event, message)
     @event = event
     @lounge = event.lounge
+    @message = message
   end
 
   def notify_members
@@ -26,7 +27,7 @@ class EventNotificationService
 
       Rails.logger.info "EventNotificationService: Notifying member #{member.id}"
       processed_members.add(member.id)
-      message_body = build_message
+      message_body = @message
       SmsNotificationService.new(to: member.phone_number, body: message_body).send_message
     end
 
@@ -37,14 +38,5 @@ class EventNotificationService
 
   def eligible_members
     @lounge.memberships.active
-  end
-
-  def build_message
-    message = "#{@lounge.name} is hosting an event: #{@event.name} on #{@event.date.strftime('%m/%d/%Y')} "
-    message += "from #{@event.start_time.strftime('%I:%M %p')} to #{@event.end_time.strftime('%I:%M %p')}. "
-    message += @event.description.to_s if @event.description.present?
-    message += ' This is a members-only event.' if @event.members_only?
-    message += ' RSVP required.' if @event.rsvp_needed?
-    message
   end
 end

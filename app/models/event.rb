@@ -14,7 +14,8 @@ class Event < ApplicationRecord
 
   scope :upcoming, -> { where('date >= ?', Date.today).order(date: :asc, start_time: :asc) }
 
-  after_create :send_notifications
+  after_create :send_new_event_notifications
+  after_update :send_updated_event_notifications
 
   paginates_per 5
 
@@ -40,7 +41,34 @@ class Event < ApplicationRecord
     errors.add(:date, 'must be in the future')
   end
 
-  def send_notifications
-    EventNotificationService.new(self).notify_members
+  def send_new_event_notifications
+    EventNotificationService.new(self, new_event_message).notify_members
+  end
+
+  def send_updated_event_notifications
+    EventNotificationService.new(self, updated_event_message).notify_members
+  end
+
+  def new_event_message
+    message = "#{lounge.name} is hosting an event: #{name} on #{date.strftime('%m/%d/%Y')} "
+    message += "from #{start_time.strftime('%I:%M %p')} to #{end_time.strftime('%I:%M %p')}. "
+    message += description.to_s if description.present?
+    message += " Capacity: #{capacity}." if capacity.present?
+    message += " Entry fee: $#{'%.2f' % entry_fee}." if entry_fee.present? && entry_fee.to_f > 0
+    message += ' This is a members-only event.' if members_only?
+    message += ' RSVP required.' if rsvp_needed?
+    message
+  end
+
+  def updated_event_message
+    message = "#{name} has updated the event: #{name} on #{date.strftime('%m/%d/%Y')}. "
+    if saved_changes.any?
+      changes = saved_changes.except(:updated_at).map do |attr, values|
+        old_value, new_value = values
+        "#{attr.humanize}: '#{old_value}' → '#{new_value}'"
+      end
+      message += "Changes: #{changes.join(', ')}."
+    end
+    message
   end
 end
