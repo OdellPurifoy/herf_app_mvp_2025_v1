@@ -14,7 +14,9 @@ class Event < ApplicationRecord
 
   scope :upcoming, -> { where('date >= ?', Date.today).order(date: :asc, start_time: :asc) }
 
-  after_create :send_notifications
+  after_create :notify_members_of_creation
+  after_update :notify_members_of_update
+  after_destroy :notify_members_of_deletion
 
   paginates_per 5
 
@@ -40,7 +42,21 @@ class Event < ApplicationRecord
     errors.add(:date, 'must be in the future')
   end
 
-  def send_notifications
-    EventNotificationService.new(self).notify_members
+  def notify_members_of_creation
+    EventCreationNotificationJob.perform_later(id, :create)
+  end
+
+  def notify_members_of_update
+    EventUpdateNotificationJob.perform_later(id)
+  end
+
+  def notify_members_of_deletion
+    event_data = {
+      id: id,
+      name: name,
+      date: date,
+      member_ids: lounge.members.active.pluck(:id) # Assuming you have a members association
+    }
+    EventDeletionNotificationJob.perform_later(event_data)
   end
 end

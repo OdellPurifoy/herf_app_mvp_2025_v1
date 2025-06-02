@@ -69,6 +69,8 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 end
 
+ActiveJob::Base.queue_adapter = :test
+
 # Shoulda Matchers configuration
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|

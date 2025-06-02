@@ -12,7 +12,9 @@ class SpecialOffer < ApplicationRecord
 
   scope :upcoming, -> { where('end_date >= ?', Date.today).order(end_date: :asc) }
 
-  after_create :send_notifications
+  after_create :notify_members_of_creation
+  after_update :notify_members_of_update
+  after_destroy :notify_members_of_deletion
 
   paginates_per 5
 
@@ -30,7 +32,22 @@ class SpecialOffer < ApplicationRecord
     errors.add(:end_date, 'must be after the start date')
   end
 
-  def send_notifications
-    SpecialOfferNotificationService.new(self).notify_members
+  def notify_members_of_creation
+    SpecialOfferCreationNotificationJob.perform_later(id)
+  end
+
+  def notify_members_of_update
+    SpecialOfferUpdateNotificationJob.perform_later(id)
+  end
+
+  def notify_members_of_deletion
+    special_offer_data = {
+      id: id,
+      name: name,
+      start_date: start_date,
+      end_date: end_date,
+      member_ids: lounge.memberships.active.pluck(:id)
+    }
+    SpecialOfferDeletionNotificationJob.perform_later(special_offer_data)
   end
 end

@@ -1,6 +1,28 @@
 # frozen_string_literal: true
 
 class SmsNotificationService
+  @@test_mode = false
+  @@test_messages = []
+
+  class << self
+    def enable_test_mode!
+      @@test_mode = true
+      @@test_messages = []
+    end
+
+    def disable_test_mode!
+      @@test_mode = false
+    end
+
+    def test_messages
+      @@test_messages
+    end
+
+    def clear_test_messages!
+      @@test_messages = []
+    end
+  end
+
   def initialize(to:, body:)
     @to = to
     @body = body
@@ -8,7 +30,11 @@ class SmsNotificationService
 
   def send_message
     return unless valid_phone_number?
-    return if Rails.env.test?
+
+    if @@test_mode || Rails.env.test?
+      store_test_message
+      return true
+    end
 
     begin
       Rails.logger.info "Attempting to send SMS to #{formatted_phone_number}"
@@ -30,6 +56,22 @@ class SmsNotificationService
   end
 
   private
+
+  def store_test_message
+    test_message = {
+      to: formatted_phone_number,
+      body: @body,
+      timestamp: Time.current
+    }
+
+    @@test_messages << test_message
+
+    # Log the test message for convenience
+    Rails.logger.info "[TEST MODE] SMS would be sent to #{formatted_phone_number}"
+    Rails.logger.info "[TEST MODE] Message: #{@body}"
+
+    true
+  end
 
   def account_sid
     ENV['TWILIO_ACCOUNT_SID']
