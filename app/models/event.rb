@@ -43,7 +43,7 @@ class Event < ApplicationRecord
   end
 
   def notify_members_of_creation
-    EventCreationNotificationJob.perform_later(id, :create)
+    EventCreationNotificationJob.perform_later(id)
   end
 
   def notify_members_of_update
@@ -55,7 +55,7 @@ class Event < ApplicationRecord
       id: id,
       name: name,
       date: date,
-      member_ids: lounge.members.active.pluck(:id) # Assuming you have a members association
+      member_ids: lounge.memberships.active.pluck(:id) # Assuming you have a members association
     }
     EventDeletionNotificationJob.perform_later(event_data)
   end
