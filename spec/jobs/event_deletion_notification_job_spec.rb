@@ -2,6 +2,6 @@
 
 require 'rails_helper'
 
-RSpec.describe EventDeletionJob, type: :job do
+RSpec.describe EventDeletionNotificationJob, type: :job do
   pending "add some examples to (or delete) #{__FILE__}"
 end

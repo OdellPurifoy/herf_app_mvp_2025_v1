@@ -18,6 +18,7 @@ RSpec.describe Event, type: :model do
 
   describe 'ActiveRecord associations' do
     it { expect(event).to belong_to(:lounge) }
+    it { expect(event).to have_one_attached(:flyer) }
   end
 
   describe 'validations' do
@@ -29,7 +30,6 @@ RSpec.describe Event, type: :model do
   end
 
   describe 'callbacks' do
-    let(:notification_service) { instance_double(EventNotificationService) }
     let(:valid_event_attributes) do
       {
         name: 'Test Event',
@@ -42,38 +42,61 @@ RSpec.describe Event, type: :model do
       }
     end
 
-    before do
-      allow(EventNotificationService).to receive(:new).and_return(notification_service)
-      allow(notification_service).to receive(:notify_members)
-    end
-
     describe 'after_create' do
-      it 'sends notifications to members when an event is created' do
+      it 'enqueues an EventCreationNotificationJob when an event is created' do
+        expect do
+          Event.create!(valid_event_attributes)
+        end.to have_enqueued_job(EventCreationNotificationJob)
+      end
+
+      it 'passes the event ID and create action to the job' do
         event = Event.create!(valid_event_attributes)
-
-        expect(EventNotificationService).to have_received(:new) do |event_arg, message|
-          expect(event_arg).to eq(event)
-          expect(message).to include('Test Lounge is hosting an event: Test Event')
-          expect(message).to include('Event description')
-        end
-
-        expect(notification_service).to have_received(:notify_members).once
+        expect(EventCreationNotificationJob).to have_been_enqueued.with(event.id)
       end
     end
 
     describe 'after_update' do
-      it 'uses the updated_event_message method when an event is updated' do
+      it 'enqueues an EventUpdateNotificationJob when an event is updated' do
         event = Event.create!(valid_event_attributes)
 
-        allow(EventNotificationService).to receive(:new).and_return(notification_service)
-        allow(notification_service).to receive(:notify_members)
+        expect do
+          event.update!(name: 'Updated Event Name')
+        end.to have_enqueued_job(EventUpdateNotificationJob)
+      end
 
-        allow(event).to receive(:updated_event_message).and_call_original
-
+      it 'passes the event ID to the job' do
+        event = Event.create!(valid_event_attributes)
         event.update!(name: 'Updated Event Name')
 
-        expect(event).to have_received(:updated_event_message)
-        expect(notification_service).to have_received(:notify_members).twice
+        expect(EventUpdateNotificationJob).to have_been_enqueued.with(event.id)
+      end
+    end
+
+    describe 'after_destroy' do
+      it 'enqueues an EventDeletionNotificationJob when an event is deleted' do
+        event = Event.create!(valid_event_attributes)
+
+        expect do
+          event.destroy
+        end.to have_enqueued_job(EventDeletionNotificationJob)
+      end
+
+      it 'passes event data to the job' do
+        event = Event.create!(valid_event_attributes)
+
+        # Create some active members for the lounge
+        allow(lounge).to receive_message_chain(:memberships, :active, :pluck).and_return([1, 2, 3])
+
+        event_data = {
+          id: event.id,
+          name: event.name,
+          date: event.date,
+          member_ids: [1, 2, 3]
+        }
+
+        expect do
+          event.destroy
+        end.to have_enqueued_job(EventDeletionNotificationJob).with(event_data)
       end
     end
   end
@@ -108,56 +131,6 @@ RSpec.describe Event, type: :model do
         event = FactoryBot.build(:event, date: Date.today - 1.day)
         expect(event).not_to be_valid
         expect(event.errors[:date]).to include('must be in the future')
-      end
-    end
-
-    describe 'message formatting' do
-      let(:test_event) do
-        FactoryBot.build(:event,
-                         name: 'Test Event',
-                         date: Date.new(2025, 6, 15),
-                         start_time: Time.zone.local(2025, 6, 15, 18, 0, 0),
-                         end_time: Time.zone.local(2025, 6, 15, 21, 0, 0),
-                         description: 'Event description',
-                         capacity: 50,
-                         entry_fee: 25.00,
-                         members_only: true,
-                         rsvp_needed: true,
-                         lounge: lounge)
-      end
-
-      it 'formats new event messages correctly' do
-        # Use send to test private method
-        message = test_event.send(:new_event_message)
-
-        expect(message).to include('Test Lounge is hosting an event: Test Event')
-        expect(message).to include('on 06/15/2025')
-        expect(message).to include('from 06:00 PM to 09:00 PM')
-        expect(message).to include('Event description')
-        expect(message).to include('Capacity: 50')
-        expect(message).to include('Entry fee: $25.00')
-        expect(message).to include('This is a members-only event')
-        expect(message).to include('RSVP required')
-      end
-
-      it 'formats updated event messages correctly' do
-        test_event.save!
-
-        # Store original name for assertion
-        original_name = test_event.name
-
-        # Update the event name
-        test_event.name = 'Updated Event Name'
-        test_event.save!
-
-        # Use send to test private method
-        message = test_event.send(:updated_event_message)
-
-        # Less specific expectations to accommodate format changes
-        expect(message).to include('Updated Event Name')
-        expect(message).to include('06/15/2025')
-        expect(message).to include("'#{original_name}'")
-        expect(message).to include("'Updated Event Name'")
       end
     end
   end
