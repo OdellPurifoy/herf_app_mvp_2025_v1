@@ -14,6 +14,14 @@ class ApplicationController < ActionController::Base
     dashboard_path
   end
 
+  def check_subscription
+    return true if lounge_owner_signed_in? && current_lounge_owner.subscriptions.active.any?
+
+    flash[:alert] = 'You need an active subscription to access this feature.'
+    redirect_to root_path
+    false
+  end
+
   def after_sign_up_path_for(_resource)
     dashboard_path
   end

@@ -12,9 +12,20 @@
   </head>
 
   <body class="h-full">
+    <% if lounge_owner_signed_in? %>
+      <%= render 'shared/subscription_banner' %>
+    <% end %>
     <main>
-      <p class="bg-green-400"><%= notice %></p>
-      <p class="bg-red-400"><%= alert %></p>
+      <% if notice %>
+        <div class="p-4 mb-4 bg-green-100 border-l-4 border-green-500 text-green-700">
+          <p><%= notice %></p>
+        </div>
+      <% end %>
+      <% if alert %>
+        <div class="p-4 mb-4 bg-red-100 border-l-4 border-red-500 text-red-700">
+          <p><%= alert %></p>
+        </div>
+      <% end %>
       <%= yield %>
     </main>
   </body>

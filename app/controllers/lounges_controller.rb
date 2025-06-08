@@ -3,6 +3,7 @@
 class LoungesController < ApplicationController
   before_action :authenticate_lounge_owner!, except: %i[index show]
   before_action :set_lounge, only: %i[show edit update destroy]
+  before_action :check_subscription, only: %i[new create]
 
   def index
     @lounges = Lounge.all
@@ -55,5 +56,12 @@ class LoungesController < ApplicationController
                                    :phone_number, :email, :description, :facebook_handle, :x_handle,
                                    :instagram_handle, :outside_cigars_allowed, :outside_food_allowed,
                                    :alcohol_served, :outside_alcohol_allowed, :food_served, :website, :logo, :cover_image)
+  end
+
+  def check_subscription
+    return if current_lounge_owner.subscriptions.active.any?
+
+    flash[:alert] = 'You need an active subscription to create a lounge.'
+    redirect_to root_path
   end
 end

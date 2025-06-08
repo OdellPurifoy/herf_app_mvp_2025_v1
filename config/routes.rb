@@ -7,6 +7,17 @@ Rails.application.routes.draw do
     resources :special_offers, shallow: true
     resources :memberships, shallow: true
   end
+
+  # Subscription routes
+  resource :subscription, only: %i[new create] do
+    get 'success'
+    get 'cancel'
+    get 'billing_portal'
+  end
+
+  # Mount Pay's webhooks controller
+  # mount Pay::Webhooks::StripeController, at: '/pay/webhooks/stripe'
+
   root 'home#index'
   get 'up' => 'rails/health#show', as: :rails_health_check
   get 'dashboard' => 'dashboard#index'

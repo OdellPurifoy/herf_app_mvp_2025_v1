@@ -3,6 +3,9 @@
 class LoungeOwner < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+
+  pay_customer default_payment_processor: :stripe
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
@@ -16,6 +19,22 @@ class LoungeOwner < ApplicationRecord
 
   def full_name
     "#{first_name} #{last_name}"
+  end
+
+  # Subscription-related methods
+  def subscribed?
+    subscriptions.active.any?
+  end
+
+  def can_create_lounge?
+    subscribed?
+  end
+
+  def subscription_name
+    return nil unless subscribed?
+
+    subscription = subscriptions.active.first
+    subscription.name.capitalize
   end
 
   private
