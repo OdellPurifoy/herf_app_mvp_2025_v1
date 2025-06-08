@@ -2,6 +2,7 @@
 
 class MembershipsController < ApplicationController
   before_action :authenticate_lounge_owner!
+  before_action :check_subscription
   before_action :set_membership, only: %i[show edit update destroy]
   before_action :set_lounge, only: %i[index new create]
 

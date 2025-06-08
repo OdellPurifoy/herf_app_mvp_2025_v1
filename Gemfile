@@ -67,6 +67,10 @@ gem 'ransack'
 # Twilio for SMS messaging
 gem 'twilio-ruby', '~> 7.6.1'
 
+# Pay and Stripe for subscriptions
+gem 'pay', '~> 10.0'
+gem 'stripe', '~> 15.1'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri windows]

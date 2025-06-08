@@ -354,6 +354,47 @@
           </div>
         <% end %>
 
+      <!-- Right column -->
+      <div class="grid grid-cols-1 gap-4">
+        <!-- Subscription status -->
+        <section aria-labelledby="subscription-status" class="overflow-hidden rounded-lg bg-white shadow">
+          <div class="p-6">
+            <div class="flex items-center">
+              <h2 id="subscription-status" class="text-base font-medium text-gray-900">Subscription Status</h2>
+              <div class="ml-4 flex items-center">
+                <% if @has_active_subscription %>
+                  <div class="flex h-6 w-6 items-center justify-center rounded-full bg-green-100">
+                    <svg class="h-4 w-4 text-green-600" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                  <span class="ml-2 text-sm font-medium text-green-700">Active</span>
+                <% else %>
+                  <div class="flex h-6 w-6 items-center justify-center rounded-full bg-red-100">
+                    <svg class="h-4 w-4 text-red-600" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                    </svg>
+                  </div>
+                  <span class="ml-2 text-sm font-medium text-red-700">Inactive</span>
+                <% end %>
+              </div>
+            </div>
+            
+            <div class="mt-6">
+              <% if @has_active_subscription %>
+                <p class="text-sm text-gray-500">Your subscription is active. You can manage your subscription through our billing portal.</p>
+                <%= link_to "Manage Billing", billing_portal_subscription_path, class: "mt-4 block w-full rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+              <% else %>
+                <p class="text-sm text-gray-500">You don't have an active subscription. Subscribe to create a lounge and start managing your cigar lounge business.</p>
+                <%= link_to "Choose a Plan", root_path(anchor: "pricing"), class: "mt-4 block w-full rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+              <% end %>
+            </div>
+          </div>
+        </section>
+        
+        <!-- ... existing content ... -->
+      </div>
+
       <!-- Your content -->
     </div>
   </main>
