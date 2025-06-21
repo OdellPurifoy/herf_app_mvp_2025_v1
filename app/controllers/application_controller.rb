@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
     return true if lounge_owner_signed_in? && current_lounge_owner.subscriptions.active.any?
 
     flash[:alert] = 'You need an active subscription to access this feature.'
-    redirect_to root_path
+    redirect_to dashboard_path
     false
   end
 

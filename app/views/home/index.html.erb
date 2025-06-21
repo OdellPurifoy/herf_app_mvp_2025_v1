@@ -20,13 +20,18 @@
         <a href="#" class="text-sm/6 font-semibold text-white">FAQ</a>
       </div>
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-        <% if lounge_owner_signed_in? %>
-          <a href="<%= edit_lounge_owner_registration_path %>" class="text-sm/6 font-semibold text-white">Profile</a>
-          <a href="<%= dashboard_path %>" class="ml-6 text-sm/6 font-semibold text-white">Dashboard</a>
+        <% if lounge_owner_signed_in? && !current_lounge_owner.subscribed? %>
+          <%= link_to "View plans", root_path(anchor: "pricing"), class: "text-sm/6 font-semibold text-white" %>
+          <%= link_to "Profile", edit_lounge_owner_registration_path, class: "ml-6 text-sm/6 font-semibold text-white" %>
+          <%= link_to "Dashboard", dashboard_path, class: "ml-6 text-sm/6 font-semibold text-white" %>
+          <%= button_to "Log out", destroy_lounge_owner_session_path, method: :delete, class: "ml-6 text-sm/6 font-semibold text-white", data: { confirm: "Are you sure?" } %>
+        <% elsif lounge_owner_signed_in? && current_lounge_owner.subscribed? %>
+          <%= link_to "Profile", edit_lounge_owner_registration_path, class: "text-sm/6 font-semibold text-white" %>
+          <%= link_to "Dashboard", dashboard_path, class: "ml-6 text-sm/6 font-semibold text-white" %>
           <%= button_to "Log out", destroy_lounge_owner_session_path, method: :delete, class: "ml-6 text-sm/6 font-semibold text-white", data: { confirm: "Are you sure?" } %>
         <% else %>
-          <a href="<%= new_lounge_owner_registration_path %>" class="text-sm/6 font-semibold text-white">Sign up</a>
-          <a href="<%= new_lounge_owner_session_path %>" class="ml-6 text-sm/6 font-semibold text-white">Log in <span aria-hidden="true">&rarr;</span></a>
+          <%= link_to "Sign up", new_lounge_owner_registration_path, class: "text-sm/6 font-semibold text-white" %>
+          <%= link_to "Log in", new_lounge_owner_session_path, class: "ml-6 text-sm/6 font-semibold text-white", aria: { hidden: true } %>
         <% end %>
       </div>
     </nav>
