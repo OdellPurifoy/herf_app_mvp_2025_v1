@@ -55,7 +55,7 @@
         <!-- Sidebar component, swap this element with another sidebar if you like -->
         <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-2 ring-1 ring-white/10">
           <div class="flex h-16 shrink-0 items-center">
-            <p class="text-2xl text-bold text-white">Herf</p>
+            <p class="text-3xl font-semibold text-white">HERF</p>
           </div>
           <nav class="flex flex-1 flex-col">
             <ul role="list" class="flex flex-1 flex-col gap-y-7">
@@ -136,7 +136,7 @@
     <!-- Sidebar component, swap this element with another sidebar if you like -->
     <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6">
       <div class="flex h-16 shrink-0 items-center">
-        <p class="text-2xl text-bold text-white">Herf</p>
+        <p class="text-3xl font-semibold text-white">HERF</p>
       </div>
       <nav class="flex flex-1 flex-col">
         <ul role="list" class="flex flex-1 flex-col gap-y-7">
@@ -211,7 +211,7 @@
                 <span class="text-sm font-medium text-gray-500">TW</span>
               </span>              
               <span class="sr-only">Your profile</span>
-              <span aria-hidden="true"><%= @lounge.lounge_owner.first_name %></span>
+              <span aria-hidden="true"><%= current_lounge_owner.first_name %></span>
             <% end %>
           </li>
         </ul>
