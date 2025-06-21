@@ -1,0 +1,57 @@
+<% flash.each do |key, value| %>
+  <% if value.present? %>
+    <% 
+      # Define styling based on flash type
+      bg_color = case key.to_s
+                 when 'notice', 'success' then 'bg-green-50'
+                 when 'alert', 'error' then 'bg-red-50'
+                 when 'warning' then 'bg-yellow-50'
+                 when 'info' then 'bg-blue-50'
+                 else 'bg-gray-50'
+                 end
+      
+      text_color = case key.to_s
+                   when 'notice', 'success' then 'text-green-800'
+                   when 'alert', 'error' then 'text-red-800'
+                   when 'warning' then 'text-yellow-800'
+                   when 'info' then 'text-blue-800'
+                   else 'text-gray-800'
+                   end
+      
+      icon_color = case key.to_s
+                   when 'notice', 'success' then 'text-green-400'
+                   when 'alert', 'error' then 'text-red-400'
+                   when 'warning' then 'text-yellow-400'
+                   when 'info' then 'text-blue-400'
+                   else 'text-gray-400'
+                   end
+    %>
+    
+    <div class="w-full flex justify-center mt-2">
+      <div class="w-full max-w-md rounded-md <%= bg_color %> p-4 mb-4 shadow">
+        <div class="flex">
+          <div class="shrink-0">
+            <% if key.to_s == 'notice' || key.to_s == 'success' %>
+              <svg class="size-5 <%= icon_color %>" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+              </svg>
+            <% elsif key.to_s == 'alert' || key.to_s == 'error' %>
+              <svg class="size-5 <%= icon_color %>" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM8.28 7.22a.75.75 0 0 0-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L10 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L11.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L10 8.94 8.28 7.22Z" clip-rule="evenodd" />
+              </svg>
+            <% else %>
+              <svg class="size-5 <%= icon_color %>" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm1-12a1 1 0 1 0-2 0v4a1 1 0 1 0 2 0V6Zm-1 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
+              </svg>
+            <% end %>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium <%= text_color %>">
+              <%= value %>
+            </h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>
