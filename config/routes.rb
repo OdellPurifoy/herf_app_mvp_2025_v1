@@ -15,9 +15,6 @@ Rails.application.routes.draw do
     get 'billing_portal'
   end
 
-  # Mount Pay's webhooks controller
-  # mount Pay::Webhooks::StripeController, at: '/pay/webhooks/stripe'
-
   root 'home#index'
   get 'up' => 'rails/health#show', as: :rails_health_check
   get 'dashboard' => 'dashboard#index'

@@ -43,7 +43,7 @@
   <div class="md:hidden" id="mobile-menu">
     <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
       <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-      <a href="#" class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white" aria-current="page">Dashboard</a>
+      <%= link_to 'Dashboard', dashboard_path, class: "rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white" %>
     </div>
     <div class="border-t border-gray-700 pb-3 pt-4">
       <div class="flex items-center px-5 sm:px-6">
@@ -51,8 +51,7 @@
           <img class="size-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
         </div>
         <div class="ml-3">
-          <div class="text-base font-medium text-white"><%= current_lounge_owner.full_name %></div>
-          <div class="text-sm font-medium text-gray-400"><%= current_lounge_owner.email %></div>
+          <div class="text-base font-medium text-white"><%= current_lounge_owner.name.first %></div>
         </div>
         <%= button_to destroy_lounge_owner_session_path, method: :delete, class: "relative ml-auto shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800", data: { confirm: "Are you sure?" } do %>
           <span class="sr-only">Log out</span>
@@ -70,13 +69,13 @@
 </nav>
 
 <div class="mx-auto max-w-7xl sm:px-6 lg:px-8 py-6 sm:py-6 lg:py-8">
-  <h1 class="text-2xl font-semibold text-gray-900">All Events</h1>
+  <h1 class="text-2xl font-semibold text-gray-900"><%= @total_events %> Events</h1>
 
   <div class="flex justify-end mb-6">
     <%= search_form_for @q, url: lounge_events_path, class: "w-full sm:w-auto" do |f| %>
       <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
         <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
-          <%= f.search_field :name_cont, class: "mt-1 block w-full rounded-md border border-gray-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm h-10 outline-gray-900", placeholder: "Enter event name..." %>
+          <%= f.search_field :name_cont, class: "mt-1 block w-full rounded-md border border-gray-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm h-10 outline-gray-900", placeholder: " Enter event name..." %>
         </div>
         <div class="mt-4 sm:mt-0">
           <%= f.submit 'Search', class: "inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 h-10" %>
@@ -112,8 +111,8 @@
           <span><strong>Entry Fee:</strong> <%= event.entry_fee.present? ? event.entry_fee : 'Free' %></span>
           <span><strong>Capacity:</strong> <%= event.capacity.present? ? event.capacity : 'Unlimited' %></span>
         </div>
-        <div class="mt-4 text-right">
-          <%= link_to 'Edit Event', edit_event_path(event), class: "inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+        <div class="mt-4 flex justify-end gap-x-2">
+          <%= link_to 'Edit', edit_event_path(event), class: "inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
           <%= button_to 'Delete', event_path(event), method: :delete, data: { confirm: 'Are you sure?' }, class: "inline-flex items-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600" %>
         </div>
       </li>

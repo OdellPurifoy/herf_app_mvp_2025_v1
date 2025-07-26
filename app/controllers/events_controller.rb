@@ -9,6 +9,7 @@ class EventsController < ApplicationController
   def index
     @q = @lounge&.events&.ransack(params[:q])
     @events = @q&.result(distinct: true)&.order(date: :asc, start_time: :asc)&.page(params[:page])
+    @total_events = @lounge&.events&.count || 0
   end
 
   def show; end
