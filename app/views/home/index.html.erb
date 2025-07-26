@@ -9,15 +9,17 @@
         </a>
       </div>
       <div class="flex lg:hidden">
-        <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400">
+        <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400" id="mobile-menu-button">
           <span class="sr-only">Open main menu</span>
-          <p class="text-base font-semibold text-white">HERF</p>
+          <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
         </button>
       </div>
       <div class="hidden lg:flex lg:gap-x-12">
         <a href="#" class="text-sm/6 font-semibold text-white">About</a>
-        <a href="#" class="text-sm/6 font-semibold text-white">Pricing</a>
-        <a href="#" class="text-sm/6 font-semibold text-white">FAQ</a>
+        <a href="#pricing" class="text-sm/6 font-semibold text-white">Pricing</a>
+        <a href="#faq" class="text-sm/6 font-semibold text-white">FAQ</a>
       </div>
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
         <% if lounge_owner_signed_in? && !current_lounge_owner.subscribed? %>
@@ -36,7 +38,7 @@
       </div>
     </nav>
     <!-- Mobile menu, show/hide based on menu open state. -->
-    <div class="lg:hidden" role="dialog" aria-modal="true">
+    <div class="lg:hidden hidden" role="dialog" aria-modal="true" id="mobile-menu">
       <!-- Background backdrop, show/hide based on slide-over state. -->
       <div class="fixed inset-0 z-50"></div>
       <div class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10">
@@ -44,7 +46,7 @@
           <a href="#" class="-m-1.5 p-1.5">
             <span class="text-2xl font-semibold text-white">HERF</span>
           </a>
-          <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-400">
+          <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-400" id="close-mobile-menu">
             <span class="sr-only">Close menu</span>
             <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -55,8 +57,8 @@
           <div class="-my-6 divide-y divide-gray-500/25">
             <div class="space-y-2 py-6">
               <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-800">About</a>
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-800">Pricing</a>
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-800">FAQ</a>
+              <a href="#pricing" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-800">Pricing</a>
+              <a href="#faq" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-800">FAQ</a>
             </div>
             <div class="py-6">
               <% if lounge_owner_signed_in? %>
@@ -109,7 +111,7 @@
       </div>
       <div class="relative overflow-hidden pt-16">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
-          <img src="https://tailwindui.com/plus/img/component-images/project-app-screenshot.png" alt="App screenshot" class="mb-[-12%] rounded-xl shadow-2xl ring-1 ring-gray-900/10" width="2432" height="1442">
+          <img src="<%= asset_path('main_page_image.png') %>" alt="App screenshot" class="mb-[-12%] rounded-xl shadow-2xl ring-1 ring-gray-900/10" width="2432" height="1442">
           <div class="relative" aria-hidden="true">
             <div class="absolute -inset-x-20 bottom-0 bg-gradient-to-t from-white pt-[7%]"></div>
           </div>
@@ -280,7 +282,7 @@
     </div>
 
     <!-- FAQ section -->
-    <div class="mx-auto mt-32 max-w-7xl px-6 sm:mt-56 lg:px-8">
+    <div id="faq" class="mx-auto mt-32 max-w-7xl px-6 sm:mt-56 lg:px-8">
       <div class="mx-auto max-w-4xl divide-y divide-gray-900/10">
         <h2 class="text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">Frequently asked questions</h2>
         <dl class="mt-10 space-y-6 divide-y divide-gray-900/10">
@@ -400,3 +402,36 @@
     </div>
   </footer>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const closeMobileMenuButton = document.getElementById('close-mobile-menu');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  // Open mobile menu
+  mobileMenuButton.addEventListener('click', function() {
+    mobileMenu.classList.remove('hidden');
+  });
+
+  // Close mobile menu
+  closeMobileMenuButton.addEventListener('click', function() {
+    mobileMenu.classList.add('hidden');
+  });
+
+  // Close mobile menu when clicking on navigation links
+  const mobileNavLinks = mobileMenu.querySelectorAll('a[href^="#"]');
+  mobileNavLinks.forEach(function(link) {
+    link.addEventListener('click', function() {
+      mobileMenu.classList.add('hidden');
+    });
+  });
+
+  // Close mobile menu when clicking outside of it
+  mobileMenu.addEventListener('click', function(e) {
+    if (e.target === mobileMenu || e.target.classList.contains('fixed')) {
+      mobileMenu.classList.add('hidden');
+    }
+  });
+});
+</script>

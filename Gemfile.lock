@@ -184,6 +184,8 @@ GEM
     minitest (5.25.4)
     msgpack (1.7.5)
     mutex_m (0.3.0)
+    name_of_person (1.1.3)
+      activesupport (>= 5.2.0)
     net-http (0.6.0)
       uri
     net-imap (0.5.4)
@@ -384,6 +386,7 @@ DEPENDENCIES
   jbuilder
   kaminari (~> 1.2, >= 1.2.2)
   letter_opener
+  name_of_person
   pay (~> 10.0)
   pg (~> 1.1)
   puma (>= 5.0)
