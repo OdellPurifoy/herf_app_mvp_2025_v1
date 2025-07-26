@@ -1,3 +1,45 @@
+<nav class="bg-gray-800">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-16 justify-between">
+      <div class="flex">
+        <div class="-ml-2 mr-2 flex items-center md:hidden">
+          <!-- Mobile menu button -->
+          <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+            <span class="absolute -inset-0.5"></span>
+            <span class="sr-only">Open main menu</span>
+            <!-- Icon when menu is closed. -->
+            <svg class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+            <!-- Icon when menu is open. -->
+            <svg class="hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="flex shrink-0 items-center">
+          <p class="text-2xl text-bold text-white">Herf</p>
+        </div>
+        <div class="hidden md:ml-6 md:flex md:items-center md:space-x-4">
+          <%= link_to 'Dashboard', dashboard_path, class: "rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white" %>
+        </div>
+      </div>
+      <div class="flex items-center">
+        <div class="hidden md:ml-4 md:flex md:shrink-0 md:items-center">
+          <% if lounge_owner_signed_in? %>
+            <%= button_to destroy_lounge_owner_session_path, method: :delete, class: "relative inline-flex items-center gap-x-1.5 rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800", data: { confirm: "Are you sure?" } do %>
+              <span class="sr-only">Log out</span>
+              Log out
+            <% end %>
+          <% else %>
+            <%= link_to 'Log in', new_lounge_owner_session_path, class: "relative inline-flex items-center gap-x-1.5 rounded-md bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
 <div class="bg-white">
   <div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 lg:py-40">
     <div class="mx-auto max-w-4xl">
