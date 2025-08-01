@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module StripeHelpers
   def stub_stripe_customer_create
     customer = Stripe::Customer.construct_from(

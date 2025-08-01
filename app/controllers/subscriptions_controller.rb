@@ -32,9 +32,9 @@ class SubscriptionsController < ApplicationController
       )
 
       redirect_to checkout_session.url, allow_other_host: true
-    rescue Stripe::CardError => e
+    rescue Stripe::CardError
       redirect_to root_path, alert: 'There was a problem with your subscription. Please try again.'
-    rescue StandardError => e
+    rescue StandardError
       redirect_to root_path, alert: 'There was a problem with your subscription. Please try again.'
     end
   end

@@ -35,7 +35,7 @@ RSpec.describe LoungeOwner, type: :model do
         let(:owner_with_canceled_sub) { create(:lounge_owner, :with_stripe_customer) }
 
         before do
-          customer = owner_with_canceled_sub.payment_processor(:stripe)
+          customer = owner_with_canceled_sub.payment_processor
           customer.subscriptions.create!(
             name: 'default',
             processor_id: 'sub_canceled',
@@ -79,7 +79,7 @@ RSpec.describe LoungeOwner, type: :model do
         let(:subscribed_owner) { create(:lounge_owner, :with_stripe_customer) }
 
         before do
-          customer = subscribed_owner.payment_processor(:stripe)
+          customer = subscribed_owner.payment_processor
           customer.subscriptions.create!(
             name: 'monthly',
             processor_id: 'sub_monthly',

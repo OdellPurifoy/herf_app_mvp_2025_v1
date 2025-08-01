@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe 'Subscriptions', type: :request do
+RSpec.describe 'Subscriptions', type: :request do # rubocop:disable Metrics/BlockLength
   include StripeHelpers
 
   let(:lounge_owner) { create(:lounge_owner) }
 
-  before do
+  before do # rubocop:disable Metrics/BlockLength
     sign_in lounge_owner
 
     # Stub environment variables
