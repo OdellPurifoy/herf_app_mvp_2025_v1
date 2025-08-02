@@ -8,7 +8,7 @@ class Rsvp < ApplicationRecord
   enum status: {
     pending: 0,
     attending: 1,
-    not_attending: 2,
+    declined: 2, # Changed from not_attending
     expired: 3
   }
 
@@ -73,7 +73,7 @@ class Rsvp < ApplicationRecord
       'Awaiting Response'
     when 'attending'
       "Attending (#{guest_count} #{'guest'.pluralize(guest_count)})"
-    when 'not_attending'
+    when 'declined'
       'Not Attending'
     when 'expired'
       'Expired'
@@ -85,7 +85,7 @@ class Rsvp < ApplicationRecord
   end
 
   def event_title
-    event.title
+    event.name
   end
 
   private
