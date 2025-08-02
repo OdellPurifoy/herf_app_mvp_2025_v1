@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_250_602_183_859) do
+ActiveRecord::Schema[7.1].define(version: 20_250_802_225_555) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -221,6 +221,23 @@ ActiveRecord::Schema[7.1].define(version: 20_250_602_183_859) do
     t.datetime 'updated_at', null: false
   end
 
+  create_table 'rsvps', id: :uuid, default: -> { 'gen_random_uuid()' }, force: :cascade do |t|
+    t.uuid 'event_id', null: false
+    t.uuid 'membership_id', null: false
+    t.integer 'status', default: 0, null: false
+    t.integer 'guest_count', default: 1, null: false
+    t.string 'rsvp_token', null: false
+    t.datetime 'expires_at', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index %w[event_id membership_id], name: 'index_rsvps_on_event_id_and_membership_id', unique: true
+    t.index ['event_id'], name: 'index_rsvps_on_event_id'
+    t.index ['expires_at'], name: 'index_rsvps_on_expires_at'
+    t.index ['membership_id'], name: 'index_rsvps_on_membership_id'
+    t.index ['rsvp_token'], name: 'index_rsvps_on_rsvp_token', unique: true
+    t.index ['status'], name: 'index_rsvps_on_status'
+  end
+
   create_table 'special_offers', id: :uuid, default: -> { 'gen_random_uuid()' }, force: :cascade do |t|
     t.string 'name', null: false
     t.string 'offer_type', null: false
@@ -244,5 +261,7 @@ ActiveRecord::Schema[7.1].define(version: 20_250_602_183_859) do
   add_foreign_key 'pay_charges', 'pay_subscriptions', column: 'subscription_id'
   add_foreign_key 'pay_payment_methods', 'pay_customers', column: 'customer_id'
   add_foreign_key 'pay_subscriptions', 'pay_customers', column: 'customer_id'
+  add_foreign_key 'rsvps', 'events'
+  add_foreign_key 'rsvps', 'memberships'
   add_foreign_key 'special_offers', 'lounges'
 end

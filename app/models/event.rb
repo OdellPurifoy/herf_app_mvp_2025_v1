@@ -5,6 +5,7 @@ class Event < ApplicationRecord
            'Birthday Party', 'Corporate Event', 'Sporting Event', 'Other'].freeze
 
   belongs_to :lounge
+  has_many :rsvps, dependent: :destroy
 
   has_one_attached :flyer
 
@@ -22,6 +23,53 @@ class Event < ApplicationRecord
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[name event_type date start_time end_time description virtual members_only rsvp_needed capacity entry_fee]
+  end
+
+  def event_date
+    # Combine date and start_time for a full datetime
+    return nil if date.blank? || start_time.blank?
+
+    DateTime.new(date.year, date.month, date.day, start_time.hour, start_time.min, start_time.sec)
+  end
+
+  def total_confirmed_attendees
+    rsvps.attending.sum(:guest_count)
+  end
+
+  def pending_rsvps_count
+    rsvps.pending.count
+  end
+
+  def attending_rsvps_count
+    rsvps.attending.count
+  end
+
+  def not_attending_rsvps_count
+    rsvps.not_attending.count
+  end
+
+  def create_rsvps_for_members!
+    return unless rsvp_needed?
+
+    lounge.memberships.active.find_each do |membership|
+      rsvps.create_for_event_and_membership(self, membership)
+    end
+  end
+
+  def rsvp_for_membership(membership)
+    rsvps.find_by(membership: membership)
+  end
+
+  def capacity_remaining
+    return nil unless capacity.present?
+
+    capacity - total_confirmed_attendees
+  end
+
+  def at_capacity?
+    return false unless capacity.present?
+
+    total_confirmed_attendees >= capacity
   end
 
   private

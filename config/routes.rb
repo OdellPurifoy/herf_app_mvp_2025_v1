@@ -18,4 +18,12 @@ Rails.application.routes.draw do
   root 'home#index'
   get 'up' => 'rails/health#show', as: :rails_health_check
   get 'dashboard' => 'dashboard#index'
+
+  # RSVP routes with token-based authentication
+  get 'rsvp/:token', to: 'rsvps#show', as: :rsvp
+  patch 'rsvp/:token', to: 'rsvps#update'
+  put 'rsvp/:token', to: 'rsvps#update'
+
+  # Mount Pay engine for Stripe webhooks - at the end
+  # mount Pay::Engine, at: '/pay'
 end
