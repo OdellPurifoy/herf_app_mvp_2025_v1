@@ -1,0 +1,62 @@
+<% if @event.rsvp_needed? %>
+EVENT UPDATE - RSVP REQUIRED - <%= @event.name %>
+<% else %>
+EVENT UPDATE - <%= @event.name %>
+<% end %>
+<%= @lounge.name %>
+
+Hi <%= @member.first_name %>!
+
+We wanted to let you know that our upcoming event, <%= @event.name %>, has been updated with new details.
+
+UPDATED EVENT DETAILS:
+=====================
+Name: <%= @event.name %>
+
+<% if @changed_attributes.include?(:date) %>
+📅 UPDATED DATE: <%= @event.date.strftime("%A, %B %d, %Y") %>
+<% else %>
+Date: <%= @event.date.strftime("%A, %B %d, %Y") %>
+<% end %>
+
+<% if @changed_attributes.include?(:start_time) || @changed_attributes.include?(:end_time) %>
+⏰ UPDATED TIME: <%= @event.start_time.strftime("%I:%M %p") %> - <%= @event.end_time.strftime("%I:%M %p") %>
+<% else %>
+Time: <%= @event.start_time.strftime("%I:%M %p") %> - <%= @event.end_time.strftime("%I:%M %p") %>
+<% end %>
+
+Type: <%= @event.event_type %>
+
+<% if @changed_attributes.include?(:description) %>
+📝 UPDATED DESCRIPTION:
+<%= @event.description %>
+<% elsif @event.description.present? %>
+Description:
+<%= @event.description %>
+<% end %>
+
+<% if @event.rsvp_needed? && @rsvp_url %>
+⚠️ RSVP REQUIRED FOR THIS EVENT:
+===============================
+Due to the event updates, please confirm your attendance by visiting this link:
+<%= @rsvp_url %>
+
+Your RSVP helps us plan the perfect experience.
+
+Note: This RSVP link will expire 1 hour before the event starts.
+<% else %>
+We look forward to seeing you there! No RSVP required - just come and enjoy the updated experience.
+<% end %>
+
+LOCATION & CONTACT:
+==================
+Location: <%= @lounge.name %>
+<% if @lounge.address_street_1.present? %>
+Address: <%= @lounge.address_street_1 %>, <%= @lounge.city %>, <%= @lounge.state %> <%= @lounge.zip_code %>
+<% end %>
+
+Questions about these changes? Contact us at <%= @lounge.email %> or <%= @lounge.phone_number %>
+
+---
+This email was sent by <%= @lounge.name %>
+Powered by Herf

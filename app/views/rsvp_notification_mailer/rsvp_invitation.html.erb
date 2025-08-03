@@ -1,0 +1,59 @@
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+  <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center;">
+    <h1 style="margin: 0; font-size: 28px;">RSVP Required</h1>
+    <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;"><%= @lounge.name %></p>
+  </div>
+  
+  <div style="padding: 30px; background-color: #f8f9fa;">
+    <h2 style="color: #333; margin-bottom: 20px;">Hi <%= @membership.first_name %>!</h2>
+    
+    <p style="color: #555; line-height: 1.6; margin-bottom: 20px;">
+      You're invited to an exciting event at <strong><%= @lounge.name %></strong>:
+    </p>
+    
+    <div style="background: white; padding: 25px; border-radius: 8px; border-left: 4px solid #667eea; margin-bottom: 25px;">
+      <h3 style="color: #333; margin-top: 0; margin-bottom: 15px;"><%= @event.name %></h3>
+      <p style="color: #666; margin-bottom: 10px;"><strong>Date:</strong> <%= @event.date.strftime("%A, %B %d, %Y") %></p>
+      <p style="color: #666; margin-bottom: 10px;"><strong>Time:</strong> <%= @event.start_time.strftime("%I:%M %p") %> - <%= @event.end_time.strftime("%I:%M %p") %></p>
+      <% if @event.description.present? %>
+        <p style="color: #666; margin-bottom: 10px;"><strong>Description:</strong></p>
+        <p style="color: #666; margin-bottom: 0;"><%= @event.description %></p>
+      <% end %>
+    </div>
+    
+    <p style="color: #555; line-height: 1.6; margin-bottom: 25px;">
+      Please confirm your attendance by clicking the button below. Your RSVP will help us plan the perfect event experience.
+    </p>
+    
+    <div style="text-align: center; margin-bottom: 25px;">
+      <a href="<%= @rsvp_url %>" 
+         style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                color: white; 
+                text-decoration: none; 
+                padding: 15px 30px; 
+                border-radius: 5px; 
+                font-weight: bold; 
+                display: inline-block;
+                font-size: 16px;">
+        RSVP Now
+      </a>
+    </div>
+    
+    <p style="color: #888; font-size: 14px; line-height: 1.5; margin-bottom: 0;">
+      <strong>Note:</strong> This RSVP link will expire 1 hour before the event starts. 
+      If you have any questions, please contact the lounge directly.
+    </p>
+    
+    <hr style="border: none; border-top: 1px solid #eee; margin: 25px 0;">
+    
+    <p style="color: #888; font-size: 12px; text-align: center; margin: 0;">
+      Can't click the button? Copy and paste this link into your browser:<br>
+      <span style="word-break: break-all;"><%= @rsvp_url %></span>
+    </p>
+  </div>
+  
+  <div style="background-color: #333; color: #ccc; padding: 20px; text-align: center; font-size: 12px;">
+    <p style="margin: 0;">This email was sent by <%= @lounge.name %></p>
+    <p style="margin: 5px 0 0 0;">Powered by Herf</p>
+  </div>
+</div>

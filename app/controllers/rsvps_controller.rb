@@ -1,9 +1,17 @@
 # frozen_string_literal: true
 
 class RsvpsController < ApplicationController
+  before_action :authenticate_lounge_owner!, only: [:index]
+  before_action :find_event_and_authorize, only: [:index]
   before_action :find_rsvp_by_token, only: %i[show update]
   before_action :validate_rsvp_token, only: %i[show update]
   before_action :handle_expired_rsvp, only: %i[show]
+
+  # GET /events/:event_id/rsvps
+  def index
+    @rsvps = @event.rsvps.includes(:membership).order(:status, 'memberships.first_name')
+    @rsvp_summary = @event.rsvp_summary
+  end
 
   # GET /rsvp/:token
   def show
@@ -34,6 +42,15 @@ class RsvpsController < ApplicationController
   end
 
   private
+
+  def find_event_and_authorize
+    @event = Event.find(params[:event_id])
+
+    # Ensure the event belongs to the current lounge owner's lounge
+    return if current_lounge_owner.lounges.include?(@event.lounge)
+
+    redirect_to dashboard_path, alert: 'Access denied.'
+  end
 
   def find_rsvp_by_token
     @rsvp = Rsvp.find_by_token(params[:token])

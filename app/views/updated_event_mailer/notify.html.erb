@@ -1,108 +1,115 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-      }
-      .container {
-        width: 80%;
-        margin: auto;
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
-      .header {
-        text-align: center;
-        padding: 10px 0;
-      }
-      .header h1 {
-        color: #333333;
-      }
-      .content {
-        margin: 20px 0;
-      }
-      .content p {
-        color: #666666;
-        line-height: 1.6;
-      }
-      .highlight {
-        color: #ff0000;
-      }
-      .flyer {
-        text-align: center;
-        margin: 20px 0;
-      }
-      .flyer img {
-        max-width: 100%;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
-      .footer {
-        text-align: center;
-        padding: 10px 0;
-        color: #999999;
-        font-size: 12px;
-      }
-      .contact {
-        margin-top: 20px;
-        text-align: center;
-      }
-      .contact p {
-        color: #666666;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="header">
-        <h1>Event Update, <%= @member.first_name %>!</h1>
-      </div>
-      <div class="content">
-        <p>
-          We wanted to let you know that our upcoming event, <strong><%= @event.name %></strong>, has been updated with new details.
-        </p>
-        <% if @changed_attributes.include?(:date) %>
-          <p class="highlight">
-            <strong>New Date:</strong> <%= @event.date.strftime('%A, %B %d, %Y') %>
-          </p>
-        <% end %>
-        <% if @changed_attributes.include?(:start_time) %>
-          <p class="highlight">
-            <strong>New Start Time:</strong> <%= @event.start_time.strftime('%I:%M %p') %>
-          </p>
-        <% end %>
-        <% if @changed_attributes.include?(:end_time) %>
-          <p class="highlight">
-            <strong>New End Time:</strong> <%= @event.end_time.strftime('%I:%M %p') %>
-          </p>
-        <% end %>
-        <% if @changed_attributes.include?(:description) %>
-          <p class="highlight">
-            <strong>Updated Event Description:</strong> <%= @event.description %>
-          </p>
-        <% end %>
-        <p>
-          Don't miss out on this fantastic opportunity to connect with fellow members and enjoy a memorable time. We look forward to seeing you there!
-        </p>
-      </div>
-      <% if @event.flyer.attached? %>
-        <div class="flyer">
-          <img src="<%= url_for(@event.flyer) %>" alt="Event Flyer">
-        </div>
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+  <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center;">
+    <h1 style="margin: 0; font-size: 28px;">
+      <% if @event.rsvp_needed? %>
+        Event Update - RSVP Required
+      <% else %>
+        Event Update
       <% end %>
-      <div class="contact">
-        <p>If you have any questions, feel free to contact us at <%= @event.lounge.email %> or call us at <%= format_phone_number(@event.lounge.phone_number) %>.</p>
-      </div>
-      <div class="footer">
-        <p>Thanks for being a part of our community and have a great day!</p>
-        <p>example.com Team</p>
-      </div>
+    </h1>
+    <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;"><%= @lounge.name %></p>
+  </div>
+  
+  <div style="padding: 30px; background-color: #f8f9fa;">
+    <h2 style="color: #333; margin-bottom: 20px;">Hi <%= @member.first_name %>!</h2>
+    
+    <p style="color: #555; line-height: 1.6; margin-bottom: 20px;">
+      We wanted to let you know that our upcoming event, <strong><%= @event.name %></strong>, has been updated with new details.
+    </p>
+    
+    <div style="background: white; padding: 25px; border-radius: 8px; border-left: 4px solid #667eea; margin-bottom: 25px;">
+      <h3 style="color: #333; margin-top: 0; margin-bottom: 15px;"><%= @event.name %></h3>
+      
+      <% if @changed_attributes.include?(:date) %>
+        <p style="color: #e74c3c; margin-bottom: 10px; font-weight: bold;">
+          <strong>📅 Updated Date:</strong> <%= @event.date.strftime("%A, %B %d, %Y") %>
+        </p>
+      <% else %>
+        <p style="color: #666; margin-bottom: 10px;"><strong>Date:</strong> <%= @event.date.strftime("%A, %B %d, %Y") %></p>
+      <% end %>
+      
+      <% if @changed_attributes.include?(:start_time) || @changed_attributes.include?(:end_time) %>
+        <p style="color: #e74c3c; margin-bottom: 10px; font-weight: bold;">
+          <strong>⏰ Updated Time:</strong> <%= @event.start_time.strftime("%I:%M %p") %> - <%= @event.end_time.strftime("%I:%M %p") %>
+        </p>
+      <% else %>
+        <p style="color: #666; margin-bottom: 10px;"><strong>Time:</strong> <%= @event.start_time.strftime("%I:%M %p") %> - <%= @event.end_time.strftime("%I:%M %p") %></p>
+      <% end %>
+      
+      <p style="color: #666; margin-bottom: 10px;"><strong>Type:</strong> <%= @event.event_type %></p>
+      
+      <% if @changed_attributes.include?(:description) %>
+        <p style="color: #e74c3c; margin-bottom: 10px; font-weight: bold;"><strong>📝 Updated Description:</strong></p>
+        <p style="color: #e74c3c; margin-bottom: 0; font-weight: bold;"><%= @event.description %></p>
+      <% elsif @event.description.present? %>
+        <p style="color: #666; margin-bottom: 10px;"><strong>Description:</strong></p>
+        <p style="color: #666; margin-bottom: 0;"><%= @event.description %></p>
+      <% end %>
     </div>
-  </body>
-</html>
+    
+    <% if @event.flyer.attached? %>
+      <div style="text-align: center; margin-bottom: 25px;">
+        <img src="<%= url_for(@event.flyer) %>" alt="Event Flyer" style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+      </div>
+    <% end %>
+    
+    <% if @event.rsvp_needed? && @rsvp_url %>
+      <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 20px; margin-bottom: 25px;">
+        <p style="color: #856404; margin-bottom: 15px; font-weight: bold;">
+          ⚠️ RSVP Required for This Event
+        </p>
+        <p style="color: #856404; line-height: 1.6; margin-bottom: 20px;">
+          Due to the event updates, please confirm your attendance by clicking the button below. Your RSVP helps us plan the perfect experience.
+        </p>
+        
+        <div style="text-align: center; margin-bottom: 15px;">
+          <a href="<%= @rsvp_url %>" 
+             style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    color: white; 
+                    text-decoration: none; 
+                    padding: 15px 30px; 
+                    border-radius: 5px; 
+                    font-weight: bold; 
+                    display: inline-block;
+                    font-size: 16px;">
+            Update My RSVP
+          </a>
+        </div>
+        
+        <p style="color: #856404; font-size: 14px; line-height: 1.5; margin: 0;">
+          <strong>Note:</strong> This RSVP link will expire 1 hour before the event starts.
+        </p>
+      </div>
+    <% else %>
+      <p style="color: #555; line-height: 1.6; margin-bottom: 25px;">
+        We look forward to seeing you there! No RSVP required - just come and enjoy the updated experience.
+      </p>
+    <% end %>
+    
+    <hr style="border: none; border-top: 1px solid #eee; margin: 25px 0;">
+    
+    <p style="color: #888; font-size: 14px; margin-bottom: 15px;">
+      <strong>Location:</strong> <%= @lounge.name %><br>
+      <% if @lounge.address_street_1.present? %>
+        <%= @lounge.address_street_1 %>, <%= @lounge.city %>, <%= @lounge.state %> <%= @lounge.zip_code %>
+      <% end %>
+    </p>
+    
+    <p style="color: #888; font-size: 14px; margin-bottom: 0;">
+      Questions about these changes? Contact us at <%= @lounge.email %> or <%= @lounge.phone_number %>
+    </p>
+    
+    <% if @event.rsvp_needed? && @rsvp_url %>
+      <hr style="border: none; border-top: 1px solid #eee; margin: 25px 0;">
+      <p style="color: #888; font-size: 12px; text-align: center; margin: 0;">
+        Can't click the button? Copy and paste this link into your browser:<br>
+        <span style="word-break: break-all;"><%= @rsvp_url %></span>
+      </p>
+    <% end %>
+  </div>
+  
+  <div style="background-color: #333; color: #ccc; padding: 20px; text-align: center; font-size: 12px;">
+    <p style="margin: 0;">This email was sent by <%= @lounge.name %></p>
+    <p style="margin: 5px 0 0 0;">Powered by Herf</p>
+  </div>
+</div>

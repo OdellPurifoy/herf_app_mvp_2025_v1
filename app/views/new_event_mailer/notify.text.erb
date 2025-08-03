@@ -1,0 +1,53 @@
+<% if @event.rsvp_needed? %>
+RSVP REQUIRED - <%= @event.name %>
+<% else %>
+NEW EVENT - <%= @event.name %>
+<% end %>
+<%= @lounge.name %>
+
+Hi <%= @member.first_name %>!
+
+<% if @event.rsvp_needed? %>
+You're invited to an exciting event at <%= @lounge.name %> and we need your RSVP:
+<% else %>
+We're excited to invite you to an upcoming event at <%= @lounge.name %>:
+<% end %>
+
+EVENT DETAILS:
+==============
+Name: <%= @event.name %>
+Date: <%= @event.date.strftime("%A, %B %d, %Y") %>
+Time: <%= @event.start_time.strftime("%I:%M %p") %> - <%= @event.end_time.strftime("%I:%M %p") %>
+Type: <%= @event.event_type %>
+<% if @event.description.present? %>
+
+Description:
+<%= @event.description %>
+<% end %>
+
+<% if @event.rsvp_needed? && @rsvp_url %>
+RSVP REQUIRED:
+==============
+Please confirm your attendance by visiting this link:
+<%= @rsvp_url %>
+
+Your RSVP will help us plan the perfect event experience.
+
+Note: This RSVP link will expire 1 hour before the event starts. 
+If you have any questions, please contact the lounge directly.
+<% else %>
+We look forward to seeing you there! No RSVP required - just come and enjoy the experience.
+<% end %>
+
+LOCATION & CONTACT:
+==================
+Location: <%= @lounge.name %>
+<% if @lounge.address_street_1.present? %>
+Address: <%= @lounge.address_street_1 %>, <%= @lounge.city %>, <%= @lounge.state %> <%= @lounge.zip_code %>
+<% end %>
+
+Questions? Contact us at <%= @lounge.email %> or <%= @lounge.phone_number %>
+
+---
+This email was sent by <%= @lounge.name %>
+Powered by Herf

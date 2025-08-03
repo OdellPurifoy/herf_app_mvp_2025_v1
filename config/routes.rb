@@ -3,7 +3,9 @@
 Rails.application.routes.draw do
   devise_for :lounge_owners
   resources :lounges do
-    resources :events, shallow: true
+    resources :events, shallow: true do
+      resources :rsvps, only: [:index], shallow: true
+    end
     resources :special_offers, shallow: true
     resources :memberships, shallow: true
   end

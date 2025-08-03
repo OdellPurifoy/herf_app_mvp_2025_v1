@@ -17,41 +17,39 @@ RSpec.feature 'Subscription Flow', type: :feature do
     visit root_path
 
     # Navigate to pricing
-    click_link 'Pricing'
+    first(:link, 'Pricing').click
 
     # Select monthly plan
-    within '[aria-describedby="tier-monthly"]' do
-      click_link 'Subscribe Now'
-    end
+    click_link 'Subscribe Now', href: /plan=monthly/
 
-    # Should redirect to Stripe checkout
-    expect(page).to have_current_path(/checkout\.stripe\.com/)
+    # Should go to subscription form with monthly plan
+    expect(page).to have_current_path(new_subscription_path(plan: 'monthly'))
+    expect(page).to have_content('Monthly')
   end
 
   scenario 'User subscribes to yearly plan' do
     visit root_path
 
     # Navigate to pricing
-    click_link 'Pricing'
+    first(:link, 'Pricing').click
 
     # Select yearly plan
-    within '[aria-describedby="tier-yearly"]' do
-      click_link 'Subscribe Now'
-    end
+    click_link 'Subscribe Now', href: /plan=yearly/
 
-    # Should redirect to Stripe checkout
-    expect(page).to have_current_path(/checkout\.stripe\.com/)
+    # Should go to subscription form with yearly plan
+    expect(page).to have_current_path(new_subscription_path(plan: 'yearly'))
+    expect(page).to have_content('Yearly')
   end
 
   scenario 'User returns from successful subscription' do
-    visit subscription_success_path
+    visit success_subscription_path
 
     expect(page).to have_content('subscription is active')
     expect(page).to have_current_path(dashboard_path)
   end
 
   scenario 'User cancels subscription process' do
-    visit subscription_cancel_path
+    visit cancel_subscription_path
 
     expect(page).to have_content('not completed')
     expect(page).to have_current_path(root_path)
@@ -66,11 +64,10 @@ RSpec.feature 'Subscription Flow', type: :feature do
     end
 
     scenario 'User accesses billing portal' do
-      visit dashboard_path
-      click_link 'Billing Portal' # Assuming you have this link
+      visit billing_portal_subscription_path
 
-      # Should redirect to Stripe billing portal
-      expect(page).to have_current_path(/billing\.stripe\.com/)
+      # Should redirect to the billing portal (in test env this will be a test session ID)
+      expect(page).to have_current_path(%r{/session/bps_})
     end
 
     scenario 'User can create lounge with active subscription' do
