@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RSVP - <%= @event.name %></title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+  <div class="max-w-2xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+      <div class="bg-amber-600 px-6 py-4">
+        <h1 class="text-2xl font-bold text-white">Event Invitation</h1>
+      </div>
+
+      <!-- Event Details -->
+      <div class="px-6 py-6">
+        <div class="mb-6">
+          <h2 class="text-3xl font-bold text-gray-900 mb-2"><%= @event.name %></h2>
+          <p class="text-gray-600 text-lg">You're invited to join us!</p>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-4 mb-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <h3 class="font-semibold text-gray-900 mb-2">Event Details</h3>
+              <div class="space-y-2 text-sm text-gray-700">
+                <div class="flex items-center">
+                  <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  </svg>
+                  <%= @event.date.strftime("%A, %B %d, %Y") %>
+                </div>
+                <div class="flex items-center">
+                  <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  <%= @event.start_time.strftime("%I:%M %p") %> - <%= @event.end_time.strftime("%I:%M %p") %>
+                </div>
+                <% if @event.event_type.present? %>
+                  <div class="flex items-center">
+                    <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                    </svg>
+                    <%= @event.event_type %>
+                  </div>
+                <% end %>
+                <% if @event.capacity.present? %>
+                  <div class="flex items-center">
+                    <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                    Limited to <%= @event.capacity %> attendees
+                  </div>
+                <% end %>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="font-semibold text-gray-900 mb-2">Member Information</h3>
+              <div class="text-sm text-gray-700">
+                <p class="font-medium"><%= @membership.member_name %></p>
+                <% if @membership.email.present? %>
+                  <p class="text-gray-600"><%= @membership.email %></p>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+          <% if @event.description.present? %>
+            <div class="mt-4 pt-4 border-t border-gray-200">
+              <h3 class="font-semibold text-gray-900 mb-2">Event Description</h3>
+              <p class="text-sm text-gray-700"><%= simple_format(@event.description) %></p>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Current RSVP Status -->
+        <div class="mb-6">
+          <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div class="flex items-center">
+              <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <div>
+                <p class="text-sm font-medium text-blue-900">Current Status</p>
+                <p class="text-sm text-blue-700"><%= @rsvp.status_display %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RSVP Form -->
+        <% if @rsvp.valid_for_response? %>
+          <%= form_with model: @rsvp, url: rsvp_path(@rsvp.rsvp_token), method: :patch, local: true, class: "space-y-6" do |form| %>
+            <div>
+              <fieldset class="space-y-3">
+                <legend class="text-lg font-semibold text-gray-900 mb-3">Will you be attending?</legend>
+                
+                <div class="space-y-3">
+                  <label class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors duration-200 <%= 'bg-green-50 border-green-300' if @rsvp.attending? %>">
+                    <%= form.radio_button :status, 'attending', class: "sr-only peer", onchange: "toggleGuestCount(true)" %>
+                    <div class="peer-checked:bg-green-600 peer-checked:border-green-600 w-4 h-4 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center">
+                      <div class="w-2 h-2 bg-white rounded-full opacity-0 peer-checked:opacity-100"></div>
+                    </div>
+                    <div class="flex-1">
+                      <div class="font-medium text-gray-900">Yes, I'll be attending</div>
+                      <div class="text-sm text-gray-500">Count me in for this event</div>
+                    </div>
+                    <svg class="w-5 h-5 text-green-600 opacity-0 peer-checked:opacity-100" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                  </label>
+
+                  <label class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors duration-200 <%= 'bg-red-50 border-red-300' if @rsvp.declined? %>">
+                    <%= form.radio_button :status, 'declined', class: "sr-only peer", onchange: "toggleGuestCount(false)" %>
+                    <div class="peer-checked:bg-red-600 peer-checked:border-red-600 w-4 h-4 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center">
+                      <div class="w-2 h-2 bg-white rounded-full opacity-0 peer-checked:opacity-100"></div>
+                    </div>
+                    <div class="flex-1">
+                      <div class="font-medium text-gray-900">No, I can't make it</div>
+                      <div class="text-sm text-gray-500">I won't be able to attend</div>
+                    </div>
+                    <svg class="w-5 h-5 text-red-600 opacity-0 peer-checked:opacity-100" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+
+            <!-- Guest Count Selection -->
+            <div id="guest-count-section" class="<%= 'hidden' unless @rsvp.attending? %>">
+              <div class="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                <label for="guest_count" class="block text-sm font-medium text-gray-900 mb-2">
+                  How many guests will be attending? (including yourself)
+                </label>
+                <%= form.select :guest_count, 
+                    options_for_select(@guest_count_options.map { |i| [i == 1 ? "Just me (1 person)" : "#{i} people total", i] }, @rsvp.guest_count),
+                    {},
+                    { class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm" } %>
+                <p class="mt-2 text-xs text-gray-600">
+                  Please include yourself in the total count.
+                </p>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="pt-4">
+              <%= form.submit "Update RSVP", 
+                  class: "w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 ease-in-out transform hover:scale-105 shadow-lg" %>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+            <div class="flex items-center">
+              <svg class="w-5 h-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+              </svg>
+              <div>
+                <p class="text-sm font-medium text-red-900">RSVP Period Ended</p>
+                <p class="text-sm text-red-700">This RSVP has expired and can no longer be updated.</p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Expiration Notice -->
+        <div class="mt-6 bg-gray-50 rounded-lg p-4">
+          <p class="text-xs text-gray-600 text-center">
+            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            RSVP deadline: <%= @rsvp.expires_at.strftime("%B %d, %Y at %I:%M %p") %>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <% if notice %>
+      <div class="mt-4 bg-green-50 border border-green-200 rounded-md p-4">
+        <div class="flex">
+          <svg class="w-5 h-5 text-green-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+          </svg>
+          <p class="text-sm text-green-700"><%= notice %></p>
+        </div>
+      </div>
+    <% end %>
+
+    <% if alert %>
+      <div class="mt-4 bg-red-50 border border-red-200 rounded-md p-4">
+        <div class="flex">
+          <svg class="w-5 h-5 text-red-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+          </svg>
+          <p class="text-sm text-red-700"><%= alert %></p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <script>
+    function toggleGuestCount(show) {
+      const guestCountSection = document.getElementById('guest-count-section');
+      if (show) {
+        guestCountSection.classList.remove('hidden');
+      } else {
+        guestCountSection.classList.add('hidden');
+      }
+    }
+
+    // Set initial state based on current selection
+    document.addEventListener('DOMContentLoaded', function() {
+      const attendingRadio = document.querySelector('input[value="attending"]');
+      if (attendingRadio && attendingRadio.checked) {
+        toggleGuestCount(true);
+      }
+    });
+  </script>
+</body>
+</html>
