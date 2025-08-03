@@ -39,6 +39,7 @@ class Rsvp < ApplicationRecord
         membership: membership,
         guest_count: guest_count,
         status: :pending
+        # expiration and token will be set by callbacks
       )
     end
   end
@@ -54,12 +55,10 @@ class Rsvp < ApplicationRecord
   def respond_with(status_value, guest_count_value = nil)
     return false if expired?
 
-    transaction do
-      update!(
-        status: status_value,
-        guest_count: guest_count_value || guest_count
-      )
-    end
+    update(
+      status: status_value,
+      guest_count: guest_count_value || guest_count
+    )
   end
 
   def total_attendees

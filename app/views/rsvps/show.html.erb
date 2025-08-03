@@ -117,8 +117,8 @@
                     </svg>
                   </label>
 
-                  <label class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors duration-200 <%= 'bg-red-50 border-red-300' if @rsvp.not_attending? %>">
-                    <%= form.radio_button :status, 'not_attending', class: "sr-only peer", onchange: "toggleGuestCount(false)" %>
+                  <label class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors duration-200 <%= 'bg-red-50 border-red-300' if @rsvp.declined? %>">
+                    <%= form.radio_button :status, 'declined', class: "sr-only peer", onchange: "toggleGuestCount(false)" %>
                     <div class="peer-checked:bg-red-600 peer-checked:border-red-600 w-4 h-4 border-2 border-gray-300 rounded-full mr-3 flex items-center justify-center">
                       <div class="w-2 h-2 bg-white rounded-full opacity-0 peer-checked:opacity-100"></div>
                     </div>
