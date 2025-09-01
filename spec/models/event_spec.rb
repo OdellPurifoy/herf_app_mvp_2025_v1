@@ -28,6 +28,14 @@ RSpec.describe Event, type: :model do
     it { expect(event).to validate_presence_of(:date) }
     it { expect(event).to validate_presence_of(:start_time) }
     it { expect(event).to validate_presence_of(:end_time) }
+
+    context 'when the event is virtual' do
+      let(:virtual_event) { FactoryBot.build(:event, virtual: true, virtual_url: nil) }
+
+      it 'is not a valid virtual event without a virtual_url' do
+        expect(virtual_event.valid?).to eq false
+      end
+    end
   end
 
   describe 'callbacks' do

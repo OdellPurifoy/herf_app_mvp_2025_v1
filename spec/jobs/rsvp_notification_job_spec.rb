@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe RsvpNotificationJob, type: :job do
+RSpec.describe RsvpNotificationJob, type: :job do # rubocop:disable Metrics/BlockLength
   let(:lounge) { FactoryBot.create(:lounge) }
   let(:membership) { FactoryBot.create(:membership, lounge: lounge, allow_email_notifications: true) }
   let(:event) do
