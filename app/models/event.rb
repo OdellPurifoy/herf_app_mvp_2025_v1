@@ -10,6 +10,7 @@ class Event < ApplicationRecord
   has_one_attached :flyer
 
   validates :name, :event_type, :date, :start_time, :end_time, presence: true
+  validates :virtual_url, presence: true, if: -> { virtual? }
   validate :end_time_after_start_time
   validate :date_not_in_past
 

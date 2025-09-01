@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style>
+      /* Email styles need to be inline */
+    </style>
+  </head>
+
+  <body>
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center;">
+        <h1 style="margin: 0; font-size: 28px;">📅 Event Reminder</h1>
+        <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;"><%= @lounge.name %></p>
+      </div>
+      
+      <div style="padding: 30px; background-color: #f8f9fa;">
+        <h2 style="color: #333; margin-bottom: 20px;">Hi <%= @membership.first_name %>!</h2>
+        
+        <p style="color: #555; line-height: 1.6; margin-bottom: 20px;">
+          Just a friendly reminder that <strong><%= @event.name %></strong> is coming up in one week!
+        </p>
+        
+        <div style="background: white; padding: 25px; border-radius: 8px; border-left: 4px solid #667eea; margin-bottom: 25px;">
+          <h3 style="color: #333; margin-top: 0; margin-bottom: 15px;"><%= @event.name %></h3>
+          <p style="color: #666; margin-bottom: 10px;"><strong>📅 Date:</strong> <%= @event.date.strftime('%A, %B %d, %Y') %></p>
+          <p style="color: #666; margin-bottom: 10px;"><strong>⏰ Time:</strong> <%= @event.start_time.strftime('%I:%M %p') %> - <%= @event.end_time.strftime('%I:%M %p') %></p>
+          <p style="color: #666; margin-bottom: 10px;"><strong>🎯 Type:</strong> <%= @event.event_type %></p>
+          <p style="color: #666; margin-bottom: 10px;"><strong>📍 Location:</strong> <%= @lounge.name %></p>
+          <% if @event.capacity.present? %>
+            <p style="color: #666; margin-bottom: 10px;"><strong>👥 Capacity:</strong> <%= @event.capacity %> people</p>
+          <% end %>
+          <% if @event.entry_fee.present? && @event.entry_fee.to_i > 0 %>
+            <p style="color: #666; margin-bottom: 10px;"><strong>💰 Entry Fee:</strong> $<%= number_with_precision(@event.entry_fee, precision: 2) %></p>
+          <% end %>
+          <% if @event.description.present? %>
+            <p style="color: #666; margin-bottom: 10px;"><strong>📝 Details:</strong></p>
+            <p style="color: #666; margin-bottom: 0;"><%= simple_format(@event.description) %></p>
+          <% end %>
+        </div>
+        
+        <% if @event.rsvp_needed? && @rsvp %>
+          <div style="background: #e3f2fd; padding: 20px; border-radius: 8px; margin-bottom: 25px; border: 1px solid #bbdefb;">
+            <h4 style="color: #1976d2; margin-top: 0; margin-bottom: 15px;">🎫 RSVP Status: <%= @rsvp.status_display %></h4>
+            <% if @rsvp.pending? %>
+              <p style="color: #666; margin-bottom: 15px;">⏰ Don't forget to RSVP! We need to know if you're coming.</p>
+              <div style="text-align: center;">
+                <a href="<%= rsvp_url(@rsvp.rsvp_token) %>" 
+                   style="display: inline-block; background: #1976d2; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; margin: 5px;">
+                  ✅ RSVP Now
+                </a>
+              </div>
+            <% elsif @rsvp.attending? %>
+              <p style="color: #2e7d32; margin-bottom: 0; font-weight: bold;">✅ Great! You're confirmed to attend. We look forward to seeing you!</p>
+              <% if @rsvp.guest_count > 1 %>
+                <p style="color: #666; margin-top: 10px; margin-bottom: 0;">You've RSVP'd for <%= @rsvp.guest_count %> people total.</p>
+              <% end %>
+            <% elsif @rsvp.declined? %>
+              <p style="color: #666; margin-bottom: 10px;">You've indicated you can't make it. Changed your mind?</p>
+              <div style="text-align: center;">
+                <a href="<%= rsvp_url(@rsvp.rsvp_token) %>" 
+                   style="display: inline-block; background: #1976d2; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">
+                  Update RSVP
+                </a>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+        
+        <div style="background: #fff3e0; padding: 20px; border-radius: 8px; margin-bottom: 25px; border: 1px solid #ffcc02;">
+          <h4 style="color: #f57c00; margin-top: 0; margin-bottom: 15px;">📍 Location Details</h4>
+          <p style="color: #666; margin-bottom: 10px;"><strong><%= @lounge.name %></strong></p>
+          <% if @lounge.address_street_1.present? %>
+            <p style="color: #666; margin-bottom: 10px;"><%= @lounge.address_street_1 %></p>
+          <% end %>
+          <% if @lounge.phone_number.present? %>
+            <p style="color: #666; margin-bottom: 0;"><strong>📞 Phone:</strong> <%= @lounge.phone_number %></p>
+          <% end %>
+        </div>
+        
+        <p style="color: #555; line-height: 1.6; margin-bottom: 0;">
+          We're looking forward to seeing you there! We'll send you another reminder the day before the event.
+        </p>
+      </div>
+      
+      <div style="background-color: #333; color: #ccc; padding: 20px; text-align: center; font-size: 12px;">
+        <p style="margin: 0;">This reminder was sent by <%= @lounge.name %></p>
+        <p style="margin: 5px 0 0 0;">Powered by Herf</p>
+      </div>
+    </div>
+  </body>
+</html>
