@@ -1,0 +1,57 @@
+<!-- app/views/event_reminder_mailer/one_week_reminder.html.erb -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style>
+      /* Email styles need to be inline */
+    </style>
+  </head>
+
+  <body>
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center;">
+        <h1 style="margin: 0; font-size: 28px;">📅 Event Reminder</h1>
+        <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;"><%= @lounge.name %></p>
+      </div>
+      
+      <div style="padding: 30px; background-color: #f8f9fa;">
+        <h2 style="color: #333; margin-bottom: 20px;">Hi <%= @membership.first_name %>!</h2>
+        
+        <p style="color: #555; line-height: 1.6; margin-bottom: 20px;">
+          Just a friendly reminder that <strong><%= @event.name %></strong> is coming up in one week!
+        </p>
+        
+        <div style="background: white; padding: 25px; border-radius: 8px; border-left: 4px solid #667eea; margin-bottom: 25px;">
+          <h3 style="color: #333; margin-top: 0; margin-bottom: 15px;"><%= @event.name %></h3>
+          <p style="color: #666; margin-bottom: 10px;"><strong>📅 Date:</strong> <%= @event.date.strftime('%A, %B %d, %Y') %></p>
+          <p style="color: #666; margin-bottom: 10px;"><strong>⏰ Time:</strong> <%= @event.start_time.strftime('%I:%M %p') %> - <%= @event.end_time.strftime('%I:%M %p') %></p>
+          <p style="color: #666; margin-bottom: 10px;"><strong>📍 Location:</strong> <%= @lounge.name %></p>
+          <% if @event.description.present? %>
+            <p style="color: #666; margin-bottom: 0;"><strong>📝 Details:</strong></p>
+            <p style="color: #666; margin-bottom: 0;"><%= @event.description %></p>
+          <% end %>
+        </div>
+        
+        <% if @event.rsvp_needed? && @rsvp %>
+          <div style="background: #e3f2fd; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+            <h4 style="color: #1976d2; margin-top: 0;">RSVP Status: <%= @rsvp.status_display %></h4>
+            <% if @rsvp.pending? %>
+              <p style="color: #666; margin-bottom: 15px;">Don't forget to RSVP!</p>
+              <a href="<%= rsvp_url(@rsvp.rsvp_token) %>" style="display: inline-block; background: #1976d2; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">RSVP Now</a>
+            <% end %>
+          </div>
+        <% end %>
+        
+        <p style="color: #555; line-height: 1.6;">
+          We're looking forward to seeing you there! Mark your calendar and we'll send you another reminder tomorrow.
+        </p>
+      </div>
+      
+      <div style="background-color: #333; color: #ccc; padding: 20px; text-align: center; font-size: 12px;">
+        <p style="margin: 0;">This reminder was sent by <%= @lounge.name %></p>
+        <p style="margin: 5px 0 0 0;">Powered by Herf</p>
+      </div>
+    </div>
+  </body>
+</html>
