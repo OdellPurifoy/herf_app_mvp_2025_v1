@@ -12,6 +12,12 @@
 
 puts '🌱 Seeding database...'
 
+# Create an admin user
+Admin.find_or_create_by!(email: 'admin@herf.app') do |a|
+  a.password = 'securepassword123'
+  puts "✅ Created admin user: #{a.email}"
+end
+
 # Create a demo lounge owner
 lounge_owner = LoungeOwner.find_or_create_by!(email: 'demo@cigarloungeapp.com') do |owner|
   owner.password = 'password123'
