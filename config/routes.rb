@@ -1,7 +1,15 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  # Admin authentication routes
+  devise_for :admins, skip: [:registrations], controllers: {
+    sessions: 'admins/sessions'
+  }
+
+  # Alias for easier admin sign-in access
+  get 'admins', to: redirect('/admins/sign_in')
   devise_for :lounge_owners
+
   resources :lounges do
     resources :events, shallow: true do
       resources :rsvps, only: [:index], shallow: true
@@ -26,6 +34,9 @@ Rails.application.routes.draw do
   patch 'rsvp/:token', to: 'rsvps#update'
   put 'rsvp/:token', to: 'rsvps#update'
 
-  # Mount Pay engine for Stripe webhooks - at the end
-  # mount Pay::Engine, at: '/pay'
+  # Admin routes
+  get 'admin' => 'admin_dashboard#index'
+  post 'admin_member_upload' => 'admin_dashboard#member_upload'
+
+  resources :admin_dashboard, only: [:index]
 end
