@@ -43,12 +43,12 @@ class LoungeOwner < ApplicationRecord
   def date_of_birth_cannot_be_in_the_future
     return unless date_of_birth.present? && date_of_birth > Date.today
 
-    errors.add(:date_of_birth, "can't be in the future")
+    errors.add(:date_of_birth, "Can't be in the future")
   end
 
   def must_be_18_or_older
     return unless date_of_birth.present? && date_of_birth > 18.years.ago
 
-    errors.add(:date_of_birth, 'must be 18 years or older')
+    errors.add(:date_of_birth, 'Must be 18 years or older')
   end
 end
