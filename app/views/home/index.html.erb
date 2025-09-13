@@ -23,7 +23,6 @@
       </div>
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
         <% if lounge_owner_signed_in? && !current_lounge_owner.subscribed? %>
-          <%= link_to "View plans", root_path(anchor: "pricing"), class: "text-sm/6 font-semibold text-white" %>
           <%= link_to "Profile", edit_lounge_owner_registration_path, class: "ml-6 text-sm/6 font-semibold text-white" %>
           <%= link_to "Dashboard", dashboard_path, class: "ml-6 text-sm/6 font-semibold text-white" %>
           <%= button_to "Log out", destroy_lounge_owner_session_path, method: :delete, class: "ml-6 text-sm/6 font-semibold text-white", data: { confirm: "Are you sure?" } %>
@@ -88,10 +87,6 @@
           <div class="text-center">
             <h1 class="text-balance text-5xl font-semibold text-white sm:text-7xl">Empower Your Lounge. Delight Your Members</h1>
             <p class="mt-8 text-pretty text-lg font-medium text-white sm:text-xl/8">Manage your lounge events, memberships, and special offers. Engage your members like never before.</p>
-            <div class="mt-10 flex items-center justify-center gap-x-6">
-              <a href="#" class="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">Get started</a>
-              <a href="#" class="text-sm/6 font-semibold text-white">Learn more <span aria-hidden="true">→</span></a>
-            </div>
           </div>
         </div>
       </div>
@@ -330,52 +325,10 @@
         <div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
           <div class="md:grid md:grid-cols-2 md:gap-8">
             <div>
-              <h3 class="text-sm/6 font-semibold text-white">Solutions</h3>
-              <ul role="list" class="mt-6 space-y-4">
-                <li>
-                  <a href="#" class="text-sm/6 text-gray-400 hover:text-white">Marketing</a>
-                </li>
-                <li>
-                  <a href="#" class="text-sm/6 text-gray-400 hover:text-white">Analytics</a>
-                </li>
-                <li>
-                  <a href="#" class="text-sm/6 text-gray-400 hover:text-white">Automation</a>
-                </li>
-                <li>
-                  <a href="#" class="text-sm/6 text-gray-400 hover:text-white">Commerce</a>
-                </li>
-                <li>
-                  <a href="#" class="text-sm/6 text-gray-400 hover:text-white">Insights</a>
-                </li>
-              </ul>
-            </div>
-            <div class="mt-10 md:mt-0">
-              <h3 class="text-sm/6 font-semibold text-white">Support</h3>
-              <ul role="list" class="mt-6 space-y-4">
-                <li>
-                  <a href="#" class="text-sm/6 text-gray-400 hover:text-white">Submit ticket</a>
-                </li>
-                <li>
-                  <a href="#" class="text-sm/6 text-gray-400 hover:text-white">Documentation</a>
-                </li>
-                <li>
-                  <a href="#" class="text-sm/6 text-gray-400 hover:text-white">Guides</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="md:grid md:grid-cols-2 md:gap-8">
-            <div>
               <h3 class="text-sm/6 font-semibold text-white">Company</h3>
               <ul role="list" class="mt-6 space-y-4">
                 <li>
                   <a href="#" class="text-sm/6 text-gray-400 hover:text-white">About</a>
-                </li>
-                <li>
-                  <a href="#" class="text-sm/6 text-gray-400 hover:text-white">Blog</a>
-                </li>
-                <li>
-                  <a href="#" class="text-sm/6 text-gray-400 hover:text-white">Jobs</a>
                 </li>
                 <li>
                   <a href="#" class="text-sm/6 text-gray-400 hover:text-white">Press</a>
@@ -390,9 +343,6 @@
                 </li>
                 <li>
                   <a href="#" class="text-sm/6 text-gray-400 hover:text-white">Privacy policy</a>
-                </li>
-                <li>
-                  <a href="#" class="text-sm/6 text-gray-400 hover:text-white">License</a>
                 </li>
                 <li>
                   <%= link_to "Admin", new_admin_session_path, class: "text-sm/6 text-gray-400 hover:text-white" %>
