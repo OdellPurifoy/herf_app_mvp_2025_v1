@@ -1,94 +1,66 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-      }
-      .container {
-        width: 80%;
-        margin: auto;
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
-      .header {
-        text-align: center;
-        padding: 10px 0;
-      }
-      .header h1 {
-        color: #333333;
-      }
-      .content {
-        margin: 20px 0;
-      }
-      .content p {
-        color: #666666;
-        line-height: 1.6;
-      }
-      .highlight {
-        color: #d9534f;
-        font-weight: bold;
-      }
-      .footer {
-        text-align: center;
-        padding: 10px 0;
-        color: #999999;
-        font-size: 12px;
-      }
-      .contact {
-        margin-top: 20px;
-        text-align: center;
-      }
-      .contact p {
-        color: #666666;
-      }
+      /* Email styles need to be inline */
     </style>
   </head>
+
   <body>
-    <div class="container">
-      <div class="header">
-        <h1>Membership Update for <%= @membership.first_name %>!</h1>
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <div style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); color: white; padding: 30px; text-align: center;">
+        <h1 style="margin: 0; font-size: 28px;">🔄 Membership Updated</h1>
+        <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;"><%= @membership.lounge.name %></p>
       </div>
-      <div class="content">
-        <p>
+      
+      <div style="padding: 30px; background-color: #f8f9fa;">
+        <h2 style="color: #333; margin-bottom: 20px;">Hello <%= @membership.first_name %>!</h2>
+        
+        <p style="color: #555; line-height: 1.6; margin-bottom: 20px;">
           We wanted to let you know that your membership details have been updated. Below are the updated attributes:
         </p>
-        <ul>
-          <% if @membership.previous_changes[:first_name] %>
-            <li><strong>First Name:</strong> <span class="highlight"><%= @membership.previous_changes[:first_name].last %></span></li>
-          <% end %>
-          <% if @membership.previous_changes[:last_name] %>
-            <li><strong>Last Name:</strong> <span class="highlight"><%= @membership.previous_changes[:last_name].last %></span></li>
-          <% end %>
-          <% if @membership.previous_changes[:email] %>
-            <li><strong>Email:</strong> <span class="highlight"><%= @membership.previous_changes[:email].last %></span></li>
-          <% end %>
-          <% if @membership.previous_changes[:phone_number] %>
-            <li><strong>Phone Number:</strong> <span class="highlight"><%= @membership.previous_changes[:phone_number].last %></span></li>
-          <% end %>
-          <% if @membership.previous_changes[:allow_text_notifications] %>
-            <li><strong>Text Notifications:</strong> <span class="highlight"><%= @membership.allow_text_notifications ? 'Enabled' : 'Disabled' %></span></li>
-          <% end %>
-          <% if @membership.previous_changes[:allow_email_notifications] %>
-            <li><strong>Email Notifications:</strong> <span class="highlight"><%= @membership.allow_email_notifications ? 'Enabled' : 'Disabled' %></span></li>
-          <% end %>
-        </ul>
-        <p>
-          If you did not request these changes or have any questions, please contact us immediately.
+        
+        <div style="background: white; padding: 25px; border-radius: 8px; border-left: 4px solid #3498db; margin-bottom: 25px;">
+          <h3 style="color: #333; margin-top: 0; margin-bottom: 15px;">Updated Information</h3>
+          <ul style="color: #666; line-height: 1.6; padding-left: 20px;">
+            <% if @membership.previous_changes[:first_name] %>
+              <li><strong>👤 First Name:</strong> <span style="color: #3498db; font-weight: bold;"><%= @membership.previous_changes[:first_name].last %></span></li>
+            <% end %>
+            <% if @membership.previous_changes[:last_name] %>
+              <li><strong>👤 Last Name:</strong> <span style="color: #3498db; font-weight: bold;"><%= @membership.previous_changes[:last_name].last %></span></li>
+            <% end %>
+            <% if @membership.previous_changes[:email] %>
+              <li><strong>📧 Email:</strong> <span style="color: #3498db; font-weight: bold;"><%= @membership.previous_changes[:email].last %></span></li>
+            <% end %>
+            <% if @membership.previous_changes[:phone_number] %>
+              <li><strong>📱 Phone Number:</strong> <span style="color: #3498db; font-weight: bold;"><%= @membership.previous_changes[:phone_number].last %></span></li>
+            <% end %>
+            <% if @membership.previous_changes[:allow_text_notifications] %>
+              <li><strong>💬 Text Notifications:</strong> <span style="color: #3498db; font-weight: bold;"><%= @membership.allow_text_notifications ? 'Enabled' : 'Disabled' %></span></li>
+            <% end %>
+            <% if @membership.previous_changes[:allow_email_notifications] %>
+              <li><strong>📨 Email Notifications:</strong> <span style="color: #3498db; font-weight: bold;"><%= @membership.allow_email_notifications ? 'Enabled' : 'Disabled' %></span></li>
+            <% end %>
+          </ul>
+        </div>
+        
+        <div style="background: #ebf8ff; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+          <h4 style="color: #2b6cb0; margin-top: 0;">Important Notice</h4>
+          <p style="color: #666; line-height: 1.6;">
+            If you did not request these changes or have any questions, please contact us immediately.
+          </p>
+        </div>
+        
+        <p style="color: #555; line-height: 1.6;">
+          If you have any questions, feel free to contact us at <%= @membership.lounge.email %> or call us at <%= format_phone_number(@membership.lounge.phone_number) %>.
         </p>
       </div>
-      <div class="contact">
-        <p>If you have any questions, feel free to contact us at <%= @membership.lounge.email %> or call us at <%= format_phone_number(@membership.lounge.phone_number) %>.</p>
-      </div>
-      <div class="footer">
-        <p>Thank you for being a valued member!</p>
-        <p><%= @membership.lounge.name %> Team</p>
+      
+      <div style="background-color: #333; color: #ccc; padding: 20px; text-align: center; font-size: 12px;">
+        <p style="margin: 0;">Thank you for being a valued member!</p>
+        <p style="margin: 5px 0 0 0;"><%= @membership.lounge.name %> Team</p>
+        <p style="margin: 5px 0 0 0;">Powered by Herf</p>
       </div>
     </div>
   </body>

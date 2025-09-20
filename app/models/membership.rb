@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Membership < ApplicationRecord
+  has_person_name
+
   belongs_to :lounge
   has_many :rsvps, dependent: :destroy
 

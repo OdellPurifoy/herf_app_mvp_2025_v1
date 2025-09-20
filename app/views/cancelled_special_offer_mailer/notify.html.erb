@@ -1,76 +1,49 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-      }
-      .container {
-        width: 80%;
-        margin: auto;
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
-      .header {
-        text-align: center;
-        padding: 10px 0;
-      }
-      .header h1 {
-        color: #333333;
-      }
-      .content {
-        margin: 20px 0;
-      }
-      .content p {
-        color: #666666;
-        line-height: 1.6;
-      }
-      .footer {
-        text-align: center;
-        padding: 10px 0;
-        color: #999999;
-        font-size: 12px;
-      }
-      .contact {
-        margin-top: 20px;
-        text-align: center;
-      }
-      .contact p {
-        color: #666666;
-      }
+      /* Email styles need to be inline */
     </style>
   </head>
+
   <body>
-    <div class="container">
-      <div class="header">
-        <h1>Important Update, <%= @member.first_name %>!</h1>
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <div style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; padding: 30px; text-align: center;">
+        <h1 style="margin: 0; font-size: 28px;">🚨 Special Offer Cancelled</h1>
+        <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;"><%= @special_offer.lounge.name %></p>
       </div>
-      <div class="content">
-        <p>
+      
+      <div style="padding: 30px; background-color: #f8f9fa;">
+        <h2 style="color: #333; margin-bottom: 20px;">Important Update, <%= @member.first_name %>!</h2>
+        
+        <p style="color: #555; line-height: 1.6; margin-bottom: 20px;">
           We regret to inform you that the special offer, <strong><%= @special_offer.name %></strong>, has been cancelled.
         </p>
-        <p>
-          <strong>Offer Details:</strong><br />
-          <strong>Offer Type:</strong> <%= @special_offer.offer_type %><br />
-          <strong>Original Start Date:</strong> <%= @special_offer.start_date.strftime('%A, %B %d, %Y') %><br />
-          <strong>Original End Date:</strong> <%= @special_offer.end_date.strftime('%A, %B %d, %Y') %>
-        </p>
-        <p>
-          We apologize for any inconvenience this may have caused. Please stay tuned for future offers and updates from <%= @special_offer.lounge.name %>.
+        
+        <div style="background: white; padding: 25px; border-radius: 8px; border-left: 4px solid #e74c3c; margin-bottom: 25px;">
+          <h3 style="color: #333; margin-top: 0; margin-bottom: 15px;">Offer Details</h3>
+          <p style="color: #666; margin-bottom: 10px;"><strong>🏷️ Offer Type:</strong> <%= @special_offer.offer_type %></p>
+          <p style="color: #666; margin-bottom: 10px;"><strong>📅 Original Start Date:</strong> <%= @special_offer.start_date.strftime('%A, %B %d, %Y') %></p>
+          <p style="color: #666; margin-bottom: 0;"><strong>📅 Original End Date:</strong> <%= @special_offer.end_date.strftime('%A, %B %d, %Y') %></p>
+        </div>
+        
+        <div style="background: #fef2f2; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+          <h4 style="color: #b91c1c; margin-top: 0;">Cancellation Notice</h4>
+          <p style="color: #666; line-height: 1.6;">
+            We apologize for any inconvenience this may have caused. Please stay tuned for future offers and updates from <%= @special_offer.lounge.name %>.
+          </p>
+        </div>
+        
+        <p style="color: #555; line-height: 1.6;">
+          If you have any questions, feel free to contact us at <%= @special_offer.lounge.email %> or call us at <%= format_phone_number(@special_offer.lounge.phone_number) %>.
         </p>
       </div>
-      <div class="contact">
-        <p>If you have any questions, feel free to contact us at <%= @special_offer.lounge.email %> or call us at <%= format_phone_number(@special_offer.lounge.phone_number) %>.</p>
-      </div>
-      <div class="footer">
-        <p>Thank you for your understanding.</p>
-        <p>example.com Team</p>
+      
+      <div style="background-color: #333; color: #ccc; padding: 20px; text-align: center; font-size: 12px;">
+        <p style="margin: 0;">Thank you for your understanding.</p>
+        <p style="margin: 5px 0 0 0;"><%= @special_offer.lounge.name %> Team</p>
+        <p style="margin: 5px 0 0 0;">Powered by Herf</p>
       </div>
     </div>
   </body>

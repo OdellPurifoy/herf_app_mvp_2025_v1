@@ -85,7 +85,7 @@
   </div>
 
   <ul role="list" class="divide-y divide-gray-300 mt-6">
-    <% @events.each do |event| %>
+    <% @events.includes(:flyer_attachment).each do |event| %>
       <li class="flex flex-col gap-y-4 py-5">
         <div class="flex justify-between gap-x-6">
           <div class="flex min-w-0 gap-x-4">
