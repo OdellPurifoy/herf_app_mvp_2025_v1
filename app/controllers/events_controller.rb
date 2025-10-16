@@ -56,7 +56,7 @@ class EventsController < ApplicationController
 
   def event_params
     params.require(:event).permit(:name, :event_type, :date, :start_time, :end_time, :description, :virtual,
-                                  :members_only, :rsvp_needed, :capacity, :entry_fee, :flyer, :virtual_url,
+                                  :rsvp_needed, :capacity, :entry_fee, :flyer, :virtual_url,
                                   :virtual_passcode)
   end
 

@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_250_906_224_625) do
+ActiveRecord::Schema[7.1].define(version: 20_251_015_203_145) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -64,7 +64,6 @@ ActiveRecord::Schema[7.1].define(version: 20_250_906_224_625) do
     t.time 'start_time', null: false
     t.time 'end_time', null: false
     t.boolean 'virtual', default: false
-    t.boolean 'members_only', default: false
     t.text 'description'
     t.boolean 'rsvp_needed', default: false
     t.integer 'capacity'
