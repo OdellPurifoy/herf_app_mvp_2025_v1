@@ -83,7 +83,6 @@ events_data = [
     description: 'Join us for an exclusive wine and cigar pairing experience featuring premium selections from our cellar.',
     rsvp_needed: true,
     capacity: 20,
-    members_only: true,
     entry_fee: '$75'
   },
   {
@@ -95,7 +94,6 @@ events_data = [
     description: 'Monthly poker tournament with cigars and drinks. Buy-in is $50 with prizes for top 3 finishers.',
     rsvp_needed: true,
     capacity: 12,
-    members_only: true,
     entry_fee: '$50'
   },
   {
@@ -106,7 +104,6 @@ events_data = [
     end_time: Time.parse('8:30 PM'),
     description: 'Weekly whiskey tasting featuring different distilleries and regions. This week: Scottish Highlands.',
     rsvp_needed: false,
-    members_only: false,
     entry_fee: '$45'
   },
   {
@@ -118,7 +115,6 @@ events_data = [
     description: 'Ring in the New Year with premium cigars, champagne, and live jazz music.',
     rsvp_needed: true,
     capacity: 50,
-    members_only: false,
     entry_fee: '$150'
   }
 ]
@@ -135,7 +131,6 @@ events_data.each do |event_data|
     e.description = event_data[:description]
     e.rsvp_needed = event_data[:rsvp_needed]
     e.capacity = event_data[:capacity]
-    e.members_only = event_data[:members_only]
     e.entry_fee = event_data[:entry_fee]
   end
   events << event
@@ -176,7 +171,6 @@ special_offers_data = [
     start_date: Date.current,
     end_date: 3.months.from_now.to_date,
     description: '20% off all cigars for members every Monday',
-    members_only: true,
     offer_code: 'MONDAY20'
   },
   {
@@ -185,7 +179,6 @@ special_offers_data = [
     start_date: Date.current,
     end_date: 1.month.from_now.to_date,
     description: 'Buy 2 drinks, get 1 free during happy hour (5-7 PM)',
-    members_only: false,
     offer_code: 'HAPPY2FOR1'
   }
 ]
@@ -198,7 +191,6 @@ special_offers_data.each do |offer_data|
     o.start_date = offer_data[:start_date]
     o.end_date = offer_data[:end_date]
     o.description = offer_data[:description]
-    o.members_only = offer_data[:members_only]
     o.offer_code = offer_data[:offer_code]
   end
   puts "✅ Created special offer: #{offer.name}"
