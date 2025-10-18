@@ -79,6 +79,4 @@ test:
 #
 production:
   <<: *default
-  database: herf_app_mvp_2025_v1_production
-  username: herf_app_mvp_2025_v1
-  password: <%= ENV["HERF_APP_MVP_2025_V1_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>
