@@ -2,30 +2,34 @@
 
 class SubscriptionPlan
   PLANS = {
-    monthly: {
-      name: 'Monthly',
-      stripe_price_id: ENV.fetch('STRIPE_MONTHLY_PRICE_ID', 'price_monthly'),
-      amount: 1900, # $19.00
+    robusto_monthly: {
+      name: 'Robusto',
+      stripe_price_id: ENV.fetch('STRIPE_ROBUSTO_MONTHLY_PRICE_ID', 'price_robusto_monthly'),
+      amount: 4900, # $49.00
       interval: 'month',
       features: [
-        '1 Lounge',
-        'Unlimited Members',
-        'Two Events',
+        'Up to 50 members',
+        'Up to 2 events per month',
+        'SMS & Email notifications',
+        '2 reminder messages per event',
+        'Basic Analytics',
+        'Email support',
         'Two Special Offers'
       ]
     },
-    yearly: {
-      name: 'Yearly',
-      stripe_price_id: ENV.fetch('STRIPE_YEARLY_PRICE_ID', 'price_yearly'),
-      amount: 4900, # $49.00
-      interval: 'year',
+    churchill_monthly: {
+      name: 'Churchill',
+      stripe_price_id: ENV.fetch('STRIPE_CHURCHILL_MONTHLY_PRICE_ID', 'price_churchill_monthly'),
+      amount: 9900, # $99.00
+      interval: 'month',
       features: [
-        'Multiple Lounges',
-        'Unlimited Members',
+        'Up to 150 members',
         'Unlimited Events',
-        'Unlimited Special Offers',
-        'Premium Support',
-        'Advanced Analytics'
+        'SMS & Email Support',
+        '2 reminder messages per event',
+        'Advanced Analytics',
+        'Priority Email Support',
+        'Unlimited Special Offers'
       ]
     }
   }.freeze

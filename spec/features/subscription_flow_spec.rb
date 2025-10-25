@@ -13,32 +13,32 @@ RSpec.feature 'Subscription Flow', type: :feature do
     stub_stripe_checkout_session_create
   end
 
-  scenario 'User subscribes to monthly plan' do
+  scenario 'User subscribes to robusto plan' do
     visit root_path
 
     # Navigate to pricing
     first(:link, 'Pricing').click
 
-    # Select monthly plan
-    click_link 'Subscribe Now', href: /plan=monthly/
+    # Select robusto plan
+    click_link 'Subscribe Now', href: /plan=robusto_monthly/
 
-    # Should go to subscription form with monthly plan
-    expect(page).to have_current_path(new_subscription_path(plan: 'monthly'))
-    expect(page).to have_content('Monthly')
+    # Should go to subscription form with robusto plan
+    expect(page).to have_current_path(new_subscription_path(plan: 'robusto_monthly'))
+    expect(page).to have_content('Robusto')
   end
 
-  scenario 'User subscribes to yearly plan' do
+  scenario 'User subscribes to churchill plan' do
     visit root_path
 
     # Navigate to pricing
     first(:link, 'Pricing').click
 
-    # Select yearly plan
-    click_link 'Subscribe Now', href: /plan=yearly/
+    # Select churchill plan
+    click_link 'Subscribe Now', href: /plan=churchill_monthly/
 
-    # Should go to subscription form with yearly plan
-    expect(page).to have_current_path(new_subscription_path(plan: 'yearly'))
-    expect(page).to have_content('Yearly')
+    # Should go to subscription form with churchill plan
+    expect(page).to have_current_path(new_subscription_path(plan: 'churchill_monthly'))
+    expect(page).to have_content('Churchill')
   end
 
   scenario 'User returns from successful subscription' do

@@ -116,14 +116,14 @@ RSpec.describe LoungeOwner, type: :model do
       lounge_owner.date_of_birth = Date.today + 1.day
 
       expect(lounge_owner).to be_invalid
-      expect(lounge_owner.errors[:date_of_birth]).to include("can't be in the future")
+      expect(lounge_owner.errors[:date_of_birth]).to include("Can't be in the future")
     end
 
     it 'validates date_of_birth is 18 years or older' do
       lounge_owner.date_of_birth = 17.years.ago
 
       expect(lounge_owner).to be_invalid
-      expect(lounge_owner.errors[:date_of_birth]).to include('must be 18 years or older')
+      expect(lounge_owner.errors[:date_of_birth]).to include('Must be 18 years or older')
     end
   end
 end
