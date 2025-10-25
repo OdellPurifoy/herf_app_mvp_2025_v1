@@ -20,7 +20,7 @@ end
 
 # Create a demo lounge owner
 lounge_owner = LoungeOwner.find_or_create_by!(email: 'demo@cigarloungeapp.com') do |owner|
-  owner.password = 'password123'
+  owner.password = 'password'
   owner.first_name = 'Demo'
   owner.last_name = 'Owner'
   owner.date_of_birth = Date.new(1980, 1, 1)

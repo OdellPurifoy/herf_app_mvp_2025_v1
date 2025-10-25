@@ -25,9 +25,9 @@ FactoryBot.define do
       after(:create) do |lounge_owner|
         customer = lounge_owner.payment_processor
         customer.subscriptions.create!(
-          name: 'monthly',
+          name: 'robusto_monthly',
           processor_id: 'sub_test123',
-          processor_plan: 'price_monthly_test',
+          processor_plan: 'price_robusto_test',
           status: 'active',
           current_period_start: Time.current,
           current_period_end: 1.month.from_now

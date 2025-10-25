@@ -184,30 +184,30 @@
       </div>
       <div class="mx-auto mt-16 grid max-w-lg grid-cols-1 items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2">
         <div class="rounded-3xl rounded-t-3xl bg-white/60 p-8 ring-1 ring-gray-900/10 sm:mx-8 sm:rounded-b-none sm:p-10 lg:mx-0 lg:rounded-bl-3xl lg:rounded-tr-none">
-          <h3 id="tier-monthly" class="text-base/7 font-semibold text-indigo-600">Monthly</h3>
+          <h3 id="tier-monthly-robusto" class="text-base/7 font-semibold text-indigo-600">Robusto</h3>
           <p class="mt-4 flex items-baseline gap-x-2">
-            <span class="text-5xl font-semibold tracking-tight text-gray-900">$19</span>
+            <span class="text-5xl font-semibold tracking-tight text-gray-900">$49</span>
             <span class="text-base text-gray-500">/month</span>
           </p>
-          <p class="mt-6 text-base/7 text-gray-600">The perfect plan if you&#039;re just getting started with our product.</p>
+          <p class="mt-6 text-base/7 text-gray-600">Perfect for intimate lounges building their community.</p>
           <ul role="list" class="mt-8 space-y-3 text-sm/6 text-gray-600 sm:mt-10">
             <li class="flex gap-x-3">
               <svg class="h-6 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                 <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
               </svg>
-              1 Lounge
+              Up to 50 members
             </li>
             <li class="flex gap-x-3">
               <svg class="h-6 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                 <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
               </svg>
-              Unlimited Members
+              Up to 2 events per month
             </li>
             <li class="flex gap-x-3">
               <svg class="h-6 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                 <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
               </svg>
-              Two Events
+              SMS & Email notifications
             </li>
             <li class="flex gap-x-3">
               <svg class="h-6 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
@@ -215,18 +215,24 @@
               </svg>
               Two Special Offers
             </li>
+            <li class="flex gap-x-3">
+              <svg class="h-6 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+              </svg>
+              Email support
+            </li>
           </ul>
           <% if lounge_owner_signed_in? %>
-            <%= link_to "Subscribe Now", new_subscription_path(plan: 'monthly'), aria: { describedby: "tier-monthly" }, class: "mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:mt-10" %>
+            <%= link_to "Subscribe Now", new_subscription_path(plan: 'robusto_monthly'), aria: { describedby: "tier-monthly-robusto" }, class: "mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:mt-10" %>
           <% else %>
-            <%= link_to "Sign Up", new_lounge_owner_registration_path, aria: { describedby: "tier-monthly" }, class: "mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:mt-10" %>
+            <%= link_to "Sign Up", new_lounge_owner_registration_path, aria: { describedby: "tier-monthly-robusto" }, class: "mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:mt-10" %>
           <% end %>
         </div>
         <div class="relative rounded-3xl bg-gray-900 p-8 shadow-2xl ring-1 ring-gray-900/10 sm:p-10">
-          <h3 id="tier-yearly" class="text-base/7 font-semibold text-indigo-400">Yearly</h3>
+          <h3 id="tier-monthly-churchill" class="text-base/7 font-semibold text-indigo-400">Churchill</h3>
           <p class="mt-4 flex items-baseline gap-x-2">
-            <span class="text-5xl font-semibold tracking-tight text-white">$49</span>
-            <span class="text-base text-gray-400">/year</span>
+            <span class="text-5xl font-semibold tracking-tight text-white">$99</span>
+            <span class="text-base text-gray-400">/month</span>
           </p>
           <p class="mt-6 text-base/7 text-gray-300">Dedicated support and infrastructure for your company.</p>
           <ul role="list" class="mt-8 space-y-3 text-sm/6 text-gray-300 sm:mt-10">
@@ -234,13 +240,7 @@
               <svg class="h-6 w-5 flex-none text-indigo-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                 <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
               </svg>
-              Multiple Lounges
-            </li>
-            <li class="flex gap-x-3">
-              <svg class="h-6 w-5 flex-none text-indigo-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-              </svg>
-              Unlimited Members
+              Up to 150 members
             </li>
             <li class="flex gap-x-3">
               <svg class="h-6 w-5 flex-none text-indigo-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
@@ -252,13 +252,13 @@
               <svg class="h-6 w-5 flex-none text-indigo-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                 <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
               </svg>
-              Unlimited Special Offers
+              SMS & Email Support
             </li>
             <li class="flex gap-x-3">
               <svg class="h-6 w-5 flex-none text-indigo-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
                 <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
               </svg>
-              Premium Support
+              Unlimited Special Offers
             </li>
             <li class="flex gap-x-3">
               <svg class="h-6 w-5 flex-none text-indigo-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
@@ -266,11 +266,23 @@
               </svg>
               Advanced Analytics
             </li>
+            <li class="flex gap-x-3">
+              <svg class="h-6 w-5 flex-none text-indigo-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+              </svg>
+              2 Reminder messages per event
+            </li>
+            <li class="flex gap-x-3">
+              <svg class="h-6 w-5 flex-none text-indigo-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+              </svg>
+              Priority Email Support
+            </li>
           </ul>
           <% if lounge_owner_signed_in? %>
-            <%= link_to "Subscribe Now", new_subscription_path(plan: 'yearly'), aria: { describedby: "tier-yearly" }, class: "mt-8 block rounded-md bg-indigo-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 sm:mt-10" %>
+            <%= link_to "Subscribe Now", new_subscription_path(plan: 'churchill_monthly'), aria: { describedby: "tier-monthly-churchill" }, class: "mt-8 block rounded-md bg-indigo-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 sm:mt-10" %>
           <% else %>
-            <%= link_to "Sign Up", new_lounge_owner_registration_path, aria: { describedby: "tier-yearly" }, class: "mt-8 block rounded-md bg-indigo-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 sm:mt-10" %>
+            <%= link_to "Sign Up", new_lounge_owner_registration_path, aria: { describedby: "tier-monthly-churchill" }, class: "mt-8 block rounded-md bg-indigo-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 sm:mt-10" %>
           <% end %>
         </div>
       </div>

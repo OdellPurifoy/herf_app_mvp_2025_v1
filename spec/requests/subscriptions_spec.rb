@@ -15,58 +15,63 @@ RSpec.describe 'Subscriptions', type: :request do # rubocop:disable Metrics/Bloc
                                           'STRIPE_PUBLIC_KEY' => 'pk_test_123',
                                           'STRIPE_PRIVATE_KEY' => 'sk_test_123',
                                           'STRIPE_SIGNING_SECRET' => 'whsec_test_123',
-                                          'STRIPE_MONTHLY_PRICE_ID' => 'price_monthly_test',
-                                          'STRIPE_YEARLY_PRICE_ID' => 'price_yearly_test'
+                                          'STRIPE_ROBUSTO_MONTHLY_PRICE_ID' => 'price_robusto_test',
+                                          'STRIPE_CHURCHILL_MONTHLY_PRICE_ID' => 'price_churchill_test'
                                         }))
 
     # Mock SubscriptionPlan.find with all required fields for the view
-    allow(SubscriptionPlan).to receive(:find).with('monthly').and_return({
-                                                                           name: 'Monthly',
-                                                                           stripe_price_id: 'price_monthly_test',
-                                                                           amount: 1900, # Amount in cents
-                                                                           interval: 'month',
-                                                                           features: [
-                                                                             'Create unlimited lounges',
-                                                                             'Manage events and offers',
-                                                                             'Member management',
-                                                                             'Analytics dashboard'
-                                                                           ]
-                                                                         })
+    allow(SubscriptionPlan).to receive(:find).with('robusto_monthly').and_return({
+                                                                                   name: 'Robusto',
+                                                                                   stripe_price_id: 'price_robusto_test',
+                                                                                   amount: 4900, # Amount in cents
+                                                                                   interval: 'month',
+                                                                                   features: [
+                                                                                     'Up to 50 members',
+                                                                                     'Up to 2 events per month',
+                                                                                     'SMS & Email Support',
+                                                                                     '2 reminder messages per event',
+                                                                                     'Basic Analytics',
+                                                                                     'Email support',
+                                                                                     'Two Special Offers'
+                                                                                   ]
+                                                                                 })
 
-    allow(SubscriptionPlan).to receive(:find).with('yearly').and_return({
-                                                                          name: 'Yearly',
-                                                                          stripe_price_id: 'price_yearly_test',
-                                                                          amount: 19_000, # Amount in cents
-                                                                          interval: 'year',
-                                                                          features: [
-                                                                            'Create unlimited lounges',
-                                                                            'Manage events and offers',
-                                                                            'Member management',
-                                                                            'Analytics dashboard',
-                                                                            '2 months free'
-                                                                          ]
-                                                                        })
+    allow(SubscriptionPlan).to receive(:find).with('churchill_monthly').and_return({
+                                                                                     name: 'Churchill',
+                                                                                     stripe_price_id: 'price_churchill_test',
+                                                                                     amount: 9900, # Amount in cents
+                                                                                     interval: 'month',
+                                                                                     features: [
+                                                                                       'Up to 150 members',
+                                                                                       'Unlimited Events',
+                                                                                       'SMS & Email Support',
+                                                                                       '2 reminder messages per event',
+                                                                                       'Advanced Analytics',
+                                                                                       'Priority Email Support',
+                                                                                       'Unlimited Special Offers'
+                                                                                     ]
+                                                                                   })
 
     # Handle nil case
     allow(SubscriptionPlan).to receive(:find).with(nil).and_return(nil)
   end
 
   describe 'GET /subscription/new' do
-    context 'with monthly plan' do
+    context 'with robusto plan' do
       it 'displays the subscription form' do
-        get new_subscription_path(plan: 'monthly')
+        get new_subscription_path(plan: 'robusto_monthly')
 
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include('Monthly')
+        expect(response.body).to include('Robusto')
       end
     end
 
-    context 'with yearly plan' do
+    context 'with churchill plan' do
       it 'displays the subscription form' do
-        get new_subscription_path(plan: 'yearly')
+        get new_subscription_path(plan: 'churchill_monthly')
 
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include('Yearly')
+        expect(response.body).to include('Churchill')
       end
     end
 
@@ -80,7 +85,7 @@ RSpec.describe 'Subscriptions', type: :request do # rubocop:disable Metrics/Bloc
   end
 
   describe 'POST /subscription' do
-    context 'with monthly plan' do
+    context 'with robusto plan' do
       it 'creates a Stripe checkout session and redirects' do
         # Mock the checkout session
         checkout_session = double('checkout_session', url: 'https://checkout.stripe.com/pay/cs_test123')
@@ -90,14 +95,14 @@ RSpec.describe 'Subscriptions', type: :request do # rubocop:disable Metrics/Bloc
         allow(lounge_owner).to receive(:payment_processor).and_return(payment_processor)
         allow(payment_processor).to receive(:checkout).and_return(checkout_session)
 
-        post subscription_path, params: { plan: 'monthly' }
+        post subscription_path, params: { plan: 'robusto_monthly' }
 
         expect(response).to redirect_to(checkout_session.url)
       end
     end
 
-    context 'with yearly plan' do
-      it 'creates a Stripe checkout session with yearly pricing' do
+    context 'with churchill plan' do
+      it 'creates a Stripe checkout session with churchill pricing' do
         # Mock the checkout session
         checkout_session = double('checkout_session', url: 'https://checkout.stripe.com/pay/cs_test123')
 
@@ -106,7 +111,7 @@ RSpec.describe 'Subscriptions', type: :request do # rubocop:disable Metrics/Bloc
         allow(lounge_owner).to receive(:payment_processor).and_return(payment_processor)
         allow(payment_processor).to receive(:checkout).and_return(checkout_session)
 
-        post subscription_path, params: { plan: 'yearly' }
+        post subscription_path, params: { plan: 'churchill_monthly' }
 
         expect(response).to redirect_to(checkout_session.url)
       end
@@ -121,7 +126,7 @@ RSpec.describe 'Subscriptions', type: :request do # rubocop:disable Metrics/Bloc
           Stripe::CardError.new('Your card was declined.', 'card_declined')
         )
 
-        post subscription_path, params: { plan: 'monthly' }
+        post subscription_path, params: { plan: 'robusto_monthly' }
 
         expect(response).to redirect_to(root_path)
         expect(flash[:alert]).to include('subscription')
