@@ -14,8 +14,11 @@ RSpec.describe UpdatedMembershipMailer, type: :mailer do
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to match('Membership Update for')
-      expect(mail.body.encoded).to match('We wanted to let you know that your membership details have been updated.')
+      expect(mail.body.encoded).to match('Membership Updated')
+      expect(mail.body.encoded).to match('We wanted to let you know that your membership details have been updated')
+      expect(mail.body.encoded).to match('Updated Information')
+      expect(mail.body.encoded).to match('Important Notice')
+      expect(mail.body.encoded).to match('Powered by Herf')
     end
   end
 end

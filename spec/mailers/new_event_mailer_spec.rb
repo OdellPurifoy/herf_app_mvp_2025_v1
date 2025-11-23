@@ -17,8 +17,8 @@ RSpec.describe NewEventMailer, type: :mailer do
     it 'renders the body' do
       expect(mail.body.encoded).to match("Hi #{member.first_name}!")
       expect(mail.body.encoded).to match(event.name)
-      expect(mail.body.encoded).to match('EVENT DETAILS:')
       expect(mail.body.encoded).to match(event.description)
+      expect(mail.body.encoded).to match('Powered by Herf')
     end
   end
 end

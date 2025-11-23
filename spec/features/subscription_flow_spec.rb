@@ -51,7 +51,7 @@ RSpec.feature 'Subscription Flow', type: :feature do
   scenario 'User cancels subscription process' do
     visit cancel_subscription_path
 
-    expect(page).to have_content('not completed')
+    expect(page).to have_content('Your subscription was not completed')
     expect(page).to have_current_path(root_path)
   end
 

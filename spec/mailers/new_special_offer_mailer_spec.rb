@@ -15,10 +15,13 @@ RSpec.describe NewSpecialOfferMailer, type: :mailer do
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to match("Special Offer Just for You, #{member.first_name}!")
+      expect(mail.body.encoded).to match("Exclusive Offer For You, #{member.first_name}!")
       expect(mail.body.encoded).to match(special_offer.name)
-      expect(mail.body.encoded).to match('<strong>Description:</strong>')
+      expect(mail.body.encoded).to match('Special Offer Announced')
+      expect(mail.body.encoded).to match('Offer Details')
+      expect(mail.body.encoded).to match('Description')
       expect(mail.body.encoded).to match(special_offer.description)
+      expect(mail.body.encoded).to match('Powered by Herf')
     end
   end
 end
