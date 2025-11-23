@@ -14,8 +14,11 @@ RSpec.describe CancelledMembershipMailer, type: :mailer do
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to match('Membership Cancellation Notice')
+      expect(mail.body.encoded).to match('Membership Cancelled')
       expect(mail.body.encoded).to match("We regret to inform you that your membership with #{membership.lounge.name} has been cancelled.")
+      expect(mail.body.encoded).to match('Membership Details')
+      expect(mail.body.encoded).to match('Cancellation Notice')
+      expect(mail.body.encoded).to match('Powered by Herf')
     end
   end
 end

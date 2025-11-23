@@ -17,7 +17,10 @@ RSpec.describe CancelledSpecialOfferMailer, type: :mailer do
     it 'renders the body' do
       expect(mail.body.encoded).to match("Important Update, #{member.first_name}!")
       expect(mail.body.encoded).to match(special_offer.name)
-      expect(mail.body.encoded).to match('<strong>Offer Details:</strong>')
+      expect(mail.body.encoded).to match('Special Offer Cancelled')
+      expect(mail.body.encoded).to match('Offer Details')
+      expect(mail.body.encoded).to match('Cancellation Notice')
+      expect(mail.body.encoded).to match('Powered by Herf')
     end
   end
 end

@@ -21,8 +21,11 @@ RSpec.describe CancelledEventMailer, type: :mailer do
       expect(mail.body.encoded).to match(event.name)
       expect(mail.body.encoded).to match(event.date.strftime('%A, %B %d, %Y'))
       expect(mail.body.encoded).to match(event.start_time.strftime('%I:%M %p'))
+      expect(mail.body.encoded).to match('Event Cancellation')
+      expect(mail.body.encoded).to match('Cancellation Notice')
       expect(mail.body.encoded).to match('has been cancelled')
       expect(mail.body.encoded).to match(event.lounge.email)
+      expect(mail.body.encoded).to match('Powered by Herf')
     end
   end
 end
