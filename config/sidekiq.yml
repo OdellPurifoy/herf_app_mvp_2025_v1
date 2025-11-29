@@ -1,0 +1,18 @@
+---
+# Sidekiq configuration file
+
+# Set the concurrency (number of threads)
+:concurrency: 5
+
+# Queues to process (with their priorities)
+:queues:
+  - default
+  - mailers
+  - low_priority
+
+# Redis connection settings
+:redis:
+  url: <%= ENV.fetch("REDIS_URL", "redis://localhost:6379/0") %>
+
+# Timeout for job execution (in seconds)
+:timeout: 25

@@ -22,6 +22,10 @@ RSpec.describe SpecialOfferCreationNotificationJob, type: :job do
     let(:sms_service) { instance_double(SmsNotificationService) }
 
     before do
+      # Enable SMS for tests
+      allow(ENV).to receive(:fetch).and_call_original
+      allow(ENV).to receive(:[]).with('ENABLE_SMS').and_return('true')
+
       allow(SpecialOffer).to receive(:find).with(special_offer.id).and_return(special_offer)
       allow(SmsNotificationService).to receive(:new).and_return(sms_service)
       allow(sms_service).to receive(:send_message)
@@ -76,6 +80,7 @@ RSpec.describe SpecialOfferCreationNotificationJob, type: :job do
       empty_lounge = FactoryBot.create(:lounge)
       empty_special_offer = FactoryBot.create(:special_offer, lounge: empty_lounge)
       allow(SpecialOffer).to receive(:find).with(empty_special_offer.id).and_return(empty_special_offer)
+      allow(ENV).to receive(:[]).with('ENABLE_SMS').and_return('true')
 
       expect(SpecialOfferCreationNotificationJob.perform_now(empty_special_offer.id)).to eq('No active members found for the lounge')
     end

@@ -4,6 +4,12 @@ class EventUpdateNotificationJob < ApplicationJob
   queue_as :default
 
   def perform(event_id)
+    # Skip SMS in development unless explicitly enabled
+    unless Rails.env.production? || ENV['ENABLE_SMS'].present?
+      Rails.logger.info "EventUpdateNotificationJob: Skipping SMS in #{Rails.env} environment"
+      return
+    end
+
     begin
       event = Event.find(event_id)
     rescue ActiveRecord::RecordNotFound

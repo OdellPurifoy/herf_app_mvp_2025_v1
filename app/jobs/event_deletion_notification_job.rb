@@ -4,6 +4,12 @@ class EventDeletionNotificationJob < ApplicationJob
   queue_as :default
 
   def perform(event_data)
+    # Skip SMS in development unless explicitly enabled
+    unless Rails.env.production? || ENV['ENABLE_SMS'].present?
+      Rails.logger.info "EventDeletionNotificationJob: Skipping SMS in #{Rails.env} environment"
+      return
+    end
+
     member_ids = event_data[:member_ids]
 
     return if member_ids.blank?

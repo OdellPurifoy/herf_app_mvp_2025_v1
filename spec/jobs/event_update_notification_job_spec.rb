@@ -22,6 +22,10 @@ RSpec.describe EventUpdateNotificationJob, type: :job do
     let(:sms_service) { instance_double(SmsNotificationService) }
 
     before do
+      # Enable SMS for tests
+      allow(ENV).to receive(:fetch).and_call_original
+      allow(ENV).to receive(:[]).with('ENABLE_SMS').and_return('true')
+
       allow(Event).to receive(:find).with(event.id).and_return(event)
       allow(SmsNotificationService).to receive(:new).and_return(sms_service)
       allow(sms_service).to receive(:send_message)
@@ -76,6 +80,7 @@ RSpec.describe EventUpdateNotificationJob, type: :job do
       empty_lounge = FactoryBot.create(:lounge)
       empty_event = FactoryBot.create(:event, lounge: empty_lounge)
       allow(Event).to receive(:find).with(empty_event.id).and_return(empty_event)
+      allow(ENV).to receive(:[]).with('ENABLE_SMS').and_return('true')
 
       expect(EventUpdateNotificationJob.perform_now(empty_event.id)).to eq('No active members found for the lounge')
     end
