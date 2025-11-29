@@ -4,6 +4,12 @@ class RsvpSmsNotificationJob < ApplicationJob
   queue_as :default
 
   def perform(rsvp_id)
+    # Skip SMS in development unless explicitly enabled
+    unless Rails.env.production? || ENV['ENABLE_SMS'].present?
+      Rails.logger.info "RsvpSmsNotificationJob: Skipping SMS in #{Rails.env} environment"
+      return
+    end
+
     rsvp = Rsvp.find(rsvp_id)
     return unless rsvp&.membership&.allow_text_notifications?
     return if rsvp.membership.phone_number.blank?

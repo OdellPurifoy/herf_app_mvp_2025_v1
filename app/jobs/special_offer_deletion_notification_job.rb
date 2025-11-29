@@ -4,6 +4,12 @@ class SpecialOfferDeletionNotificationJob < ApplicationJob
   queue_as :default
 
   def perform(special_offer_data)
+    # Skip SMS in development unless explicitly enabled
+    unless Rails.env.production? || ENV['ENABLE_SMS'].present?
+      Rails.logger.info "SpecialOfferDeletionNotificationJob: Skipping SMS in #{Rails.env} environment"
+      return
+    end
+
     member_ids = special_offer_data[:member_ids]
     return if member_ids.blank?
 

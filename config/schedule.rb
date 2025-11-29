@@ -33,15 +33,10 @@ end
 
 # Send one week reminders every day at 9 AM
 every 1.day, at: '9:00 am' do
-  runner "EventReminderJob.perform_later('one_week')"
+  runner 'OneWeekEventReminderJob.perform_later'
 end
 
 # Send one day reminders every day at 6 PM
-every 1.day, at: '6:00 pm' do
-  runner "EventReminderJob.perform_later('one_day')"
-end
-
-# Optional: Send morning-of reminders at 8 AM
-every 1.day, at: '8:00 am' do
-  runner "EventReminderJob.perform_later('same_day')" # You'd need to implement this
-end
+# every 1.day, at: '6:00 pm' do
+#   runner "OneDayEventReminderJob.perform_later"
+# end

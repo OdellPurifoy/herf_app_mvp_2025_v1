@@ -47,5 +47,8 @@ module HerfAppMvp2025V1
     config.generators do |g|
       g.orm :active_record, primary_key_type: :uuid
     end
+
+    # Configure Active Job to use Sidekiq
+    config.active_job.queue_adapter = :sidekiq
   end
 end

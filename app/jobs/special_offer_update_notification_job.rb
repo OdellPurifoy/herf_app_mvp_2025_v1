@@ -4,6 +4,12 @@ class SpecialOfferUpdateNotificationJob < ApplicationJob
   queue_as :default
 
   def perform(special_offer_id)
+    # Skip SMS in development unless explicitly enabled
+    unless Rails.env.production? || ENV['ENABLE_SMS'].present?
+      Rails.logger.info "SpecialOfferUpdateNotificationJob: Skipping SMS in #{Rails.env} environment"
+      return
+    end
+
     begin
       special_offer = SpecialOffer.find(special_offer_id)
     rescue ActiveRecord::RecordNotFound

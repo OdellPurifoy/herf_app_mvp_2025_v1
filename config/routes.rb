@@ -39,4 +39,8 @@ Rails.application.routes.draw do
   post 'admin_member_upload' => 'admin_dashboard#member_upload'
 
   resources :admin_dashboard, only: [:index]
+
+  require 'sidekiq/web' # require the web UI
+
+  mount Sidekiq::Web => '/sidekiq' # access it at http://localhost:3000/sidekiq
 end
