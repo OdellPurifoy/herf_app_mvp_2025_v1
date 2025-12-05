@@ -91,6 +91,11 @@ end
 - **What it does:** Finds events exactly 7 days away and sends reminder emails to members
 - **Test mode:** `OneWeekEventReminderJob.perform_now(test_mode: true)` (sends to any upcoming event)
 
+#### **OneDayEventReminderJob**
+- **When it runs:** Daily at 6:00 PM (scheduled via cron)
+- **What it does:** Finds events exactly 1 day away and sends reminder emails to members
+- **Test mode:** `OneDayEventReminderJob.perform_now(test_mode: true)` (sends to any upcoming event)
+
 #### **EventCreationNotificationJob** (Email only)
 - **When it runs:** Automatically when an event is created
 - **What it does:** Sends "New Event" emails to all active members
@@ -203,6 +208,7 @@ The app uses the `whenever` gem to schedule recurring jobs.
 
 **Current schedule** (see `config/schedule.rb`):
 - **9:00 AM daily:** Send one-week event reminders
+- **6:00 PM daily:** Send one-day event reminders
 
 ### Viewing the Schedule
 
@@ -222,9 +228,17 @@ whenever --clear-crontab
 
 ### Testing Scheduled Jobs
 
-You don't need to wait for 9:00 AM! Just run manually:
+You don't need to wait for the scheduled times! Just run manually:
 ```ruby
+# Test one-week reminders
 OneWeekEventReminderJob.perform_now
+
+# Test one-day reminders
+OneDayEventReminderJob.perform_now
+
+# Test with test mode (uses any upcoming events)
+OneWeekEventReminderJob.perform_now(test_mode: true)
+OneDayEventReminderJob.perform_now(test_mode: true)
 ```
 
 ---
@@ -388,7 +402,8 @@ bin/dev
 open http://localhost:3000/sidekiq
 
 # Rails console commands
-OneWeekEventReminderJob.perform_now(test_mode: true)  # Test emails
+OneWeekEventReminderJob.perform_now(test_mode: true)  # Test one-week emails
+OneDayEventReminderJob.perform_now(test_mode: true)   # Test one-day emails
 Sidekiq::Queue.new.size                                # Check queue
 Sidekiq::Stats.new.processed                           # Total processed
 

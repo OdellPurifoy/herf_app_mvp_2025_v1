@@ -1,4 +1,4 @@
-<!-- app/views/event_reminder_mailer/one_week_reminder.html.erb -->
+<!-- app/views/event_reminder_mailer/one_day_reminder.html.erb -->
 <!DOCTYPE html>
 <html>
   <head>
@@ -10,8 +10,8 @@
 
   <body>
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center;">
-        <h1 style="margin: 0; font-size: 28px;">📅 Event Reminder</h1>
+      <div style="background: linear-gradient(135deg, #f59e0b 0%, #dc2626 100%); color: white; padding: 30px; text-align: center;">
+        <h1 style="margin: 0; font-size: 28px;">⏰ Event Tomorrow!</h1>
         <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;"><%= @lounge.name %></p>
       </div>
       
@@ -19,7 +19,7 @@
         <h2 style="color: #333; margin-bottom: 20px;">Hi <%= @membership.first_name %>!</h2>
         
         <p style="color: #555; line-height: 1.6; margin-bottom: 20px;">
-          Just a friendly reminder that <strong><%= @event.name %></strong> is coming up in one week!
+          This is a reminder that <strong><%= @event.name %></strong> is happening <strong>tomorrow</strong>!
         </p>
         
         <div style="background: white; padding: 25px; border-radius: 8px; border-left: 4px solid #667eea; margin-bottom: 25px;">
@@ -44,7 +44,7 @@
         <% end %>
         
         <p style="color: #555; line-height: 1.6;">
-          We're looking forward to seeing you there! Mark your calendar and we'll send you another reminder tomorrow.
+          Don't forget - we'll see you tomorrow! If you have any questions, please contact the lounge.
         </p>
       </div>
       

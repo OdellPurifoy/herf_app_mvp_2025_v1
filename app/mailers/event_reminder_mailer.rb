@@ -23,7 +23,8 @@ class EventReminderMailer < ApplicationMailer
 
     mail(
       to: membership.email,
-      subject: "Tomorrow: #{@event.name} at #{@lounge.name}"
+      subject: "Tomorrow: #{@event.name} at #{@lounge.name}",
+      template_name: 'one_day_reminder'
     )
   end
 end
