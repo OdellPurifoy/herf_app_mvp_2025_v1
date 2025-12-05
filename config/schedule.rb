@@ -37,6 +37,6 @@ every 1.day, at: '9:00 am' do
 end
 
 # Send one day reminders every day at 6 PM
-# every 1.day, at: '6:00 pm' do
-#   runner "OneDayEventReminderJob.perform_later"
-# end
+every 1.day, at: '6:00 pm' do
+  runner 'OneDayEventReminderJob.perform_later'
+end
