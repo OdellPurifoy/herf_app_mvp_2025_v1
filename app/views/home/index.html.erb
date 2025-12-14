@@ -325,37 +325,26 @@
       <div class="mx-auto max-w-4xl divide-y divide-gray-900/10">
         <h2 class="text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">Frequently asked questions</h2>
         <dl class="mt-10 space-y-6 divide-y divide-gray-900/10">
-          <div class="pt-6">
-            <dt>
-              <!-- Expand/collapse question button -->
-              <button type="button" class="flex w-full items-start justify-between text-left text-gray-900" aria-controls="faq-0" aria-expanded="false">
-                <span class="text-base/7 font-semibold">What&#039;s the best thing about Switzerland?</span>
-                <span class="ml-6 flex h-7 items-center">
-                  <!--
-                    Icon when question is collapsed.
-
-                    Item expanded: "hidden", Item collapsed: ""
-                  -->
-                  <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
-                  </svg>
-                  <!--
-                    Icon when question is expanded.
-
-                    Item expanded: "", Item collapsed: "hidden"
-                  -->
-                  <svg class="hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
-                  </svg>
-                </span>
-              </button>
-            </dt>
-            <dd class="mt-2 pr-12" id="faq-0">
-              <p class="text-base/7 text-gray-600">I don&#039;t know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.</p>
-            </dd>
-          </div>
-
-          <!-- More questions... -->
+          <% @faqs.each_with_index do |faq, index| %>
+            <div class="pt-6">
+              <dt>
+                <button type="button" class="faq-button flex w-full items-start justify-between text-left text-gray-900" aria-controls="faq-<%= index %>" aria-expanded="false">
+                  <span class="text-base/7 font-semibold"><%= faq['question'] %></span>
+                  <span class="ml-6 flex h-7 items-center">
+                    <svg class="faq-icon-plus size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                    </svg>
+                    <svg class="faq-icon-minus hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                    </svg>
+                  </span>
+                </button>
+              </dt>
+              <dd class="mt-2 pr-12 hidden" id="faq-<%= index %>">
+                <p class="text-base/7 text-gray-600"><%= faq['answer'] %></p>
+              </dd>
+            </div>
+          <% end %>
         </dl>
       </div>
     </div>
@@ -429,6 +418,31 @@ document.addEventListener('DOMContentLoaded', function() {
     if (e.target === mobileMenu || e.target.classList.contains('fixed')) {
       mobileMenu.classList.add('hidden');
     }
+  });
+
+  // FAQ expand/collapse functionality
+  const faqButtons = document.querySelectorAll('.faq-button');
+  faqButtons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      const targetId = this.getAttribute('aria-controls');
+      const answer = document.getElementById(targetId);
+      const plusIcon = this.querySelector('.faq-icon-plus');
+      const minusIcon = this.querySelector('.faq-icon-minus');
+      const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+      // Toggle visibility
+      if (isExpanded) {
+        answer.classList.add('hidden');
+        plusIcon.classList.remove('hidden');
+        minusIcon.classList.add('hidden');
+        this.setAttribute('aria-expanded', 'false');
+      } else {
+        answer.classList.remove('hidden');
+        plusIcon.classList.add('hidden');
+        minusIcon.classList.remove('hidden');
+        this.setAttribute('aria-expanded', 'true');
+      }
+    });
   });
 });
 </script>
