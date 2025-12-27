@@ -69,6 +69,7 @@ gem 'twilio-ruby', '~> 7.6.1'
 
 # Pay and Stripe for subscriptions
 gem 'pay', '~> 10.0'
+gem 'rack-mini-profiler'
 gem 'stripe', '~> 15.1'
 
 # Sidekiq for background jobs

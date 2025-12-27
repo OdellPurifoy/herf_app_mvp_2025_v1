@@ -77,5 +77,57 @@ RSpec.describe OneDayEventReminderJob, type: :job do
         described_class.new.perform
       end
     end
+
+    context 'when lounge owner has Robusto subscription' do
+      let(:lounge_owner) { create(:lounge_owner, :with_stripe_customer) }
+      let(:lounge) { create(:lounge, lounge_owner: lounge_owner) }
+      let!(:event) { create(:event, lounge: lounge, date: target_date) }
+      let!(:membership) { create(:membership, lounge: lounge, active: true, allow_email_notifications: true) }
+
+      before do
+        customer = lounge_owner.payment_processor
+        customer.subscriptions.create!(
+          name: 'robusto_monthly',
+          processor_id: 'sub_robusto',
+          processor_plan: 'price_robusto_monthly',
+          status: 'active',
+          current_period_start: Time.current,
+          current_period_end: 1.month.from_now
+        )
+      end
+
+      it 'does not send reminder emails for Robusto plan events' do
+        expect(EventReminderMailer).not_to receive(:one_day_reminder)
+
+        described_class.new.perform
+      end
+    end
+
+    context 'when lounge owner has Churchill subscription' do
+      let(:lounge_owner) { create(:lounge_owner, :with_stripe_customer) }
+      let(:lounge) { create(:lounge, lounge_owner: lounge_owner) }
+      let!(:event) { create(:event, lounge: lounge, date: target_date) }
+      let!(:membership) { create(:membership, lounge: lounge, active: true, allow_email_notifications: true) }
+
+      before do
+        customer = lounge_owner.payment_processor
+        customer.subscriptions.create!(
+          name: 'churchill_monthly',
+          processor_id: 'sub_churchill',
+          processor_plan: 'price_churchill_monthly',
+          status: 'active',
+          current_period_start: Time.current,
+          current_period_end: 1.month.from_now
+        )
+      end
+
+      it 'sends reminder emails for Churchill plan events' do
+        expect(EventReminderMailer).to receive(:one_day_reminder)
+          .with(event, membership)
+          .and_return(double(deliver_later: true))
+
+        described_class.new.perform
+      end
+    end
   end
 end

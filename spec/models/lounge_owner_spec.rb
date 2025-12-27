@@ -126,4 +126,266 @@ RSpec.describe LoungeOwner, type: :model do
       expect(lounge_owner.errors[:date_of_birth]).to include('Must be 18 years or older')
     end
   end
+
+  describe 'subscription plan methods' do
+    let(:lounge_owner) { create(:lounge_owner, :with_stripe_customer) }
+
+    describe '#robusto_plan?' do
+      context 'with Robusto subscription' do
+        before do
+          customer = lounge_owner.payment_processor
+          customer.subscriptions.create!(
+            name: 'robusto_monthly',
+            processor_id: 'sub_robusto',
+            processor_plan: 'price_robusto_monthly',
+            status: 'active',
+            current_period_start: Time.current,
+            current_period_end: 1.month.from_now
+          )
+        end
+
+        it 'returns true' do
+          expect(lounge_owner.robusto_plan?).to be true
+        end
+      end
+
+      context 'with Churchill subscription' do
+        before do
+          customer = lounge_owner.payment_processor
+          customer.subscriptions.create!(
+            name: 'churchill_monthly',
+            processor_id: 'sub_churchill',
+            processor_plan: 'price_churchill_monthly',
+            status: 'active',
+            current_period_start: Time.current,
+            current_period_end: 1.month.from_now
+          )
+        end
+
+        it 'returns false' do
+          expect(lounge_owner.robusto_plan?).to be false
+        end
+      end
+
+      context 'without subscription' do
+        it 'returns false' do
+          expect(lounge_owner.robusto_plan?).to be false
+        end
+      end
+    end
+
+    describe '#churchill_plan?' do
+      context 'with Churchill subscription' do
+        before do
+          customer = lounge_owner.payment_processor
+          customer.subscriptions.create!(
+            name: 'churchill_monthly',
+            processor_id: 'sub_churchill',
+            processor_plan: 'price_churchill_monthly',
+            status: 'active',
+            current_period_start: Time.current,
+            current_period_end: 1.month.from_now
+          )
+        end
+
+        it 'returns true' do
+          expect(lounge_owner.churchill_plan?).to be true
+        end
+      end
+
+      context 'with Robusto subscription' do
+        before do
+          customer = lounge_owner.payment_processor
+          customer.subscriptions.create!(
+            name: 'robusto_monthly',
+            processor_id: 'sub_robusto',
+            processor_plan: 'price_robusto_monthly',
+            status: 'active',
+            current_period_start: Time.current,
+            current_period_end: 1.month.from_now
+          )
+        end
+
+        it 'returns false' do
+          expect(lounge_owner.churchill_plan?).to be false
+        end
+      end
+
+      context 'without subscription' do
+        it 'returns false' do
+          expect(lounge_owner.churchill_plan?).to be false
+        end
+      end
+    end
+
+    describe '#membership_limit' do
+      context 'with Robusto subscription' do
+        before do
+          customer = lounge_owner.payment_processor
+          customer.subscriptions.create!(
+            name: 'robusto_monthly',
+            processor_id: 'sub_robusto',
+            processor_plan: 'price_robusto_monthly',
+            status: 'active',
+            current_period_start: Time.current,
+            current_period_end: 1.month.from_now
+          )
+        end
+
+        it 'returns 50' do
+          expect(lounge_owner.membership_limit).to eq(50)
+        end
+      end
+
+      context 'with Churchill subscription' do
+        before do
+          customer = lounge_owner.payment_processor
+          customer.subscriptions.create!(
+            name: 'churchill_monthly',
+            processor_id: 'sub_churchill',
+            processor_plan: 'price_churchill_monthly',
+            status: 'active',
+            current_period_start: Time.current,
+            current_period_end: 1.month.from_now
+          )
+        end
+
+        it 'returns 150' do
+          expect(lounge_owner.membership_limit).to eq(150)
+        end
+      end
+
+      context 'without subscription' do
+        it 'returns Not subscribed' do
+          expect(lounge_owner.membership_limit).to eq('Not subscribed')
+        end
+      end
+    end
+
+    describe '#event_limit_per_month' do
+      context 'with Robusto subscription' do
+        before do
+          customer = lounge_owner.payment_processor
+          customer.subscriptions.create!(
+            name: 'robusto_monthly',
+            processor_id: 'sub_robusto',
+            processor_plan: 'price_robusto_monthly',
+            status: 'active',
+            current_period_start: Time.current,
+            current_period_end: 1.month.from_now
+          )
+        end
+
+        it 'returns 2' do
+          expect(lounge_owner.event_limit_per_month).to eq(2)
+        end
+      end
+
+      context 'with Churchill subscription' do
+        before do
+          customer = lounge_owner.payment_processor
+          customer.subscriptions.create!(
+            name: 'churchill_monthly',
+            processor_id: 'sub_churchill',
+            processor_plan: 'price_churchill_monthly',
+            status: 'active',
+            current_period_start: Time.current,
+            current_period_end: 1.month.from_now
+          )
+        end
+
+        it 'returns unlimited (Infinity)' do
+          expect(lounge_owner.event_limit_per_month).to eq(Float::INFINITY)
+        end
+      end
+
+      context 'without subscription' do
+        it 'returns Not subscribed' do
+          expect(lounge_owner.event_limit_per_month).to eq('Not subscribed')
+        end
+      end
+    end
+
+    describe '#special_offer_limit_per_month' do
+      context 'with Robusto subscription' do
+        before do
+          customer = lounge_owner.payment_processor
+          customer.subscriptions.create!(
+            name: 'robusto_monthly',
+            processor_id: 'sub_robusto',
+            processor_plan: 'price_robusto_monthly',
+            status: 'active',
+            current_period_start: Time.current,
+            current_period_end: 1.month.from_now
+          )
+        end
+
+        it 'returns 2' do
+          expect(lounge_owner.special_offer_limit_per_month).to eq(2)
+        end
+      end
+
+      context 'with Churchill subscription' do
+        before do
+          customer = lounge_owner.payment_processor
+          customer.subscriptions.create!(
+            name: 'churchill_monthly',
+            processor_id: 'sub_churchill',
+            processor_plan: 'price_churchill_monthly',
+            status: 'active',
+            current_period_start: Time.current,
+            current_period_end: 1.month.from_now
+          )
+        end
+
+        it 'returns unlimited (Infinity)' do
+          expect(lounge_owner.special_offer_limit_per_month).to eq(Float::INFINITY)
+        end
+      end
+
+      context 'without subscription' do
+        it 'returns Not subscribed' do
+          expect(lounge_owner.special_offer_limit_per_month).to eq('Not subscribed')
+        end
+      end
+    end
+
+    describe '#reminders_enabled?' do
+      context 'with Churchill subscription' do
+        before do
+          customer = lounge_owner.payment_processor
+          customer.subscriptions.create!(
+            name: 'churchill_monthly',
+            processor_id: 'sub_churchill',
+            processor_plan: 'price_churchill_monthly',
+            status: 'active',
+            current_period_start: Time.current,
+            current_period_end: 1.month.from_now
+          )
+        end
+
+        it 'returns true' do
+          expect(lounge_owner.reminders_enabled?).to be true
+        end
+      end
+
+      context 'with Robusto subscription' do
+        before do
+          customer = lounge_owner.payment_processor
+          customer.subscriptions.create!(
+            name: 'robusto_monthly',
+            processor_id: 'sub_robusto',
+            processor_plan: 'price_robusto_monthly',
+            status: 'active',
+            current_period_start: Time.current,
+            current_period_end: 1.month.from_now
+          )
+        end
+
+        it 'returns false' do
+          expect(lounge_owner.reminders_enabled?).to be false
+        end
+      end
+    end
+  end
 end

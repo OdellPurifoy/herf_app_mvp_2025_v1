@@ -23,7 +23,8 @@ class MembershipsController < ApplicationController
       new_membership_mailer
       redirect_to lounge_memberships_path, notice: 'Membership was successfully created.'
     else
-      render :new
+      flash.now[:alert] = @membership.errors.full_messages.to_sentence
+      render :new, status: :unprocessable_entity
     end
   end
 

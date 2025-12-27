@@ -7,6 +7,7 @@ class SpecialOffer < ApplicationRecord
 
   validates :name, :offer_type, :start_date, :end_date, presence: true
   validate :end_date_after_start_date
+  validate :special_offer_limit_not_exceeded
 
   has_one_attached :flyer
 
@@ -30,6 +31,29 @@ class SpecialOffer < ApplicationRecord
     return unless end_date.before?(start_date)
 
     errors.add(:end_date, 'must be after the start date')
+  end
+
+  def special_offer_limit_not_exceeded
+    return unless new_record? # Only validate on create
+    return unless lounge&.lounge_owner&.subscribed?
+    return if start_date.blank?
+
+    lounge_owner = lounge.lounge_owner
+    limit = lounge_owner.special_offer_limit_per_month
+
+    # Churchill plan has unlimited special offers
+    return if limit == Float::INFINITY
+
+    # Count special offers in the same month as the new offer's start date
+    start_of_month = start_date.beginning_of_month
+    end_of_month = start_date.end_of_month
+    offers_this_month = lounge.special_offers.where(start_date: start_of_month..end_of_month).count
+
+    return if offers_this_month < limit
+
+    plan_name = lounge_owner.robusto_plan? ? 'Robusto' : 'Churchill'
+    errors.add(:base,
+               "Special offer limit reached. Your #{plan_name} plan allows up to #{limit.to_i} special offers per month. Please upgrade to create more offers.")
   end
 
   def notify_members_of_creation

@@ -91,4 +91,12 @@ Rails.application.configure do
 
   # Devise mailer configuration
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  # At the bottom of the configure block
+  config.after_initialize do
+    Rack::MiniProfiler.config.tap do |c|
+      c.position = 'top-right' # or 'top-left', 'top-right', 'bottom-left'
+      c.start_hidden = false
+    end
+  end
 end
