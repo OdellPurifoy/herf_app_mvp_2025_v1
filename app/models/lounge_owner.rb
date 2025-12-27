@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class LoungeOwner < ApplicationRecord
+  NOT_SUBSCRIBED = 'Not subscribed'
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
 
@@ -36,6 +37,44 @@ class LoungeOwner < ApplicationRecord
 
     subscription = subscriptions.active.first
     subscription.name.capitalize
+  end
+
+  def active_subscription
+    subscriptions.active.first
+  end
+
+  def robusto_plan?
+    return false unless subscribed?
+
+    active_subscription.name == 'robusto_monthly'
+  end
+
+  def churchill_plan?
+    return false unless subscribed?
+
+    active_subscription.name == 'churchill_monthly'
+  end
+
+  def membership_limit
+    return NOT_SUBSCRIBED unless subscribed?
+
+    robusto_plan? ? 50 : 150
+  end
+
+  def event_limit_per_month
+    return NOT_SUBSCRIBED unless subscribed?
+
+    robusto_plan? ? 2 : Float::INFINITY
+  end
+
+  def special_offer_limit_per_month
+    return NOT_SUBSCRIBED unless subscribed?
+
+    robusto_plan? ? 2 : Float::INFINITY
+  end
+
+  def reminders_enabled?
+    churchill_plan?
   end
 
   private

@@ -13,6 +13,7 @@ class Event < ApplicationRecord
   validates :virtual_url, presence: true, if: -> { virtual? }
   validate :end_time_after_start_time
   validate :date_not_in_past
+  validate :event_limit_not_exceeded
 
   scope :upcoming, -> { where('date >= ?', Date.today).order(date: :asc, start_time: :asc) }
 
@@ -135,6 +136,29 @@ class Event < ApplicationRecord
     return unless date.before? Date.today
 
     errors.add(:date, 'must be in the future')
+  end
+
+  def event_limit_not_exceeded
+    return unless new_record? # Only validate on create
+    return unless lounge&.lounge_owner&.subscribed?
+    return if date.blank?
+
+    lounge_owner = lounge.lounge_owner
+    limit = lounge_owner.event_limit_per_month
+
+    # Churchill plan has unlimited events
+    return if limit == Float::INFINITY
+
+    # Count events in the same month as the new event
+    start_of_month = date.beginning_of_month
+    end_of_month = date.end_of_month
+    events_this_month = lounge.events.where(date: start_of_month..end_of_month).count
+
+    return if events_this_month < limit
+
+    plan_name = lounge_owner.robusto_plan? ? 'Robusto' : 'Churchill'
+    errors.add(:base,
+               "Event limit reached. Your #{plan_name} plan allows up to #{limit.to_i} events per month. Please upgrade to create more events.")
   end
 
   def notify_members_of_creation

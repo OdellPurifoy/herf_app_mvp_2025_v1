@@ -23,7 +23,8 @@ class SpecialOffersController < ApplicationController
       redirect_to lounge_special_offers_path(@lounge), notice: 'Special offer was successfully created.'
       new_special_offer_mailer
     else
-      render :new
+      flash.now[:alert] = @special_offer.errors.full_messages.to_sentence
+      render :new, status: :unprocessable_entity
     end
   end
 

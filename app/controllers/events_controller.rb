@@ -24,7 +24,8 @@ class EventsController < ApplicationController
       redirect_to dashboard_path, notice: 'Event was successfully created.'
       new_event_mailer
     else
-      render :new
+      flash.now[:alert] = @event.errors.full_messages.to_sentence
+      render :new, status: :unprocessable_entity
     end
   end
 
