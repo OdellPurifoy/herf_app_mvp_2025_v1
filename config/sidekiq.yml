@@ -6,6 +6,9 @@
 
 # Queues to process (with their priorities)
 :queues:
+  - herf_app_mvp_2025_v1_production_default
+  - herf_app_mvp_2025_v1_production_mailers
+  - herf_app_mvp_2025_v1_production_low_priority
   - default
   - mailers
   - low_priority
