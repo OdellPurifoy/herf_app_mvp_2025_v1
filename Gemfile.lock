@@ -346,6 +346,9 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    sendgrid-actionmailer (3.2.0)
+      mail (~> 2.7)
+      sendgrid-ruby (~> 6.4)
     sendgrid-ruby (6.7.0)
       ruby_http_client (~> 3.4)
     shoulda-matchers (6.4.0)
@@ -447,7 +450,7 @@ DEPENDENCIES
   rspec-rails (~> 7.0.0)
   rubocop
   selenium-webdriver
-  sendgrid-ruby
+  sendgrid-actionmailer
   shoulda-matchers (~> 6.0)
   sidekiq (~> 8.0, >= 8.0.9)
   sprockets-rails
