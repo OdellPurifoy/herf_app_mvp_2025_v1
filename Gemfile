@@ -84,6 +84,9 @@ gem 'name_of_person'
 # Whenever gem for scheduling tasks
 gem 'whenever', require: false
 
+# SendGrid for email delivery
+gem 'sendgrid-ruby'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'bullet'
