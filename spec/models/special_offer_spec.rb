@@ -59,15 +59,15 @@ RSpec.describe SpecialOffer, type: :model do
 
       context 'when special offer count equals monthly limit' do
         before do
-          create(:special_offer, lounge: lounge, start_date: 2.weeks.from_now.to_date,
-                                 end_date: 3.weeks.from_now.to_date)
-          create(:special_offer, lounge: lounge, start_date: 3.weeks.from_now.to_date,
-                                 end_date: 4.weeks.from_now.to_date)
+          create(:special_offer, lounge: lounge, start_date: Date.new(2026, 3, 10),
+                                 end_date: Date.new(2026, 3, 17))
+          create(:special_offer, lounge: lounge, start_date: Date.new(2026, 3, 18),
+                                 end_date: Date.new(2026, 3, 25))
         end
 
         it 'does not allow creating a new special offer in the same month' do
-          new_offer = build(:special_offer, lounge: lounge, start_date: 4.weeks.from_now.to_date,
-                                            end_date: 5.weeks.from_now.to_date)
+          new_offer = build(:special_offer, lounge: lounge, start_date: Date.new(2026, 3, 26),
+                                            end_date: Date.new(2026, 3, 30))
           expect(new_offer).not_to be_valid
           expect(new_offer.errors[:base]).to include('Special offer limit reached. Your Robusto plan allows up to 2 special offers per month. Please upgrade to create more offers.')
         end
@@ -91,15 +91,15 @@ RSpec.describe SpecialOffer, type: :model do
       context 'when special offer count exceeds monthly limit' do
         before do
           # Create exactly at the limit
-          create(:special_offer, lounge: lounge, start_date: 2.weeks.from_now.to_date,
-                                 end_date: 3.weeks.from_now.to_date)
-          create(:special_offer, lounge: lounge, start_date: 3.weeks.from_now.to_date,
-                                 end_date: 4.weeks.from_now.to_date)
+          create(:special_offer, lounge: lounge, start_date: Date.new(2026, 3, 10),
+                                 end_date: Date.new(2026, 3, 17))
+          create(:special_offer, lounge: lounge, start_date: Date.new(2026, 3, 18),
+                                 end_date: Date.new(2026, 3, 25))
         end
 
         it 'does not allow creating a new special offer in the same month' do
-          new_offer = build(:special_offer, lounge: lounge, start_date: 4.weeks.from_now.to_date + 1.day,
-                                            end_date: 5.weeks.from_now.to_date)
+          new_offer = build(:special_offer, lounge: lounge, start_date: Date.new(2026, 3, 26),
+                                            end_date: Date.new(2026, 3, 30))
           expect(new_offer).not_to be_valid
           expect(new_offer.errors[:base]).to include('Special offer limit reached. Your Robusto plan allows up to 2 special offers per month. Please upgrade to create more offers.')
         end

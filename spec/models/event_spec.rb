@@ -412,23 +412,23 @@ RSpec.describe Event, type: :model do
 
       context 'when event count is below monthly limit' do
         before do
-          create(:event, lounge: lounge, date: 2.weeks.from_now.to_date)
+          create(:event, lounge: lounge, date: Date.new(2026, 3, 10))
         end
 
         it 'allows creating a new event in the same month' do
-          new_event = build(:event, lounge: lounge, date: 3.weeks.from_now.to_date)
+          new_event = build(:event, lounge: lounge, date: Date.new(2026, 3, 20))
           expect(new_event).to be_valid
         end
       end
 
       context 'when event count equals monthly limit' do
         before do
-          create(:event, lounge: lounge, date: 2.weeks.from_now.to_date)
-          create(:event, lounge: lounge, date: 3.weeks.from_now.to_date)
+          create(:event, lounge: lounge, date: Date.new(2026, 3, 10))
+          create(:event, lounge: lounge, date: Date.new(2026, 3, 20))
         end
 
         it 'does not allow creating a new event in the same month' do
-          new_event = build(:event, lounge: lounge, date: 4.weeks.from_now.to_date)
+          new_event = build(:event, lounge: lounge, date: Date.new(2026, 3, 25))
           expect(new_event).not_to be_valid
           expect(new_event.errors[:base]).to include('Event limit reached. Your Robusto plan allows up to 2 events per month. Please upgrade to create more events.')
         end
@@ -436,12 +436,12 @@ RSpec.describe Event, type: :model do
 
       context 'when event count equals limit but in different months' do
         before do
-          create(:event, lounge: lounge, date: 2.weeks.from_now.to_date)
-          create(:event, lounge: lounge, date: 3.weeks.from_now.to_date)
+          create(:event, lounge: lounge, date: Date.new(2026, 3, 10))
+          create(:event, lounge: lounge, date: Date.new(2026, 3, 20))
         end
 
         it 'allows creating a new event in a different month' do
-          new_event = build(:event, lounge: lounge, date: 2.months.from_now.to_date)
+          new_event = build(:event, lounge: lounge, date: Date.new(2026, 4, 15))
           expect(new_event).to be_valid
         end
       end
@@ -449,12 +449,12 @@ RSpec.describe Event, type: :model do
       context 'when event count exceeds monthly limit' do
         before do
           # Create exactly at the limit
-          create(:event, lounge: lounge, date: 2.weeks.from_now.to_date)
-          create(:event, lounge: lounge, date: 3.weeks.from_now.to_date)
+          create(:event, lounge: lounge, date: Date.new(2026, 3, 10))
+          create(:event, lounge: lounge, date: Date.new(2026, 3, 20))
         end
 
         it 'does not allow creating a new event in the same month' do
-          new_event = build(:event, lounge: lounge, date: 4.weeks.from_now.to_date + 1.day)
+          new_event = build(:event, lounge: lounge, date: Date.new(2026, 3, 25))
           expect(new_event).not_to be_valid
           expect(new_event.errors[:base]).to include('Event limit reached. Your Robusto plan allows up to 2 events per month. Please upgrade to create more events.')
         end

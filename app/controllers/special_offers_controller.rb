@@ -22,8 +22,12 @@ class SpecialOffersController < ApplicationController
     if @special_offer.save
       new_special_offer_mailer
       respond_to do |format|
-        format.html { redirect_to lounge_special_offers_path(@lounge), notice: 'Special offer was successfully created.' }
-        format.turbo_stream { redirect_to lounge_special_offers_path(@lounge), notice: 'Special offer was successfully created.' }
+        format.html do
+          redirect_to lounge_special_offers_path(@lounge), notice: 'Special offer was successfully created.'
+        end
+        format.turbo_stream do
+          redirect_to lounge_special_offers_path(@lounge), notice: 'Special offer was successfully created.'
+        end
       end
     else
       flash.now[:alert] = @special_offer.errors.full_messages.to_sentence
@@ -37,8 +41,14 @@ class SpecialOffersController < ApplicationController
     if @special_offer.update(special_offer_params)
       updated_special_offer_mailer
       respond_to do |format|
-        format.html { redirect_to lounge_special_offers_path(current_lounge_owner.lounges.first), notice: 'Special offer was successfully updated.' }
-        format.turbo_stream { redirect_to lounge_special_offers_path(current_lounge_owner.lounges.first), notice: 'Special offer was successfully updated.' }
+        format.html do
+          redirect_to lounge_special_offers_path(current_lounge_owner.lounges.first),
+                      notice: 'Special offer was successfully updated.'
+        end
+        format.turbo_stream do
+          redirect_to lounge_special_offers_path(current_lounge_owner.lounges.first),
+                      notice: 'Special offer was successfully updated.'
+        end
       end
     else
       render :edit
