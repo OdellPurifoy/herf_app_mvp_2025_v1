@@ -69,7 +69,7 @@ class EventsController < ApplicationController
 
   def new_event_mailer
     @lounge.memberships.each do |member|
-      NewEventMailer.with(member: member, event: @event).notify.deliver_now
+      NewEventMailer.with(member: member, event: @event).notify.deliver_later
     end
   end
 
@@ -77,7 +77,8 @@ class EventsController < ApplicationController
     changed_attributes = @event.previous_changes.keys
 
     @event.lounge.memberships.each do |member|
-      UpdatedEventMailer.with(member: member, event: @event, changed_attributes: changed_attributes).notify.deliver_now
+      UpdatedEventMailer.with(member: member, event: @event,
+                              changed_attributes: changed_attributes).notify.deliver_later
     end
   end
 end
