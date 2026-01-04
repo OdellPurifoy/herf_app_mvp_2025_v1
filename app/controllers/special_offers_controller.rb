@@ -80,7 +80,7 @@ class SpecialOffersController < ApplicationController
     @members = @special_offer.lounge.memberships.where(allow_email_notifications: true)
 
     @members.each do |member|
-      NewSpecialOfferMailer.with(member: member, special_offer: @special_offer).notify.deliver_now
+      NewSpecialOfferMailer.with(member: member, special_offer: @special_offer).notify.deliver_later
     end
   end
 
@@ -88,7 +88,7 @@ class SpecialOffersController < ApplicationController
     @members = @special_offer.lounge.memberships.where(allow_email_notifications: true)
 
     @members.each do |member|
-      UpdatedSpecialOfferMailer.with(member: member, special_offer: @special_offer).notify.deliver_now
+      UpdatedSpecialOfferMailer.with(member: member, special_offer: @special_offer).notify.deliver_later
     end
   end
 
@@ -96,7 +96,7 @@ class SpecialOffersController < ApplicationController
     @members = @special_offer.lounge.memberships.where(allow_email_notifications: true)
 
     @members.each do |member|
-      CancelledSpecialOfferMailer.with(member: member, special_offer: @special_offer).notify.deliver_now
+      CancelledSpecialOfferMailer.with(member: member, special_offer: @special_offer).notify.deliver_later
     end
   end
 end
