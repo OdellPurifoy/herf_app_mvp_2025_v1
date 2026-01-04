@@ -21,8 +21,11 @@ class EventsController < ApplicationController
   def create
     @event = @lounge.events.build(event_params)
     if @event.save
-      redirect_to dashboard_path, notice: 'Event was successfully created.'
       new_event_mailer
+      respond_to do |format|
+        format.html { redirect_to dashboard_path, notice: 'Event was successfully created.' }
+        format.turbo_stream { redirect_to dashboard_path, notice: 'Event was successfully created.' }
+      end
     else
       flash.now[:alert] = @event.errors.full_messages.to_sentence
       render :new, status: :unprocessable_entity
@@ -33,8 +36,11 @@ class EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
-      redirect_to dashboard_path, notice: 'Event was successfully updated.'
       updated_event_mailer
+      respond_to do |format|
+        format.html { redirect_to dashboard_path, notice: 'Event was successfully updated.' }
+        format.turbo_stream { redirect_to dashboard_path, notice: 'Event was successfully updated.' }
+      end
     else
       render :edit
     end

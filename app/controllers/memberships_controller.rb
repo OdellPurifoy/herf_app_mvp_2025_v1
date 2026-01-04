@@ -21,7 +21,10 @@ class MembershipsController < ApplicationController
     @membership = @lounge.memberships.build(membership_params)
     if @membership.save
       new_membership_mailer
-      redirect_to lounge_memberships_path, notice: 'Membership was successfully created.'
+      respond_to do |format|
+        format.html { redirect_to lounge_memberships_path, notice: 'Membership was successfully created.' }
+        format.turbo_stream { redirect_to lounge_memberships_path, notice: 'Membership was successfully created.' }
+      end
     else
       flash.now[:alert] = @membership.errors.full_messages.to_sentence
       render :new, status: :unprocessable_entity
@@ -61,14 +64,14 @@ class MembershipsController < ApplicationController
   end
 
   def new_membership_mailer
-    NewMembershipMailer.with(membership: @membership).notify.deliver_now
+    NewMembershipMailer.with(membership: @membership).notify.deliver_later
   end
 
   def updated_membership_mailer
-    UpdatedMembershipMailer.with(membership: @membership).notify.deliver_now
+    UpdatedMembershipMailer.with(membership: @membership).notify.deliver_later
   end
 
   def cancelled_membership_mailer
-    CancelledMembershipMailer.with(membership: @membership).notify.deliver_now
+    CancelledMembershipMailer.with(membership: @membership).notify.deliver_later
   end
 end

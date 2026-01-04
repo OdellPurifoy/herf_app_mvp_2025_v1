@@ -20,7 +20,10 @@ class LoungesController < ApplicationController
   def create
     @lounge = current_lounge_owner.lounges.build(lounge_params)
     if @lounge.save
-      redirect_to dashboard_path, notice: 'Lounge was successfully created.'
+      respond_to do |format|
+        format.html { redirect_to dashboard_path, notice: 'Lounge was successfully created.' }
+        format.turbo_stream { redirect_to dashboard_path, notice: 'Lounge was successfully created.' }
+      end
     else
       render :new
     end
@@ -33,7 +36,10 @@ class LoungesController < ApplicationController
   def update
     @lounge = Lounge.find(params[:id])
     if @lounge.update(lounge_params)
-      redirect_to dashboard_path, notice: 'Lounge was successfully updated.'
+      respond_to do |format|
+        format.html { redirect_to dashboard_path, notice: 'Lounge was successfully updated.' }
+        format.turbo_stream { redirect_to dashboard_path, notice: 'Lounge was successfully updated.' }
+      end
     else
       render :edit
     end
