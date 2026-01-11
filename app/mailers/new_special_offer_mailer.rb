@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class NewSpecialOfferMailer < ApplicationMailer
-  default from: 'herf@gmail.com'
   helper :application
 
   def notify

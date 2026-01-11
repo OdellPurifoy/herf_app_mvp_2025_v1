@@ -11,7 +11,7 @@ RSpec.describe UpdatedSpecialOfferMailer, type: :mailer do
     it 'renders the headers' do
       expect(mail.subject).to eq("Updated Special Offer: #{special_offer.name}")
       expect(mail.to).to eq([member.email])
-      expect(mail.from).to eq(['herf@gmail.com'])
+      expect(mail.from).to eq(['info@herfapp.com'])
     end
   end
 end

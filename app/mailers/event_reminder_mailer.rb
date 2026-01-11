@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class EventReminderMailer < ApplicationMailer
-  default from: 'herf@gmail.com'
-
   def one_week_reminder(event, membership)
     @event = event
     @membership = membership

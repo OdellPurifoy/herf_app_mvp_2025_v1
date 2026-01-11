@@ -10,7 +10,7 @@ RSpec.describe CancelledMembershipMailer, type: :mailer do
     it 'renders the headers' do
       expect(mail.subject).to eq("Membership cancelled with #{membership.lounge.name}")
       expect(mail.to).to eq([membership.email])
-      expect(mail.from).to eq(['herf@gmail.com'])
+      expect(mail.from).to eq(['info@herfapp.com'])
     end
 
     it 'renders the body' do

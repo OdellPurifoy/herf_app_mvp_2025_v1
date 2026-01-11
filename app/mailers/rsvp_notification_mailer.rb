@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class RsvpNotificationMailer < ApplicationMailer
-  default from: 'herf@gmail.com'
   helper :application
 
   def rsvp_invitation
