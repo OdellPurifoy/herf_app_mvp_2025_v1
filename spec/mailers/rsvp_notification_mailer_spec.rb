@@ -22,7 +22,7 @@ RSpec.describe RsvpNotificationMailer, type: :mailer do
       expect(mail.subject).to include('RSVP Required')
       expect(mail.subject).to include(event.name)
       expect(mail.to).to eq([membership.email])
-      expect(mail.from).to eq(['herf@gmail.com'])
+      expect(mail.from).to eq(['info@herfapp.com'])
     end
 
     it 'renders the body' do

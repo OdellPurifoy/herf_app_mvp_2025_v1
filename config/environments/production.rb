@@ -73,6 +73,12 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  # Default email sender configuration
+  config.action_mailer.default_options = {
+    from: 'info@herfapp.com',
+    reply_to: 'info@herfapp.com'
+  }
+
   # SendGrid API Configuration
   config.action_mailer.delivery_method = :sendgrid_actionmailer
   config.action_mailer.perform_deliveries = true
