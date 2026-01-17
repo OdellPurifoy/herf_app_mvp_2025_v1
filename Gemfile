@@ -58,6 +58,9 @@ gem 'bootsnap', require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem 'image_processing', '~> 1.2'
 
+# AWS SDK for S3 storage
+gem 'aws-sdk-s3', require: false
+
 # Kaminari for pagination
 gem 'kaminari', '~> 1.2', '>= 1.2.2'
 
