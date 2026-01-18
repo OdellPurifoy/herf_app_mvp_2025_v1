@@ -1,0 +1,14 @@
+# Sidekiq Cron Job Schedule
+# Format: https://github.com/sidekiq-cron/sidekiq-cron
+
+one_week_event_reminder:
+  cron: "0 9 * * *"  # Every day at 9:00 AM
+  class: "OneWeekEventReminderJob"
+  queue: default
+  description: "Send one week event reminders"
+
+one_day_event_reminder:
+  cron: "0 18 * * *"  # Every day at 6:00 PM
+  class: "OneDayEventReminderJob"
+  queue: default
+  description: "Send one day event reminders"

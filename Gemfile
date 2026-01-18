@@ -77,15 +77,13 @@ gem 'stripe', '~> 15.1'
 
 # Sidekiq for background jobs
 gem 'sidekiq', '~> 8.0', '>= 8.0.9'
+gem 'sidekiq-cron'
 
 # Redis for Sidekiq
 gem 'redis', '~> 5.0'
 
 # For name display
 gem 'name_of_person'
-
-# Whenever gem for scheduling tasks
-gem 'whenever', require: false
 
 # SendGrid for email delivery
 gem 'sendgrid-actionmailer'
