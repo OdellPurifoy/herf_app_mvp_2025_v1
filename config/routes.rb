@@ -40,7 +40,8 @@ Rails.application.routes.draw do
 
   resources :admin_dashboard, only: [:index]
 
-  require 'sidekiq/web' # require the web UI
+  require 'sidekiq/web'
+  require 'sidekiq/cron/web'
 
-  mount Sidekiq::Web => '/sidekiq' # access it at http://localhost:3000/sidekiq
+  mount Sidekiq::Web => '/sidekiq'
 end
