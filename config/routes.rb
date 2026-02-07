@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'sidekiq/web'
+require 'sidekiq/cron/web'
+
 Rails.application.routes.draw do
   # Admin authentication routes
   devise_for :admins, skip: [:registrations], controllers: {
@@ -39,9 +42,6 @@ Rails.application.routes.draw do
   post 'admin_member_upload' => 'admin_dashboard#member_upload'
 
   resources :admin_dashboard, only: [:index]
-
-  require 'sidekiq/web'
-  require 'sidekiq/cron/web'
 
   mount Sidekiq::Web => '/sidekiq'
 end

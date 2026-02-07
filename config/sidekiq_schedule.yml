@@ -2,13 +2,13 @@
 # Format: https://github.com/sidekiq-cron/sidekiq-cron
 
 one_week_event_reminder:
-  cron: "0 9 * * *"  # Every day at 9:00 AM
+  cron: "0 9 * * * America/New_York"  # Every day at 9:00 AM Eastern
   class: "OneWeekEventReminderJob"
   queue: default
   description: "Send one week event reminders"
 
 one_day_event_reminder:
-  cron: "0 18 * * *"  # Every day at 6:00 PM
+  cron: "0 18 * * * America/New_York"  # Every day at 6:00 PM Eastern
   class: "OneDayEventReminderJob"
   queue: default
   description: "Send one day event reminders"
