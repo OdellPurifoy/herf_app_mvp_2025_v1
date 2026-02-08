@@ -41,11 +41,9 @@ Rails.application.routes.draw do
   get 'admin' => 'admin_dashboard#index'
   post 'admin_member_upload' => 'admin_dashboard#member_upload'
 
-  # Temporary admin subscription management (TODO: Remove after setup)
-  namespace :admin do
-    get 'subscriptions/list', to: 'subscriptions#list'
-    post 'subscriptions/grant', to: 'subscriptions#grant'
-  end
+  # Temporary subscription management (TODO: Remove after setup)
+  get 'subscription_management/list', to: 'subscription_management#list'
+  post 'subscription_management/grant', to: 'subscription_management#grant'
 
   resources :admin_dashboard, only: [:index]
 
