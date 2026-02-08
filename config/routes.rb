@@ -41,6 +41,12 @@ Rails.application.routes.draw do
   get 'admin' => 'admin_dashboard#index'
   post 'admin_member_upload' => 'admin_dashboard#member_upload'
 
+  # Temporary admin subscription management (TODO: Remove after setup)
+  namespace :admin do
+    get 'subscriptions/list', to: 'subscriptions#list'
+    post 'subscriptions/grant', to: 'subscriptions#grant'
+  end
+
   resources :admin_dashboard, only: [:index]
 
   mount Sidekiq::Web => '/sidekiq'
