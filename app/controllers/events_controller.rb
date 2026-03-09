@@ -48,7 +48,10 @@ class EventsController < ApplicationController
 
   def destroy
     @event.destroy
-    redirect_to dashboard_path, notice: 'Event was successfully destroyed.'
+    respond_to do |format|
+      format.html { redirect_to dashboard_path, notice: 'Event was successfully destroyed.' }
+      format.turbo_stream { redirect_to dashboard_path, notice: 'Event was successfully destroyed.' }
+    end
   end
 
   private

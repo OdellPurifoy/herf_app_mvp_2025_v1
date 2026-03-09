@@ -12,9 +12,7 @@ class SubscriptionManagementController < ApplicationController
 
     lounge_owner = LoungeOwner.find_by(email: email)
 
-    unless lounge_owner
-      return render json: { error: "Lounge owner not found: #{email}" }, status: :not_found
-    end
+    return render json: { error: "Lounge owner not found: #{email}" }, status: :not_found unless lounge_owner
 
     # Create Stripe customer if doesn't exist
     unless lounge_owner.payment_processor
@@ -27,9 +25,7 @@ class SubscriptionManagementController < ApplicationController
     customer = lounge_owner.payment_processor
 
     # Cancel existing subscriptions
-    if customer.subscriptions.active.any?
-      customer.subscriptions.active.each(&:cancel)
-    end
+    customer.subscriptions.active.each(&:cancel) if customer.subscriptions.active.any?
 
     # Get the price ID
     price_id = if plan == 'churchill_monthly'
@@ -87,8 +83,8 @@ class SubscriptionManagementController < ApplicationController
     token = request.headers['X-Admin-Token'] || params[:admin_token]
     expected_token = ENV['ADMIN_TOKEN']
 
-    unless expected_token.present? && token == expected_token
-      render json: { error: 'Unauthorized' }, status: :unauthorized
-    end
+    return if expected_token.present? && token == expected_token
+
+    render json: { error: 'Unauthorized' }, status: :unauthorized
   end
 end

@@ -10,7 +10,7 @@ class SubscriptionPlan
       features: [
         'Up to 50 members',
         'Up to 2 events per month',
-        'SMS & Email notifications',
+        'Email notifications',
         '2 reminder messages per event',
         'Basic Analytics',
         'Email support',
@@ -25,7 +25,7 @@ class SubscriptionPlan
       features: [
         'Up to 150 members',
         'Unlimited Events',
-        'SMS & Email Support',
+        'Email notifications',
         '2 reminder messages per event',
         'Advanced Analytics',
         'Priority Email Support',
