@@ -6,10 +6,26 @@ class AdminDashboardController < ApplicationController
   # before_action :authenticate_admin!
 
   def index
-    @total_users = LoungeOwner.count
+    @total_lounge_owners = LoungeOwner.count
     @total_events = Event.count
     @total_rsvps = Rsvp.count
     @total_special_offers = SpecialOffer.count
+  end
+
+  def lounge_owners
+    @lounge_owners = LoungeOwner.includes(:lounges).order(created_at: :desc)
+  end
+
+  def events
+    @events = Event.includes(%i[lounge rsvps]).order(date: :desc)
+  end
+
+  def rsvps
+    @rsvps = Rsvp.includes(event: :lounge, membership: []).order(created_at: :desc)
+  end
+
+  def special_offers
+    @special_offers = SpecialOffer.includes(:lounge).order(created_at: :desc)
   end
 
   def member_upload

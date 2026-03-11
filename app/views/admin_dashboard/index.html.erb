@@ -13,21 +13,23 @@
     <div class="px-4 py-6 sm:px-0">
       <h2 class="text-xl font-semibold text-gray-900 mb-4">System Overview</h2>
       <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        <!-- Total Users Card -->
+        <!-- Lounge Owners Card -->
         <div class="bg-white overflow-hidden shadow rounded-lg">
           <div class="px-4 py-5 sm:p-6">
             <div class="flex items-center">
               <div class="ml-5 w-0 flex-1">
                 <dl>
-                  <dt class="text-sm font-medium text-gray-500 truncate">Total Users</dt>
-                  <dd class="text-3xl font-semibold text-gray-900"><%= @total_users %></dd>
+                  <dt class="text-sm font-medium text-gray-500 truncate">Lounge Owners</dt>
+                  <dd class="text-3xl font-semibold text-gray-900"><%= @total_lounge_owners %></dd>
                 </dl>
               </div>
             </div>
           </div>
           <div class="bg-gray-50 px-4 py-4 sm:px-6">
             <div class="text-sm">
-              <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">View all users<span class="sr-only"> Total Users</span></a>
+              <%= link_to admin_lounge_owners_path, class: "font-medium text-indigo-600 hover:text-indigo-500" do %>
+                View all lounge owners<span class="sr-only"> Total Lounge Owners</span>
+              <% end %>
             </div>
           </div>
         </div>
@@ -51,7 +53,9 @@
           </div>
           <div class="bg-gray-50 px-4 py-4 sm:px-6">
             <div class="text-sm">
-              <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">View all events<span class="sr-only"> Total Events</span></a>
+              <%= link_to admin_events_path, class: "font-medium text-indigo-600 hover:text-indigo-500" do %>
+                View all events<span class="sr-only"> Total Events</span>
+              <% end %>
             </div>
           </div>
         </div>
@@ -75,7 +79,9 @@
           </div>
           <div class="bg-gray-50 px-4 py-4 sm:px-6">
             <div class="text-sm">
-              <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">View all RSVPs<span class="sr-only"> Total RSVPs</span></a>
+              <%= link_to admin_rsvps_path, class: "font-medium text-indigo-600 hover:text-indigo-500" do %>
+                View all RSVPs<span class="sr-only"> Total RSVPs</span>
+              <% end %>
             </div>
           </div>
         </div>
@@ -99,7 +105,9 @@
           </div>
           <div class="bg-gray-50 px-4 py-4 sm:px-6">
             <div class="text-sm">
-              <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">View all offers<span class="sr-only"> Total Special Offers</span></a>
+              <%= link_to admin_special_offers_path, class: "font-medium text-indigo-600 hover:text-indigo-500" do %>
+                View all offers<span class="sr-only"> Total Special Offers</span>
+              <% end %>
             </div>
           </div>
         </div>
