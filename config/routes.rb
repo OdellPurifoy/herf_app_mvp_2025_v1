@@ -39,6 +39,10 @@ Rails.application.routes.draw do
 
   # Admin routes
   get 'admin' => 'admin_dashboard#index'
+  get 'admin/lounge_owners' => 'admin_dashboard#lounge_owners'
+  get 'admin/events' => 'admin_dashboard#events'
+  get 'admin/rsvps' => 'admin_dashboard#rsvps'
+  get 'admin/special_offers' => 'admin_dashboard#special_offers'
   post 'admin_member_upload' => 'admin_dashboard#member_upload'
 
   # Temporary subscription management (TODO: Remove after setup)
