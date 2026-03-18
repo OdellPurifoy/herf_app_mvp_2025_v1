@@ -170,6 +170,9 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    honeybadger (6.5.2)
+      logger
+      ostruct
     i18n (1.14.6)
       concurrent-ruby (~> 1.0)
     image_processing (1.13.0)
@@ -256,6 +259,7 @@ GEM
     nokogiri (1.18.1-x86_64-linux-musl)
       racc (~> 1.4)
     orm_adapter (0.5.0)
+    ostruct (0.6.3)
     parallel (1.26.3)
     parser (3.3.6.0)
       ast (~> 2.4.1)
@@ -466,6 +470,7 @@ DEPENDENCIES
   dotenv
   factory_bot_rails
   faker
+  honeybadger (~> 6.5)
   image_processing (~> 1.2)
   importmap-rails
   jbuilder
