@@ -4,8 +4,22 @@ require 'rails_helper'
 
 RSpec.describe OneDayEventReminderJob, type: :job do
   describe '#perform' do
-    let(:lounge) { create(:lounge) }
+    let(:lounge_owner) { create(:lounge_owner, :with_stripe_customer) }
+    let(:lounge) { create(:lounge, lounge_owner: lounge_owner) }
     let(:target_date) { 1.day.from_now.to_date }
+
+    # Setup a subscription with reminders enabled by default
+    before do
+      customer = lounge_owner.payment_processor
+      customer.subscriptions.create!(
+        name: 'corona_monthly',
+        processor_id: 'sub_corona',
+        processor_plan: 'price_corona_monthly',
+        status: 'active',
+        current_period_start: Time.current,
+        current_period_end: 1.month.from_now
+      )
+    end
 
     context 'when there are events one day away' do
       let!(:event) { create(:event, lounge: lounge, date: target_date) }
@@ -78,13 +92,13 @@ RSpec.describe OneDayEventReminderJob, type: :job do
       end
     end
 
-    context 'when lounge owner has Robusto subscription' do
-      let(:lounge_owner) { create(:lounge_owner, :with_stripe_customer) }
-      let(:lounge) { create(:lounge, lounge_owner: lounge_owner) }
+    context 'when lounge owner has plan without reminders (Robusto - legacy)' do
       let!(:event) { create(:event, lounge: lounge, date: target_date) }
       let!(:membership) { create(:membership, lounge: lounge, active: true, allow_email_notifications: true) }
 
       before do
+        # Destroy existing subscriptions and create Robusto subscription
+        lounge_owner.payment_processor.subscriptions.destroy_all
         customer = lounge_owner.payment_processor
         customer.subscriptions.create!(
           name: 'robusto_monthly',
@@ -96,20 +110,20 @@ RSpec.describe OneDayEventReminderJob, type: :job do
         )
       end
 
-      it 'does not send reminder emails for Robusto plan events' do
+      it 'does not send reminder emails for plans without reminders enabled' do
         expect(EventReminderMailer).not_to receive(:one_day_reminder)
 
         described_class.new.perform
       end
     end
 
-    context 'when lounge owner has Churchill subscription' do
-      let(:lounge_owner) { create(:lounge_owner, :with_stripe_customer) }
-      let(:lounge) { create(:lounge, lounge_owner: lounge_owner) }
+    context 'when lounge owner has Churchill subscription (legacy with reminders)' do
       let!(:event) { create(:event, lounge: lounge, date: target_date) }
       let!(:membership) { create(:membership, lounge: lounge, active: true, allow_email_notifications: true) }
 
       before do
+        # Destroy existing subscriptions and create Churchill subscription
+        lounge_owner.payment_processor.subscriptions.destroy_all
         customer = lounge_owner.payment_processor
         customer.subscriptions.create!(
           name: 'churchill_monthly',
@@ -122,6 +136,48 @@ RSpec.describe OneDayEventReminderJob, type: :job do
       end
 
       it 'sends reminder emails for Churchill plan events' do
+        expect(EventReminderMailer).to receive(:one_day_reminder)
+          .with(event, membership)
+          .and_return(double(deliver_later: true))
+
+        described_class.new.perform
+      end
+    end
+
+    context 'when lounge owner has Corona subscription (with reminders)' do
+      let!(:event) { create(:event, lounge: lounge, date: target_date) }
+      let!(:membership) { create(:membership, lounge: lounge, active: true, allow_email_notifications: true) }
+
+      # Default subscription is already Corona from the before block
+
+      it 'sends reminder emails for Corona plan events' do
+        expect(EventReminderMailer).to receive(:one_day_reminder)
+          .with(event, membership)
+          .and_return(double(deliver_later: true))
+
+        described_class.new.perform
+      end
+    end
+
+    context 'when lounge owner has Toro subscription (with reminders)' do
+      let!(:event) { create(:event, lounge: lounge, date: target_date) }
+      let!(:membership) { create(:membership, lounge: lounge, active: true, allow_email_notifications: true) }
+
+      before do
+        # Destroy existing subscriptions and create Toro subscription
+        lounge_owner.payment_processor.subscriptions.destroy_all
+        customer = lounge_owner.payment_processor
+        customer.subscriptions.create!(
+          name: 'toro_monthly',
+          processor_id: 'sub_toro',
+          processor_plan: 'price_toro_monthly',
+          status: 'active',
+          current_period_start: Time.current,
+          current_period_end: 1.month.from_now
+        )
+      end
+
+      it 'sends reminder emails for Toro plan events' do
         expect(EventReminderMailer).to receive(:one_day_reminder)
           .with(event, membership)
           .and_return(double(deliver_later: true))

@@ -14,14 +14,14 @@ RSpec.describe 'Sidekiq Cron Jobs', type: :job do
       job = Sidekiq::Cron::Job.find('one_week_event_reminder')
       expect(job).not_to be_nil
       expect(job.klass).to eq('OneWeekEventReminderJob')
-      expect(job.cron).to eq('0 9 * * *') # Daily at 9 AM
+      expect(job.cron).to eq('0 9 * * * America/New_York') # Daily at 9 AM
     end
 
     it 'loads one_day_event_reminder job' do
       job = Sidekiq::Cron::Job.find('one_day_event_reminder')
       expect(job).not_to be_nil
       expect(job.klass).to eq('OneDayEventReminderJob')
-      expect(job.cron).to eq('0 18 * * *') # Daily at 6 PM
+      expect(job.cron).to eq('0 18 * * * America/New_York') # Daily at 6 PM
     end
 
     it 'has valid cron expressions' do

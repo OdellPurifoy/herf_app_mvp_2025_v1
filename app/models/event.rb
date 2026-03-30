@@ -146,7 +146,7 @@ class Event < ApplicationRecord
     lounge_owner = lounge.lounge_owner
     limit = lounge_owner.event_limit_per_month
 
-    # Churchill plan has unlimited events
+    # Churchill and Toro plans have unlimited events
     return if limit == Float::INFINITY
 
     # Count events in the same month as the new event
@@ -156,7 +156,8 @@ class Event < ApplicationRecord
 
     return if events_this_month < limit
 
-    plan_name = lounge_owner.robusto_plan? ? 'Robusto' : 'Churchill'
+    # Get the plan name dynamically
+    plan_name = lounge_owner.subscription_name || 'your current'
     errors.add(:base,
                "Event limit reached. Your #{plan_name} plan allows up to #{limit.to_i} events per month. Please upgrade to create more events.")
   end
