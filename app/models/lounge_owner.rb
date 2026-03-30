@@ -43,6 +43,7 @@ class LoungeOwner < ApplicationRecord
     subscriptions.active.first
   end
 
+  # Legacy plan methods - kept for backward compatibility
   def robusto_plan?
     return false unless subscribed?
 
@@ -55,26 +56,72 @@ class LoungeOwner < ApplicationRecord
     active_subscription.name == 'churchill_monthly'
   end
 
+  # Active plan methods
+  def corona_plan?
+    return false unless subscribed?
+
+    active_subscription.name == 'corona_monthly'
+  end
+
+  def toro_plan?
+    return false unless subscribed?
+
+    active_subscription.name == 'toro_monthly'
+  end
+
   def membership_limit
     return NOT_SUBSCRIBED unless subscribed?
 
-    robusto_plan? ? 50 : 150
+    case active_subscription.name
+    when 'robusto_monthly'
+      50
+    when 'churchill_monthly'
+      150
+    when 'corona_monthly'
+      300
+    when 'toro_monthly'
+      Float::INFINITY
+    else
+      NOT_SUBSCRIBED
+    end
   end
 
   def event_limit_per_month
     return NOT_SUBSCRIBED unless subscribed?
 
-    robusto_plan? ? 2 : Float::INFINITY
+    case active_subscription.name
+    when 'robusto_monthly'
+      2
+    when 'churchill_monthly'
+      Float::INFINITY
+    when 'corona_monthly'
+      4
+    when 'toro_monthly'
+      Float::INFINITY
+    else
+      NOT_SUBSCRIBED
+    end
   end
 
   def special_offer_limit_per_month
     return NOT_SUBSCRIBED unless subscribed?
 
-    robusto_plan? ? 2 : Float::INFINITY
+    case active_subscription.name
+    when 'robusto_monthly'
+      2
+    when 'churchill_monthly'
+      Float::INFINITY
+    when 'corona_monthly'
+      2
+    when 'toro_monthly'
+      Float::INFINITY
+    else
+      NOT_SUBSCRIBED
+    end
   end
 
   def reminders_enabled?
-    churchill_plan?
+    churchill_plan? || corona_plan? || toro_plan?
   end
 
   private

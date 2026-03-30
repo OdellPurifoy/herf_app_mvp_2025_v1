@@ -11,8 +11,8 @@ class OneWeekEventReminderJob < ApplicationJob
     return if events.empty?
 
     events.each do |event|
-      # Skip events for lounges on Robusto plan (no reminders)
-      next if event.lounge.lounge_owner.robusto_plan?
+      # Skip events for lounges without reminders enabled
+      next unless event.lounge.lounge_owner.reminders_enabled?
 
       # Get active memberships for the lounge
       memberships = event.lounge.memberships.active

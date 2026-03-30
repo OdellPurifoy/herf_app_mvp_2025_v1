@@ -23,13 +23,13 @@ namespace :subscription do
     puts "🎯 Starting #{trial_days}-day free trial for: #{lounge_owner.email}"
     puts ''
 
-    # Choose which plan for the trial (default to Robusto)
-    plan_id = ENV.fetch('STRIPE_ROBUSTO_MONTHLY_PRICE_ID')
+    # Choose which plan for the trial (default to Corona)
+    plan_id = ENV.fetch('STRIPE_CORONA_MONTHLY_PRICE_ID')
 
     begin
       # Create a trial subscription
       subscription = lounge_owner.payment_processor.subscribe(
-        name: 'robusto_monthly',
+        name: 'corona_monthly',
         plan: plan_id,
         trial_period_days: trial_days
       )
@@ -37,7 +37,7 @@ namespace :subscription do
       puts '✅ SUCCESS! Free trial started'
       puts ''
       puts "Owner: #{lounge_owner.full_name} (#{lounge_owner.email})"
-      puts 'Plan: Robusto Monthly'
+      puts 'Plan: Corona Monthly'
       puts "Trial Days: #{trial_days}"
       puts "Trial Ends: #{subscription.trial_ends_at.strftime('%B %d, %Y')}"
       puts "Status: #{subscription.status}"

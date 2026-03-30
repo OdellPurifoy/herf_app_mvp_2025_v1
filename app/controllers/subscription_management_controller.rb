@@ -8,7 +8,7 @@ class SubscriptionManagementController < ApplicationController
 
   def grant
     email = params[:email]
-    plan = params[:plan] || 'robusto_monthly'
+    plan = params[:plan] || 'corona_monthly'
 
     lounge_owner = LoungeOwner.find_by(email: email)
 
@@ -28,10 +28,10 @@ class SubscriptionManagementController < ApplicationController
     customer.subscriptions.active.each(&:cancel) if customer.subscriptions.active.any?
 
     # Get the price ID
-    price_id = if plan == 'churchill_monthly'
-                 ENV.fetch('STRIPE_CHURCHILL_MONTHLY_PRICE_ID')
+    price_id = if plan == 'toro_monthly'
+                 ENV.fetch('STRIPE_TORO_MONTHLY_PRICE_ID')
                else
-                 ENV.fetch('STRIPE_ROBUSTO_MONTHLY_PRICE_ID')
+                 ENV.fetch('STRIPE_CORONA_MONTHLY_PRICE_ID')
                end
 
     # Create subscription with trial

@@ -41,7 +41,7 @@ class SpecialOffer < ApplicationRecord
     lounge_owner = lounge.lounge_owner
     limit = lounge_owner.special_offer_limit_per_month
 
-    # Churchill plan has unlimited special offers
+    # Churchill and Toro plans have unlimited special offers
     return if limit == Float::INFINITY
 
     # Count special offers in the same month as the new offer's start date
@@ -51,7 +51,8 @@ class SpecialOffer < ApplicationRecord
 
     return if offers_this_month < limit
 
-    plan_name = lounge_owner.robusto_plan? ? 'Robusto' : 'Churchill'
+    # Get the plan name dynamically
+    plan_name = lounge_owner.subscription_name || 'your current'
     errors.add(:base,
                "Special offer limit reached. Your #{plan_name} plan allows up to #{limit.to_i} special offers per month. Please upgrade to create more offers.")
   end
