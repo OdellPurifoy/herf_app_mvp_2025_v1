@@ -6,6 +6,7 @@ RSpec.describe CancelledMembershipMailer, type: :mailer do
   describe 'notify' do
     let(:membership) { FactoryBot.build(:membership) }
     let(:mail) { described_class.with(membership: membership).notify }
+    let(:decoded_body) { CGI.unescapeHTML(mail.body.encoded) }
 
     it 'renders the headers' do
       expect(mail.subject).to eq("Membership cancelled with #{membership.lounge.name}")
@@ -14,11 +15,11 @@ RSpec.describe CancelledMembershipMailer, type: :mailer do
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to match('Membership Cancelled')
-      expect(mail.body.encoded).to match("We regret to inform you that your membership with #{membership.lounge.name} has been cancelled.")
-      expect(mail.body.encoded).to match('Membership Details')
-      expect(mail.body.encoded).to match('Cancellation Notice')
-      expect(mail.body.encoded).to match('Powered by Herf')
+      expect(decoded_body).to match('Membership Cancelled')
+      expect(decoded_body).to match("We regret to inform you that your membership with #{membership.lounge.name} has been cancelled.")
+      expect(decoded_body).to match('Membership Details')
+      expect(decoded_body).to match('Cancellation Notice')
+      expect(decoded_body).to match('Powered by Herf')
     end
   end
 end
