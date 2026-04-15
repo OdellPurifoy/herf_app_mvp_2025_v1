@@ -154,7 +154,7 @@ class Event < ApplicationRecord
     end_of_month = date.end_of_month
     events_this_month = lounge.events.where(date: start_of_month..end_of_month).count
 
-    return if events_this_month < limit
+    return if events_this_month < limit || lounge_owner.subscription_name == 'Default'
 
     # Get the plan name dynamically
     plan_name = lounge_owner.subscription_name || 'your current'
