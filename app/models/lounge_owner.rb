@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class LoungeOwner < ApplicationRecord
-  NOT_SUBSCRIBED = 'Not subscribed'
-  # Include default devise modules. Others available are:
+  NOT_SUBSCRIBED  = 'Default' ? Float::INFINITY : 0 # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
 
   has_person_name

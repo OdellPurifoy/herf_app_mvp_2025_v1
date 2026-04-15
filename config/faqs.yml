@@ -8,23 +8,20 @@ faqs:
   - question: "Can I manage RSVPs for my events?"
     answer: "Yes! HERF includes a complete RSVP management system. When you create an event that requires RSVPs, each member receives a unique RSVP link via email. They can easily confirm attendance, decline, or update their guest count. You can track responses in real-time from your dashboard and see detailed attendance metrics."
 
-  - question: "What's the difference between the Robusto and Churchill plans?"
-    answer: "The Robusto plan ($49/month) is perfect for smaller lounges with up to 50 members and 2 events per month. The Churchill plan ($99/month) is designed for larger, more active lounges with up to 150 members, unlimited events, unlimited special offers, advanced analytics, automated event reminders, and priority support. Both plans include email notifications."
+  - question: "What's the difference between the Corona and Toro plans?"
+    answer: "The Corona plan ($19/month) is perfect for growing lounges with up to 300 members, 4 events per month, and 2 special offers. The Toro plan ($39/month) is designed for established lounges with unlimited members, unlimited events, unlimited special offers, and priority support. Both plans include email notifications and automated event reminders."
 
   - question: "How do automated event reminders work?"
-    answer: "With the Churchill plan, HERF automatically sends reminder emails to your members at two key times: one week before the event and one day before the event. These reminders include all event details, RSVP status, and links to update their response. This ensures maximum attendance without any manual effort from you."
+    answer: "With the Corona and Toro plans, HERF automatically sends reminder emails to your members at two key times: one week before the event and one day before the event. These reminders include all event details, RSVP status, and links to update their response. This ensures maximum attendance without any manual effort from you."
 
   - question: "Can members opt out of notifications?"
-    answer: "Absolutely. Members have full control over their notification preferences. They can choose to opt out of email notifications at any time through their membership settings. This ensures compliance with communication preferences while maintaining member satisfaction."
-
-  - question: "What kind of analytics are included?"
-    answer: "Churchill plan subscribers get access to advanced analytics including RSVP response rates, event attendance trends, member engagement metrics, special offer redemption rates, and more. These insights help you understand what resonates with your members and make data-driven decisions for your lounge."
+    answer: "Yes. Lounge owners can manage notification preferences for each member through the dashboard. If a member requests to opt out of email notifications, you can easily update their preferences with a single click. This ensures compliance with communication preferences while maintaining member satisfaction."
 
   - question: "Is there a setup fee or contract?"
     answer: "No setup fees and no long-term contracts! You can subscribe on a month-to-month basis and cancel anytime. We believe in earning your business every month by providing exceptional value and service."
 
   - question: "How do I get started?"
-    answer: "Getting started is easy! Simply sign up for an account, choose your plan (Robusto or Churchill), complete your lounge profile with photos and details, and start adding your members and events. Our intuitive interface makes it simple to get up and running in minutes."
+    answer: "Getting started is easy! Simply sign up for an account, choose your plan (Corona or Toro), complete your lounge profile with photos and details, and start adding your members and events. Our intuitive interface makes it simple to get up and running in minutes."
 
   - question: "What kind of support do you offer?"
-    answer: "All plans include email support with responses within 24 hours on business days. Churchill plan subscribers receive priority email support with faster response times. We're committed to helping you succeed and are always here to answer questions or help troubleshoot any issues."
+    answer: "All plans include email support with responses within 24 hours on business days. Toro plan subscribers receive priority email support with faster response times. We're committed to helping you succeed and are always here to answer questions or help troubleshoot any issues."
