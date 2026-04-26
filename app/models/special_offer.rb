@@ -12,6 +12,7 @@ class SpecialOffer < ApplicationRecord
   has_one_attached :flyer
 
   scope :upcoming, -> { where('end_date >= ?', Date.today).order(end_date: :asc) }
+  scope :browsable, -> { joins(:lounge).merge(Lounge.publicly_listed).upcoming }
 
   after_create :notify_members_of_creation
   after_update :notify_members_of_update

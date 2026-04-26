@@ -6,6 +6,7 @@ class Event < ApplicationRecord
 
   belongs_to :lounge
   has_many :rsvps, dependent: :destroy
+  has_many :event_registrations, dependent: :destroy
 
   has_one_attached :flyer
 
@@ -16,6 +17,8 @@ class Event < ApplicationRecord
   validate :event_limit_not_exceeded
 
   scope :upcoming, -> { where('date >= ?', Date.today).order(date: :asc, start_time: :asc) }
+  scope :publicly_registerable, -> { where(public_registrations_enabled: true) }
+  scope :browsable, -> { joins(:lounge).merge(Lounge.publicly_listed).upcoming }
 
   after_create :notify_members_of_creation
   after_create :create_rsvps_if_needed
@@ -26,7 +29,7 @@ class Event < ApplicationRecord
   paginates_per 5
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[name event_type date start_time end_time description virtual members_only rsvp_needed capacity entry_fee]
+    %w[name event_type date start_time end_time description virtual rsvp_needed capacity entry_fee]
   end
 
   def event_date
@@ -38,6 +41,16 @@ class Event < ApplicationRecord
 
   def total_confirmed_attendees
     rsvps.attending.sum(:guest_count)
+  end
+
+  def total_registered_public_guests
+    event_registrations.active.sum(:guest_count)
+  end
+
+  def spots_remaining
+    return nil unless capacity.present?
+
+    capacity - total_confirmed_attendees - total_registered_public_guests
   end
 
   def pending_rsvps_count

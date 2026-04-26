@@ -113,4 +113,4 @@ group :development do
   # gem "spring"
 end
 
-gem "honeybadger", "~> 6.5"
+gem 'honeybadger', '~> 6.5'

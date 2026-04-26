@@ -39,7 +39,7 @@ namespace :subscription do
         puts "  - #{sub.name} (#{sub.status})"
       end
       print 'Cancel existing and create new? (y/n): '
-      response = STDIN.gets.chomp
+      response = $stdin.gets.chomp
 
       if response.downcase == 'y'
         customer.subscriptions.active.each(&:cancel)
