@@ -92,7 +92,6 @@ class EventReminderMailerPreview < ActionMailer::Preview
       lounge: sample_lounge,
       rsvp_needed: false,
       virtual: false,
-      members_only: true,
       capacity: 25,
       entry_fee: 75.00
     ).tap { |event| event.id = 1 }
@@ -109,7 +108,6 @@ class EventReminderMailerPreview < ActionMailer::Preview
       lounge: sample_lounge,
       rsvp_needed: true,
       virtual: false,
-      members_only: true,
       capacity: 50,
       entry_fee: 125.00
     ).tap { |event| event.id = 2 }

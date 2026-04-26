@@ -61,7 +61,7 @@ class SubscriptionPlan
         'Priority email support'
       ]
     }
-  }
+  }.freeze
 
   def self.find(name)
     PLANS[name.to_sym]

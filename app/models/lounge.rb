@@ -10,4 +10,6 @@ class Lounge < ApplicationRecord
   has_many :events, dependent: :destroy
   has_many :special_offers, dependent: :destroy
   has_many :memberships, dependent: :destroy
+
+  scope :publicly_listed, -> { where(publicly_listed: true) }
 end

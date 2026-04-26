@@ -17,7 +17,6 @@ FactoryBot.define do
     virtual { false }
     virtual_url { nil }
     virtual_passcode { Faker::Alphanumeric.alphanumeric(number: 10) }
-    members_only { false }
     description { Faker::Lorem.paragraph }
     rsvp_needed { false }
     capacity { 1 }

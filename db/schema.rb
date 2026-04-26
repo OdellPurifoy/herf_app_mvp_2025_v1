@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_251_015_203_145) do
+ActiveRecord::Schema[7.1].define(version: 20_260_425_234_349) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -57,6 +57,23 @@ ActiveRecord::Schema[7.1].define(version: 20_251_015_203_145) do
     t.index ['reset_password_token'], name: 'index_admins_on_reset_password_token', unique: true
   end
 
+  create_table 'event_registrations', id: :uuid, default: -> { 'gen_random_uuid()' }, force: :cascade do |t|
+    t.uuid 'event_id', null: false
+    t.string 'first_name', null: false
+    t.string 'last_name', null: false
+    t.string 'email', null: false
+    t.string 'phone_number'
+    t.integer 'number_of_guests', default: 0, null: false
+    t.integer 'status', default: 0, null: false
+    t.uuid 'registration_token', null: false
+    t.boolean 'opt_in_to_membership', default: false, null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index %w[event_id email], name: 'index_event_registrations_on_event_id_and_email', unique: true
+    t.index ['event_id'], name: 'index_event_registrations_on_event_id'
+    t.index ['registration_token'], name: 'index_event_registrations_on_registration_token', unique: true
+  end
+
   create_table 'events', id: :uuid, default: -> { 'gen_random_uuid()' }, force: :cascade do |t|
     t.string 'name', null: false
     t.string 'event_type', null: false
@@ -73,6 +90,7 @@ ActiveRecord::Schema[7.1].define(version: 20_251_015_203_145) do
     t.datetime 'updated_at', null: false
     t.string 'virtual_url'
     t.string 'virtual_passcode'
+    t.boolean 'public_registrations_enabled', default: false, null: false
     t.index ['lounge_id'], name: 'index_events_on_lounge_id'
   end
 
@@ -114,6 +132,7 @@ ActiveRecord::Schema[7.1].define(version: 20_251_015_203_145) do
     t.uuid 'lounge_owner_id', null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.boolean 'publicly_listed', default: false, null: false
     t.index ['lounge_owner_id'], name: 'index_lounges_on_lounge_owner_id'
   end
 
@@ -267,6 +286,7 @@ ActiveRecord::Schema[7.1].define(version: 20_251_015_203_145) do
 
   add_foreign_key 'active_storage_attachments', 'active_storage_blobs', column: 'blob_id'
   add_foreign_key 'active_storage_variant_records', 'active_storage_blobs', column: 'blob_id'
+  add_foreign_key 'event_registrations', 'events'
   add_foreign_key 'events', 'lounges'
   add_foreign_key 'lounges', 'lounge_owners'
   add_foreign_key 'memberships', 'lounges'

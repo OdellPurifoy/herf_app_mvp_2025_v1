@@ -256,8 +256,8 @@ RSpec.describe LoungeOwner, type: :model do
       end
 
       context 'without subscription' do
-        it 'returns Not subscribed' do
-          expect(lounge_owner.membership_limit).to eq('Not subscribed')
+        it 'returns Infinity' do
+          expect(lounge_owner.membership_limit).to eq(Float::INFINITY)
         end
       end
     end
@@ -300,8 +300,8 @@ RSpec.describe LoungeOwner, type: :model do
       end
 
       context 'without subscription' do
-        it 'returns Not subscribed' do
-          expect(lounge_owner.event_limit_per_month).to eq('Not subscribed')
+        it 'returns Infinity' do
+          expect(lounge_owner.event_limit_per_month).to eq(Float::INFINITY)
         end
       end
     end
@@ -344,8 +344,8 @@ RSpec.describe LoungeOwner, type: :model do
       end
 
       context 'without subscription' do
-        it 'returns Not subscribed' do
-          expect(lounge_owner.special_offer_limit_per_month).to eq('Not subscribed')
+        it 'returns Infinity' do
+          expect(lounge_owner.special_offer_limit_per_month).to eq(Float::INFINITY)
         end
       end
     end
