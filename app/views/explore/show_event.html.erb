@@ -1,0 +1,119 @@
+<div class="max-w-4xl mx-auto px-6 lg:px-8 py-10">
+  <!-- Breadcrumb -->
+  <nav class="mb-6">
+    <%= link_to explore_path, class: "text-sm font-medium text-indigo-600 hover:text-indigo-500" do %>
+      <span aria-hidden="true">&larr;</span> Back to Explore
+    <% end %>
+  </nav>
+
+  <div class="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/10 overflow-hidden">
+    <!-- Flyer -->
+    <% if @event.flyer.attached? %>
+      <div class="w-full max-h-96 overflow-hidden">
+        <%= image_tag @event.flyer.variant(resize_to_limit: [1200, 600]),
+                      class: "w-full object-cover",
+                      alt: @event.name %>
+      </div>
+    <% end %>
+
+    <div class="p-6 sm:p-8">
+      <!-- Badges -->
+      <div class="flex flex-wrap items-center gap-2 mb-4">
+        <span class="inline-block px-2.5 py-0.5 text-xs font-medium bg-indigo-50 text-indigo-700 rounded-full">
+          <%= @event.event_type %>
+        </span>
+        <% if @event.virtual? %>
+          <span class="inline-block px-2.5 py-0.5 text-xs font-medium bg-purple-50 text-purple-700 rounded-full">
+            Virtual Event
+          </span>
+        <% end %>
+        <% if @event.rsvp_needed? %>
+          <span class="inline-block px-2.5 py-0.5 text-xs font-medium bg-gray-100 text-gray-600 rounded-full">
+            RSVP Required
+          </span>
+        <% end %>
+      </div>
+
+      <h1 class="text-3xl font-semibold tracking-tight text-gray-900 mb-6"><%= @event.name %></h1>
+
+      <!-- Details Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+        <div>
+          <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1">Date & Time</h3>
+          <p class="text-base text-gray-900">
+            <%= @event.date.strftime("%A, %B %-d, %Y") %>
+          </p>
+          <p class="text-base text-gray-700">
+            <%= @event.start_time.strftime("%-I:%M %p") %> - <%= @event.end_time.strftime("%-I:%M %p") %>
+          </p>
+        </div>
+
+        <div>
+          <% if @event.capacity.present? %>
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1">Availability</h3>
+            <% if @spots_remaining && @spots_remaining > 0 %>
+              <p class="text-base text-gray-900">
+                <span class="font-semibold text-indigo-600"><%= @spots_remaining %></span> spots remaining
+              </p>
+            <% elsif @spots_remaining == 0 %>
+              <p class="text-base font-semibold text-red-600">Sold Out</p>
+            <% end %>
+          <% end %>
+
+          <% if @event.entry_fee.present? && @event.entry_fee.to_f > 0 %>
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1 mt-3">Entry Fee</h3>
+            <p class="text-base font-semibold text-gray-900">
+              $<%= number_with_precision(@event.entry_fee, precision: 2) %>
+            </p>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <% if @event.description.present? %>
+        <div class="mb-8">
+          <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">About This Event</h3>
+          <div class="prose prose-gray max-w-none text-gray-700">
+            <%= simple_format(@event.description) %>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Registration placeholder — PR 3 will replace this -->
+      <% if @event.public_registrations_enabled? %>
+        <div class="border-t border-gray-200 pt-6 mt-6">
+          <% if @spots_remaining.nil? || @spots_remaining > 0 %>
+            <div class="bg-indigo-50 ring-1 ring-indigo-200 rounded-xl p-6 text-center">
+              <p class="text-indigo-700 font-semibold">Public registration coming soon.</p>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Hosted By -->
+  <div class="mt-8 bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/10 p-6 sm:p-8">
+    <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">Hosted by</h2>
+
+    <%= link_to explore_lounge_path(@lounge), class: "flex items-center gap-4 group" do %>
+      <% if @lounge.logo.attached? %>
+        <%= image_tag @lounge.logo.variant(resize_to_fill: [64, 64]),
+                      class: "w-14 h-14 rounded-full object-cover ring-2 ring-gray-200",
+                      alt: @lounge.name %>
+      <% end %>
+
+      <div>
+        <h3 class="font-semibold text-gray-900 group-hover:text-indigo-600 transition-colors">
+          <%= @lounge.name %>
+        </h3>
+        <p class="text-sm text-gray-500">
+          <%= [@lounge.address_street_1, @lounge.city, @lounge.state, @lounge.zip_code].compact.join(", ") %>
+        </p>
+        <% if @lounge.phone_number.present? %>
+          <p class="text-sm text-gray-500"><%= @lounge.phone_number %></p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

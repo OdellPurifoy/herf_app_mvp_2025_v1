@@ -1,0 +1,47 @@
+<%= link_to explore_lounge_path(lounge), class: "block group" do %>
+  <div class="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/10 overflow-hidden hover:shadow-md transition-shadow">
+    <% if lounge.cover_image.attached? %>
+      <div class="h-36 overflow-hidden">
+        <%= image_tag lounge.cover_image.variant(resize_to_fill: [600, 200]),
+                      class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-300",
+                      alt: lounge.name %>
+      </div>
+    <% else %>
+      <div class="h-36 bg-gray-900"></div>
+    <% end %>
+
+    <div class="p-5">
+      <div class="flex items-center gap-3 mb-3">
+        <% if lounge.logo.attached? %>
+          <%= image_tag lounge.logo.variant(resize_to_fill: [48, 48]),
+                        class: "w-10 h-10 rounded-full object-cover ring-2 ring-white shadow-sm",
+                        alt: lounge.name %>
+        <% end %>
+        <div>
+          <h3 class="font-semibold text-gray-900 group-hover:text-indigo-600 transition-colors">
+            <%= lounge.name %>
+          </h3>
+          <p class="text-sm text-gray-500">
+            <%= lounge.city %>, <%= lounge.state %>
+          </p>
+        </div>
+      </div>
+
+      <% if lounge.description.present? %>
+        <p class="text-sm text-gray-500 line-clamp-2 mb-3"><%= lounge.description %></p>
+      <% end %>
+
+      <div class="flex flex-wrap gap-1.5">
+        <% if lounge.alcohol_served? %>
+          <span class="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full">Bar</span>
+        <% end %>
+        <% if lounge.food_served? %>
+          <span class="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full">Food</span>
+        <% end %>
+        <% if lounge.outside_cigars_allowed? %>
+          <span class="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full">BYOC</span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

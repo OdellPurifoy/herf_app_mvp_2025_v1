@@ -44,7 +44,7 @@ class Event < ApplicationRecord
   end
 
   def total_registered_public_guests
-    event_registrations.active.sum(:guest_count)
+    event_registrations.active.sum(:number_of_guests)
   end
 
   def spots_remaining
