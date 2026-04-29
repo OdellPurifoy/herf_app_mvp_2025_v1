@@ -49,6 +49,11 @@ Rails.application.routes.draw do
   get 'subscription_management/list', to: 'subscription_management#list'
   post 'subscription_management/grant', to: 'subscription_management#grant'
 
+  # Public explore pages (no auth)
+  get 'explore', to: 'explore#index', as: :explore
+  get 'explore/events/:id', to: 'explore#show_event', as: :explore_event
+  get 'explore/lounges/:id', to: 'explore#show_lounge', as: :explore_lounge
+
   resources :admin_dashboard, only: [:index]
 
   mount Sidekiq::Web => '/sidekiq'

@@ -1,0 +1,134 @@
+<div class="max-w-4xl mx-auto px-6 lg:px-8 py-10">
+  <!-- Breadcrumb -->
+  <nav class="mb-6">
+    <%= link_to explore_path, class: "text-sm font-medium text-indigo-600 hover:text-indigo-500" do %>
+      <span aria-hidden="true">&larr;</span> Back to Explore
+    <% end %>
+  </nav>
+
+  <!-- Lounge Header -->
+  <div class="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/10 overflow-hidden mb-10">
+    <% if @lounge.cover_image.attached? %>
+      <div class="h-48 sm:h-64 overflow-hidden">
+        <%= image_tag @lounge.cover_image.variant(resize_to_fill: [1200, 400]),
+                      class: "w-full h-full object-cover",
+                      alt: @lounge.name %>
+      </div>
+    <% else %>
+      <div class="h-48 sm:h-64 bg-gray-900"></div>
+    <% end %>
+
+    <div class="p-6 sm:p-8">
+      <div class="flex items-start gap-4">
+        <% if @lounge.logo.attached? %>
+          <%= image_tag @lounge.logo.variant(resize_to_fill: [80, 80]),
+                        class: "w-16 h-16 rounded-full object-cover ring-2 ring-white shadow-sm -mt-14",
+                        alt: @lounge.name %>
+        <% end %>
+
+        <div class="flex-1">
+          <h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 mb-1"><%= @lounge.name %></h1>
+          <p class="text-gray-500">
+            <%= [@lounge.address_street_1, @lounge.address_street_2].compact.join(", ") %><br>
+            <%= @lounge.city %>, <%= @lounge.state %> <%= @lounge.zip_code %>
+          </p>
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <div class="mt-5 flex flex-wrap gap-4 text-sm text-gray-600">
+        <% if @lounge.phone_number.present? %>
+          <span><%= @lounge.phone_number %></span>
+        <% end %>
+        <% if @lounge.email.present? %>
+          <span><%= @lounge.email %></span>
+        <% end %>
+        <% if @lounge.website.present? %>
+          <%= link_to "Website", @lounge.website, target: "_blank", rel: "noopener",
+                      class: "text-indigo-600 hover:text-indigo-500 font-medium" %>
+        <% end %>
+      </div>
+
+        <!-- Social -->
+        <% if @lounge.instagram_handle.present? || @lounge.facebook_handle.present? || @lounge.x_handle.present? %>
+          <div class="mt-3 flex flex-wrap gap-4 text-sm">
+            <% if @lounge.instagram_handle.present? %>
+              <%= link_to "Instagram", "https://instagram.com/#{@lounge.instagram_handle}",
+                          target: "_blank", rel: "noopener",
+                          class: "text-indigo-600 hover:text-indigo-500 font-medium" %>
+            <% end %>
+            <% if @lounge.facebook_handle.present? %>
+              <%= link_to "Facebook", "https://facebook.com/#{@lounge.facebook_handle}",
+                          target: "_blank", rel: "noopener",
+                          class: "text-indigo-600 hover:text-indigo-500 font-medium" %>
+            <% end %>
+            <% if @lounge.x_handle.present? %>
+              <%= link_to "X", "https://x.com/#{@lounge.x_handle}",
+                          target: "_blank", rel: "noopener",
+                          class: "text-indigo-600 hover:text-indigo-500 font-medium" %>
+            <% end %>
+          </div>
+        <% end %>
+
+      <!-- Description -->
+      <% if @lounge.description.present? %>
+        <div class="mt-6 prose prose-gray max-w-none text-gray-700">
+          <%= simple_format(@lounge.description) %>
+        </div>
+      <% end %>
+
+      <!-- Amenities -->
+      <div class="mt-6 flex flex-wrap gap-2">
+        <% if @lounge.alcohol_served? %>
+          <span class="text-xs px-2.5 py-1 bg-gray-100 text-gray-700 rounded-full">Alcohol Served</span>
+        <% end %>
+        <% if @lounge.food_served? %>
+          <span class="text-xs px-2.5 py-1 bg-gray-100 text-gray-700 rounded-full">Food Available</span>
+        <% end %>
+        <% if @lounge.outside_cigars_allowed? %>
+          <span class="text-xs px-2.5 py-1 bg-gray-100 text-gray-700 rounded-full">Outside Cigars Welcome</span>
+        <% end %>
+        <% if @lounge.outside_food_allowed? %>
+          <span class="text-xs px-2.5 py-1 bg-gray-100 text-gray-700 rounded-full">Outside Food Allowed</span>
+        <% end %>
+        <% if @lounge.outside_alcohol_allowed? %>
+          <span class="text-xs px-2.5 py-1 bg-gray-100 text-gray-700 rounded-full">BYOB</span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upcoming Events -->
+  <section class="mb-10">
+    <h2 class="text-xl font-semibold tracking-tight text-gray-900 mb-5">Upcoming Events</h2>
+
+    <% if @upcoming_events.any? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <% @upcoming_events.each do |event| %>
+          <%= render "explore/event_card", event: event %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="text-center py-10 bg-gray-50 rounded-2xl">
+        <p class="text-gray-500">No upcoming events at this time.</p>
+      </div>
+    <% end %>
+  </section>
+
+  <!-- Special Offers -->
+  <section>
+    <h2 class="text-xl font-semibold tracking-tight text-gray-900 mb-5">Current Offers</h2>
+
+    <% if @current_offers.any? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <% @current_offers.each do |offer| %>
+          <%= render "explore/offer_card", offer: offer %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="text-center py-10 bg-gray-50 rounded-2xl">
+        <p class="text-gray-500">No special offers at this time.</p>
+      </div>
+    <% end %>
+  </section>
+</div>
