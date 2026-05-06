@@ -1,0 +1,88 @@
+<div class="max-w-2xl mx-auto px-6 lg:px-8 py-10">
+  <!-- Status Card -->
+  <div class="bg-white rounded-2xl shadow-sm ring-1 ring-gray-900/10 overflow-hidden">
+    <% if @registration.registered? %>
+      <!-- Confirmed Header -->
+      <div class="bg-indigo-500 px-6 py-8 text-center">
+        <svg class="mx-auto h-12 w-12 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+        <h1 class="mt-4 text-2xl font-semibold text-white">You're Registered!</h1>
+        <p class="mt-2 text-indigo-100">A confirmation email has been sent to <%= @registration.email %>.</p>
+      </div>
+    <% else %>
+      <!-- Cancelled Header -->
+      <div class="bg-gray-500 px-6 py-8 text-center">
+        <svg class="mx-auto h-12 w-12 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+        <h1 class="mt-4 text-2xl font-semibold text-white">Registration Cancelled</h1>
+        <p class="mt-2 text-gray-200">This registration has been cancelled.</p>
+      </div>
+    <% end %>
+
+    <!-- Registration Details -->
+    <div class="p-6 sm:p-8">
+      <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">Event Details</h2>
+
+      <div class="space-y-4">
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900"><%= @event.name %></h3>
+          <p class="text-sm text-gray-600 mt-1">
+            <%= @event.date.strftime("%A, %B %-d, %Y") %>
+            &middot;
+            <%= @event.start_time.strftime("%-I:%M %p") %> - <%= @event.end_time.strftime("%-I:%M %p") %>
+          </p>
+        </div>
+
+        <div class="border-t border-gray-200 pt-4">
+          <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Your Registration</h2>
+          <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+            <div>
+              <dt class="text-gray-500">Name</dt>
+              <dd class="mt-1 text-gray-900 font-medium"><%= @registration.full_name %></dd>
+            </div>
+            <div>
+              <dt class="text-gray-500">Email</dt>
+              <dd class="mt-1 text-gray-900 font-medium"><%= @registration.email %></dd>
+            </div>
+            <div>
+              <dt class="text-gray-500">Additional Guests</dt>
+              <dd class="mt-1 text-gray-900 font-medium"><%= @registration.number_of_guests %></dd>
+            </div>
+            <div>
+              <dt class="text-gray-500">Total Attending</dt>
+              <dd class="mt-1 text-gray-900 font-medium"><%= @registration.number_of_guests + 1 %></dd>
+            </div>
+          </dl>
+        </div>
+
+        <!-- Lounge Info -->
+        <div class="border-t border-gray-200 pt-4">
+          <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Venue</h2>
+          <p class="text-gray-900 font-medium"><%= @lounge.name %></p>
+          <p class="text-sm text-gray-500">
+            <%= [@lounge.address_street_1, @lounge.city, @lounge.state, @lounge.zip_code].compact.join(", ") %>
+          </p>
+          <% if @lounge.phone_number.present? %>
+            <p class="text-sm text-gray-500 mt-1"><%= @lounge.phone_number %></p>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="mt-8 flex flex-col sm:flex-row gap-3">
+        <%= link_to "View Event", explore_event_path(@event),
+                    class: "inline-flex justify-center rounded-lg bg-indigo-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400" %>
+
+        <% if @registration.registered? %>
+          <%= button_to "Cancel Registration",
+                        cancel_registration_path(@registration.registration_token),
+                        method: :patch,
+                        class: "inline-flex justify-center rounded-lg bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50",
+                        data: { turbo_confirm: "Are you sure you want to cancel your registration?" } %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<h2>You're registered for <%= @event.name %>!</h2>
+
+<p>Hi <%= @registration.first_name %>,</p>
+
+<p>Your registration has been confirmed. Here are the details:</p>
+
+<table style="border-collapse: collapse; margin: 20px 0;">
+  <tr>
+    <td style="padding: 8px 16px 8px 0; font-weight: bold; color: #374151;">Event</td>
+    <td style="padding: 8px 0; color: #4b5563;"><%= @event.name %></td>
+  </tr>
+  <tr>
+    <td style="padding: 8px 16px 8px 0; font-weight: bold; color: #374151;">Date</td>
+    <td style="padding: 8px 0; color: #4b5563;"><%= @event.date.strftime("%A, %B %-d, %Y") %></td>
+  </tr>
+  <tr>
+    <td style="padding: 8px 16px 8px 0; font-weight: bold; color: #374151;">Time</td>
+    <td style="padding: 8px 0; color: #4b5563;"><%= @event.start_time.strftime("%-I:%M %p") %> - <%= @event.end_time.strftime("%-I:%M %p") %></td>
+  </tr>
+  <tr>
+    <td style="padding: 8px 16px 8px 0; font-weight: bold; color: #374151;">Location</td>
+    <td style="padding: 8px 0; color: #4b5563;">
+      <%= @lounge.name %><br>
+      <%= @lounge.address_street_1 %><br>
+      <%= @lounge.city %>, <%= @lounge.state %> <%= @lounge.zip_code %>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding: 8px 16px 8px 0; font-weight: bold; color: #374151;">Guests</td>
+    <td style="padding: 8px 0; color: #4b5563;"><%= @registration.number_of_guests == 0 ? "Just you" : "You + #{@registration.number_of_guests}" %></td>
+  </tr>
+</table>
+
+<p>
+  <a href="<%= @status_url %>" style="display: inline-block; padding: 10px 24px; background-color: #6366f1; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 14px;">
+    View Your Registration
+  </a>
+</p>
+
+<p style="color: #6b7280; font-size: 14px; margin-top: 24px;">
+  See you at <%= @lounge.name %>!
+</p>
