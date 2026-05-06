@@ -54,6 +54,12 @@ Rails.application.routes.draw do
   get 'explore/events/:id', to: 'explore#show_event', as: :explore_event
   get 'explore/lounges/:id', to: 'explore#show_lounge', as: :explore_lounge
 
+  # Public event registration (no auth)
+  get 'explore/events/:id/register', to: 'event_registrations#new', as: :new_event_registration
+  post 'explore/events/:id/register', to: 'event_registrations#create', as: :event_registrations
+  get 'registration/:token', to: 'event_registrations#show', as: :registration_status
+  patch 'registration/:token/cancel', to: 'event_registrations#cancel', as: :cancel_registration
+
   resources :admin_dashboard, only: [:index]
 
   mount Sidekiq::Web => '/sidekiq'

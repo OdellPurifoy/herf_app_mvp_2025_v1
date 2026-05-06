@@ -80,15 +80,26 @@
       <% end %>
 
       <!-- Registration placeholder — PR 3 will replace this -->
-      <% if @event.public_registrations_enabled? %>
-        <div class="border-t border-gray-200 pt-6 mt-6">
-          <% if @spots_remaining.nil? || @spots_remaining > 0 %>
-            <div class="bg-indigo-50 ring-1 ring-indigo-200 rounded-xl p-6 text-center">
-              <p class="text-indigo-700 font-semibold">Public registration coming soon.</p>
-            </div>
-          <% end %>
-        </div>
-      <% end %>
+
+       <!-- Public Registration -->
+       <% if @event.public_registrations_enabled? %>
+         <div class="border-t border-gray-200 pt-6 mt-6">
+           <% if @spots_remaining == 0 %>
+             <div class="bg-gray-50 ring-1 ring-gray-200 rounded-xl p-6 text-center">
+               <p class="text-gray-700 font-semibold">This event is at full capacity.</p>
+             </div>
+           <% else %>
+             <div class="text-center">
+               <%= link_to "Register for This Event",
+                           new_event_registration_path(@event),
+                           class: "inline-flex rounded-lg bg-indigo-500 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500" %>
+               <% if @spots_remaining %>
+                 <p class="mt-2 text-sm text-gray-500"><%= @spots_remaining %> spots remaining</p>
+               <% end %>
+             </div>
+           <% end %>
+         </div>
+       <% end %>
     </div>
   </div>
 

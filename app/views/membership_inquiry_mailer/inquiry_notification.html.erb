@@ -1,0 +1,43 @@
+<h2>New Membership Inquiry</h2>
+
+<p>Hi <%= @lounge_owner.first_name %>,</p>
+
+<p>
+  Someone who registered for your event <strong><%= @event.name %></strong>
+  has expressed interest in becoming a member at <strong><%= @lounge.name %></strong>.
+</p>
+
+<h3 style="color: #374151; margin-top: 24px;">Contact Details</h3>
+
+<table style="border-collapse: collapse; margin: 16px 0;">
+  <tr>
+    <td style="padding: 8px 16px 8px 0; font-weight: bold; color: #374151;">Name</td>
+    <td style="padding: 8px 0; color: #4b5563;"><%= @registration.full_name %></td>
+  </tr>
+  <tr>
+    <td style="padding: 8px 16px 8px 0; font-weight: bold; color: #374151;">Email</td>
+    <td style="padding: 8px 0; color: #4b5563;">
+      <a href="mailto:<%= @registration.email %>" style="color: #6366f1;"><%= @registration.email %></a>
+    </td>
+  </tr>
+  <% if @registration.phone_number.present? %>
+    <tr>
+      <td style="padding: 8px 16px 8px 0; font-weight: bold; color: #374151;">Phone</td>
+      <td style="padding: 8px 0; color: #4b5563;"><%= @registration.phone_number %></td>
+    </tr>
+  <% end %>
+  <tr>
+    <td style="padding: 8px 16px 8px 0; font-weight: bold; color: #374151;">Event</td>
+    <td style="padding: 8px 0; color: #4b5563;">
+      <%= @event.name %> — <%= @event.date.strftime("%B %-d, %Y") %>
+    </td>
+  </tr>
+</table>
+
+<p style="color: #4b5563;">
+  Reach out to them directly to share your membership details, pricing, and availability.
+</p>
+
+<p style="color: #6b7280; font-size: 14px; margin-top: 24px;">
+  This inquiry was generated via HERF when the visitor registered for your event.
+</p>

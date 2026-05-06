@@ -24,7 +24,7 @@ RSpec.describe EventRegistration, type: :model do
     it {
       is_expected.to validate_numericality_of(:number_of_guests)
         .only_integer
-        .is_greater_than(0)
+        .is_greater_than_or_equal_to(0)
         .is_less_than_or_equal_to(10)
     }
 

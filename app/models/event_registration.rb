@@ -10,7 +10,7 @@ class EventRegistration < ApplicationRecord
   validates :email, presence: true,
                     format: { with: URI::MailTo::EMAIL_REGEXP, message: 'must be a valid email address' }
   validates :number_of_guests, presence: true,
-                               numericality: { only_integer: true, greater_than: 0, less_than_or_equal_to: 10 }
+                               numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 10 }
   validates :registration_token, presence: true, uniqueness: true
   validates :email, uniqueness: { scope: :event_id, message: 'is already registered for this event' }
 
