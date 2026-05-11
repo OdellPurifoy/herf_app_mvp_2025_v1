@@ -60,6 +60,8 @@ Rails.application.routes.draw do
   get 'registration/:token', to: 'event_registrations#show', as: :registration_status
   patch 'registration/:token/cancel', to: 'event_registrations#cancel', as: :cancel_registration
 
+  get 'for-lounges', to: 'for_lounges#index', as: :for_lounges
+
   resources :admin_dashboard, only: [:index]
 
   mount Sidekiq::Web => '/sidekiq'
