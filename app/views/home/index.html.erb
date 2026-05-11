@@ -1,382 +1,85 @@
 <div class="bg-white">
-  <!-- Header -->
-  <header class="absolute inset-x-0 top-0 z-50">
-    <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
-      <div class="flex lg:flex-1">
-        <a href="#" class="-m-1.5 p-1.5">
-          <span class="sr-only">HERF</span>
-          <a href="/" class="text-3xl font-semibold text-white">HERF</a>
-        </a>
-      </div>
-      <div class="flex lg:hidden">
-        <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400" id="mobile-menu-button">
-          <span class="sr-only">Open main menu</span>
-          <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-          </svg>
-        </button>
-      </div>
-      <div class="hidden lg:flex lg:gap-x-12">
-        <a href="#about" class="text-sm/6 font-semibold text-white">About</a>
-        <a href="#pricing" class="text-sm/6 font-semibold text-white">Pricing</a>
-        <a href="#faq" class="text-sm/6 font-semibold text-white">FAQ</a>
-      </div>
-      <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-        <% if lounge_owner_signed_in? && !current_lounge_owner.subscribed? %>
-          <%= link_to "Profile", edit_lounge_owner_registration_path, class: "ml-6 text-sm/6 font-semibold text-white" %>
-          <%= link_to "Dashboard", dashboard_path, class: "ml-6 text-sm/6 font-semibold text-white" %>
-          <%= button_to "Log out", destroy_lounge_owner_session_path, method: :delete, class: "ml-6 text-sm/6 font-semibold text-white", data: { confirm: "Are you sure?" } %>
-        <% elsif lounge_owner_signed_in? && current_lounge_owner.subscribed? %>
-          <%= link_to "Profile", edit_lounge_owner_registration_path, class: "text-sm/6 font-semibold text-white" %>
-          <%= link_to "Dashboard", dashboard_path, class: "ml-6 text-sm/6 font-semibold text-white" %>
-          <%= button_to "Log out", destroy_lounge_owner_session_path, method: :delete, class: "ml-6 text-sm/6 font-semibold text-white", data: { confirm: "Are you sure?" } %>
-        <% else %>
-          <%= link_to "Sign up", new_lounge_owner_registration_path, class: "text-sm/6 font-semibold text-white" %>
-          <%= link_to "Log in", new_lounge_owner_session_path, class: "ml-6 text-sm/6 font-semibold text-white", aria: { hidden: true } %>
-        <% end %>
-      </div>
-    </nav>
-    <!-- Mobile menu, show/hide based on menu open state. -->
-    <div class="lg:hidden hidden" role="dialog" aria-modal="true" id="mobile-menu">
-      <!-- Background backdrop, show/hide based on slide-over state. -->
-      <div class="fixed inset-0 z-50"></div>
-      <div class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10">
-        <div class="flex items-center justify-between">
-          <a href="#" class="-m-1.5 p-1.5">
-            <span class="text-2xl font-semibold text-white">HERF</span>
-          </a>
-          <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-400" id="close-mobile-menu">
-            <span class="sr-only">Close menu</span>
-            <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        <div class="mt-6 flow-root">
-          <div class="-my-6 divide-y divide-gray-500/25">
-            <div class="space-y-2 py-6">
-              <a href="#about" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-800">About</a>
-              <a href="#pricing" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-800">Pricing</a>
-              <a href="#faq" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-white hover:bg-gray-800">FAQ</a>
-            </div>
-            <div class="py-6">
-              <% if lounge_owner_signed_in? %>
-                <a href="<%= edit_lounge_owner_registration_path %>" class="text-sm/6 font-semibold text-white">Profile</a>
-                <a href="<%= dashboard_path %>" class="ml-6 text-sm/6 font-semibold text-white">Dashboard</a>
-                <%= button_to "Log out", destroy_lounge_owner_session_path, method: :delete, class: "ml-6 text-sm/6 font-semibold text-white", data: { confirm: "Are you sure?" } %>
-              <% else %>
-                <a href="<%= new_lounge_owner_registration_path %>" class="text-sm/6 font-semibold text-white">Sign up</a>
-                <a href="<%= new_lounge_owner_session_path %>" class="ml-6 text-sm/6 font-semibold text-white">Log in <span aria-hidden="true">&rarr;</span></a>
-              <% end %>            
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <main>
-    <% if notice %>
-      <div class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md">
-        <div class="mx-4 rounded-md bg-green-50 p-4 shadow-lg">
-          <div class="flex">
-            <div class="flex-shrink-0">
-              <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
-              </svg>
-            </div>
-            <div class="ml-3">
-              <p class="text-sm font-medium text-green-800"><%= notice %></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    <% end %>
-    <% if alert %>
-      <div class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md">
-        <div class="mx-4 rounded-md bg-red-50 p-4 shadow-lg">
-          <div class="flex">
-            <div class="flex-shrink-0">
-              <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
-              </svg>
-            </div>
-            <div class="ml-3">
-              <p class="text-sm font-medium text-red-800"><%= alert %></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    <% end %>
-    <!-- Hero section -->
-    <div class="relative isolate overflow-hidden bg-gray-900 pb-16 pt-14 sm:pb-20">
-        <img src="<%= asset_path('main_page_cover.jpg') %>" alt="App cover image" class="absolute inset-0 -z-10 size-full object-cover opacity-40" id="hero-cover-image">
-      <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
-        <div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
-      </div>
-      <div class="mx-auto max-w-7xl px-6 lg:px-8">
-        <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
-          <div class="text-center">
-            <h1 class="text-balance text-5xl font-semibold text-white sm:text-7xl">Empower Your Lounge. Delight Your Members</h1>
-            <p class="mt-8 text-pretty text-lg font-medium text-white sm:text-xl/8">Manage your lounge events, memberships, and special offers. Engage your members like never before.</p>
-          </div>
-        </div>
-      </div>
-      <div class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]" aria-hidden="true">
-        <div class="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-20 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
-      </div>
+  <!-- Hero -->
+  <div class="relative isolate overflow-hidden bg-gray-900">
+    <img src="<%= asset_path('main_page_cover.jpg') %>" alt="Cigar lounge" class="absolute inset-0 -z-10 size-full object-cover opacity-30">
+    <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
+      <div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
     </div>
 
-    <!-- About section -->
-    <div id="about" class="mt-32 sm:mt-56">
-      <div class="mx-auto max-w-7xl px-6 lg:px-8">
-        <div class="mx-auto max-w-2xl lg:text-center">
-          <h2 class="text-base/7 font-semibold text-indigo-600">About HERF</h2>
-          <p class="mt-2 text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-balance sm:text-5xl">Built by a cigar lover, for the community</p>
-        </div>
-        <div class="mx-auto mt-16 max-w-3xl">
-          <p class="text-lg/8 text-gray-700 mb-6">
-            HERF was born from a simple passion: the love of a great cigar and the joy of sharing that experience with others. There's something special about gathering at your local lounge, lighting up your favorite stick, and connecting with fellow enthusiasts who share your appreciation for the craft.
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+        <div class="text-center">
+          <h1 class="text-balance text-5xl font-semibold text-white sm:text-7xl">The Cigar Community, Connected</h1>
+          <p class="mt-8 text-pretty text-lg font-medium text-gray-300 sm:text-xl/8">
+            Discover cigar events and offers near you — or power your lounge with tools to grow your community.
           </p>
-          <p class="text-lg/8 text-gray-700 mb-6">
-            Over the years, I've attended countless cigar events—some intimate gatherings, others grand celebrations—and each one reminded me of the power of community. These moments brought people together, created lasting friendships, and strengthened the bond between lounges and their members.
-          </p>
-          <p class="text-lg/8 text-gray-700 mb-6">
-            But I also saw the challenges that brick-and-mortar lounges face in today's fast-paced world. Keeping members engaged, coordinating events, and building a thriving community takes time and effort that many lounge owners simply don't have.
-          </p>
-          <p class="text-lg/8 text-gray-700">
-            That's why I built HERF—to empower lounge owners with the tools they need to grow their business while doing what they do best: creating unforgettable experiences for their members. I believe that when lounges thrive, the entire cigar community benefits. Together, we can expand the culture we love, spread positivity, and ensure that the tradition of gathering over a great cigar continues for generations to come.
-          </p>
+
+          <div class="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+            <%= link_to explore_path, class: "w-full sm:w-auto rounded-md bg-indigo-500 px-8 py-4 text-base font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 text-center" do %>
+              Find Events & Offers
+            <% end %>
+
+            <%= link_to for_lounges_path, class: "w-full sm:w-auto rounded-md bg-white/10 px-8 py-4 text-base font-semibold text-white shadow-sm ring-1 ring-inset ring-white/20 hover:bg-white/20 text-center" do %>
+              I Own a Lounge
+            <% end %>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Feature section -->
-    <div class="mt-32 sm:mt-56">
-      <div class="mx-auto max-w-7xl px-6 lg:px-8">
-        <div class="mx-auto max-w-2xl sm:text-center">
-          <h2 class="text-base/7 font-semibold text-indigo-600">Everything you need</h2>
-          <p class="mt-2 text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-balance sm:text-5xl">Your Lounge. Your Dashboard. Total Control.</p>
-          <p class="mt-6 text-lg/8 text-gray-600">Easily manage events, special offers, and memberships—all in one intuitive dashboard.</p>
-        </div>
-      </div>
-      <div class="relative overflow-hidden pt-16">
-        <div class="mx-auto max-w-7xl px-6 lg:px-8">
-          <img src="<%= asset_path('main_page_image.png') %>" alt="App screenshot" class="mb-[-12%] rounded-xl shadow-2xl ring-1 ring-gray-900/10" width="2432" height="1442">
-          <div class="relative" aria-hidden="true">
-            <div class="absolute -inset-x-20 bottom-0 bg-gradient-to-t from-white pt-[7%]"></div>
-          </div>
-        </div>
-      </div>
-      <div class="mx-auto mt-16 max-w-7xl px-6 sm:mt-20 md:mt-24 lg:px-8">
-        <dl class="mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-10 text-base/7 text-gray-600 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 lg:gap-x-8 lg:gap-y-16">
-          <div class="relative pl-9">
-            <dt class="inline font-semibold text-gray-900">
-              <svg class="absolute left-1 top-1 size-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
-              </svg>
-              Event management.
-            </dt>
-            <dd class="inline">Effortlessly Create and Update Events That Keep Your Lounge Buzzing.</dd>
-          </div>
-          <div class="relative pl-9">
-            <dt class="inline font-semibold text-gray-900">
-              <svg class="absolute left-1 top-1 size-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 1 0-2.636 6.364M16.5 12V8.25" />
-              </svg>
-              Email notifications.
-            </dt>
-            <dd class="inline">Reach Every Inbox with Timely Email Notifications.</dd>
-          </div>
-          <div class="relative pl-9">
-            <dt class="inline font-semibold text-gray-900">
-              <svg class="absolute left-1 top-1 size-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
-              </svg>
-              Special offers.
-            </dt>
-            <dd class="inline">Create and Share Irresistible Special Offers with Ease.</dd>
-          </div>
-          <div class="relative pl-9">
-            <dt class="inline font-semibold text-gray-900">
-              <svg class="absolute left-1 top-1 size-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
-              </svg>
-              Increased engagement.
-            </dt>
-            <dd class="inline">Boost Member Engagement with Events and Offers That Excite.</dd>
-          </div>
-          <div class="relative pl-9">
-            <dt class="inline font-semibold text-gray-900">
-              <svg class="absolute left-1 top-1 size-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-              </svg>
-              Profits.
-            </dt>
-            <dd class="inline">Drive Profits and Build Community Through Engaged Members.</dd>
-          </div>
-        </dl>
-      </div>
+    <div class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]" aria-hidden="true">
+      <div class="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-20 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
     </div>
+  </div>
 
-    <!-- Pricing section -->
-    <div id="pricing" class="relative isolate mt-32 bg-white px-6 sm:mt-56 lg:px-8">
-      <div class="absolute inset-x-0 -top-3 -z-10 transform-gpu overflow-hidden px-36 blur-3xl" aria-hidden="true">
-        <div class="mx-auto aspect-[1155/678] w-[72.1875rem] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
-      </div>
-      <div class="mx-auto max-w-2xl sm:text-center">
-        <h2 class="text-base/7 font-semibold text-indigo-600">Pricing</h2>
-        <p class="mt-2 text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-balance sm:text-5xl">Choose the right plan for you</p>
-        <p class="mt-6 text-lg/8 text-gray-600">Choose an affordable plan that’s packed with the best features for engaging your audience, creating customer loyalty, and driving sales.</p>
-      </div>
-      <div class="mx-auto mt-16 grid max-w-lg grid-cols-1 items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2">
-        <div class="rounded-3xl rounded-t-3xl bg-white/60 p-8 ring-1 ring-gray-900/10 sm:mx-8 sm:rounded-b-none sm:p-10 lg:mx-0 lg:rounded-bl-3xl lg:rounded-tr-none">
-          <h3 id="tier-monthly-corona" class="text-base/7 font-semibold text-indigo-600">Corona</h3>
-          <p class="mt-4 flex items-baseline gap-x-2">
-            <span class="text-5xl font-semibold tracking-tight text-gray-900">$19</span>
-            <span class="text-base text-gray-500">/month</span>
-          </p>
-          <p class="mt-6 text-base/7 text-gray-600">Perfect for intimate lounges building their community.</p>
-          <ul role="list" class="mt-8 space-y-3 text-sm/6 text-gray-600 sm:mt-10">
-            <li class="flex gap-x-3">
-              <svg class="h-6 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-              </svg>
-              Up to 300 members
-            </li>
-            <li class="flex gap-x-3">
-              <svg class="h-6 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-              </svg>
-              Up to 4 events per month
-            </li>
-            <li class="flex gap-x-3">
-              <svg class="h-6 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-              </svg>
-              Email notifications
-            </li>
-            <li class="flex gap-x-3">
-              <svg class="h-6 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-              </svg>
-              2 reminder emails per event
-            </li>
-            <li class="flex gap-x-3">
-              <svg class="h-6 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-              </svg>
-              Two Special Offers
-            </li>
-            <li class="flex gap-x-3">
-              <svg class="h-6 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-              </svg>
-              Email support
-            </li>
-          </ul>
-          <% if lounge_owner_signed_in? %>
-            <%= link_to "Subscribe Now", new_subscription_path(plan: 'corona_monthly'), aria: { describedby: "tier-monthly-corona" }, class: "mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:mt-10" %>
-          <% else %>
-            <%= link_to "Sign Up", new_lounge_owner_registration_path, aria: { describedby: "tier-monthly-corona" }, class: "mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:mt-10" %>
-          <% end %>
-        </div>
-        <div class="relative rounded-3xl bg-gray-900 p-8 shadow-2xl ring-1 ring-gray-900/10 sm:p-10">
-          <h3 id="tier-monthly-toro" class="text-base/7 font-semibold text-indigo-400">Toro</h3>
-          <p class="mt-4 flex items-baseline gap-x-2">
-            <span class="text-5xl font-semibold tracking-tight text-white">$39</span>
-            <span class="text-base text-gray-400">/month</span>
-          </p>
-          <p class="mt-6 text-base/7 text-gray-300">Dedicated support and infrastructure for your company.</p>
-          <ul role="list" class="mt-8 space-y-3 text-sm/6 text-gray-300 sm:mt-10">
-            <li class="flex gap-x-3">
-              <svg class="h-6 w-5 flex-none text-indigo-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-              </svg>
-              Unlimited members
-            </li>
-            <li class="flex gap-x-3">
-              <svg class="h-6 w-5 flex-none text-indigo-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-              </svg>
-              Unlimited Events
-            </li>
-            <li class="flex gap-x-3">
-              <svg class="h-6 w-5 flex-none text-indigo-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-              </svg>
-              Email notifications
-            </li>
-            <li class="flex gap-x-3">
-              <svg class="h-6 w-5 flex-none text-indigo-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-              </svg>
-              2 Reminder messages per event
-            </li>
-            <li class="flex gap-x-3">
-              <svg class="h-6 w-5 flex-none text-indigo-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-              </svg>
-              Unlimited Special Offers
-            </li>
-            <li class="flex gap-x-3">
-              <svg class="h-6 w-5 flex-none text-indigo-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
-              </svg>
-              Priority Email Support
-            </li>
-          </ul>
-          <% if lounge_owner_signed_in? %>
-            <%= link_to "Subscribe Now", new_subscription_path(plan: 'toro_monthly'), aria: { describedby: "tier-monthly-toro" }, class: "mt-8 block rounded-md bg-indigo-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 sm:mt-10" %>
-          <% else %>
-            <%= link_to "Sign Up", new_lounge_owner_registration_path, aria: { describedby: "tier-monthly-toro" }, class: "mt-8 block rounded-md bg-indigo-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 sm:mt-10" %>
-          <% end %>
+  <!-- Value props -->
+  <div class="mx-auto max-w-7xl px-6 lg:px-8 py-24 sm:py-32">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+      <!-- For cigar enthusiasts -->
+      <div>
+        <h2 class="text-base/7 font-semibold text-indigo-600">For Cigar Enthusiasts</h2>
+        <p class="mt-2 text-3xl font-semibold tracking-tight text-gray-900">Discover what's happening</p>
+        <p class="mt-4 text-lg text-gray-600">
+          Browse upcoming events, special offers, and lounges in your area. Register for events and never miss a great night out.
+        </p>
+        <div class="mt-8">
+          <%= link_to "Browse Events", explore_path,
+              class: "text-sm font-semibold text-indigo-600 hover:text-indigo-500" %>
+          <span class="ml-1" aria-hidden="true">&rarr;</span>
         </div>
       </div>
-    </div>
 
-    <!-- FAQ section -->
-    <div id="faq" class="mx-auto mt-32 max-w-7xl px-6 sm:mt-56 lg:px-8">
-      <div class="mx-auto max-w-4xl divide-y divide-gray-900/10">
-        <h2 class="text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">Frequently asked questions</h2>
-        <dl class="mt-10 space-y-6 divide-y divide-gray-900/10">
-          <% @faqs.each_with_index do |faq, index| %>
-            <div class="pt-6">
-              <dt>
-                <button type="button" class="faq-button flex w-full items-start justify-between text-left text-gray-900" aria-controls="faq-<%= index %>" aria-expanded="false">
-                  <span class="text-base/7 font-semibold"><%= faq['question'] %></span>
-                  <span class="ml-6 flex h-7 items-center">
-                    <svg class="faq-icon-plus size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
-                    </svg>
-                    <svg class="faq-icon-minus hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
-                    </svg>
-                  </span>
-                </button>
-              </dt>
-              <dd class="mt-2 pr-12 hidden" id="faq-<%= index %>">
-                <p class="text-base/7 text-gray-600"><%= faq['answer'] %></p>
-              </dd>
-            </div>
-          <% end %>
-        </dl>
+      <!-- For lounge owners -->
+      <div>
+        <h2 class="text-base/7 font-semibold text-indigo-600">For Lounge Owners</h2>
+        <p class="mt-2 text-3xl font-semibold tracking-tight text-gray-900">Grow your community</p>
+        <p class="mt-4 text-lg text-gray-600">
+          Manage events, members, and special offers from one dashboard. Notify your members automatically and attract new customers through our public directory.
+        </p>
+        <div class="mt-8">
+          <%= link_to "Learn More", for_lounges_path,
+              class: "text-sm font-semibold text-indigo-600 hover:text-indigo-500" %>
+          <span class="ml-1" aria-hidden="true">&rarr;</span>
+        </div>
       </div>
     </div>
-  </main>
+  </div>
 
   <!-- Footer -->
-  <footer class="mt-32 bg-gray-900 sm:mt-56">
+  <footer class="bg-gray-900">
     <div class="mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8 lg:py-32">
       <div class="xl:grid xl:grid-cols-3 xl:gap-8">
         <p class="text-xl font-semibold text-white">HERF</p>
         <div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
           <div class="md:grid md:grid-cols-2 md:gap-8">
             <div>
-              <h3 class="text-sm/6 font-semibold text-white">Company</h3>
+              <h3 class="text-sm/6 font-semibold text-white">Explore</h3>
               <ul role="list" class="mt-6 space-y-4">
                 <li>
-                  <a href="#" class="text-sm/6 text-gray-400 hover:text-white">About</a>
+                  <%= link_to "Events & Offers", explore_path, class: "text-sm/6 text-gray-400 hover:text-white" %>
+                </li>
+                <li>
+                  <%= link_to "For Lounge Owners", for_lounges_path, class: "text-sm/6 text-gray-400 hover:text-white" %>
                 </li>
               </ul>
             </div>
@@ -397,61 +100,3 @@
     </div>
   </footer>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const mobileMenuButton = document.getElementById('mobile-menu-button');
-  const closeMobileMenuButton = document.getElementById('close-mobile-menu');
-  const mobileMenu = document.getElementById('mobile-menu');
-
-  // Open mobile menu
-  mobileMenuButton.addEventListener('click', function() {
-    mobileMenu.classList.remove('hidden');
-  });
-
-  // Close mobile menu
-  closeMobileMenuButton.addEventListener('click', function() {
-    mobileMenu.classList.add('hidden');
-  });
-
-  // Close mobile menu when clicking on navigation links
-  const mobileNavLinks = mobileMenu.querySelectorAll('a[href^="#"]');
-  mobileNavLinks.forEach(function(link) {
-    link.addEventListener('click', function() {
-      mobileMenu.classList.add('hidden');
-    });
-  });
-
-  // Close mobile menu when clicking outside of it
-  mobileMenu.addEventListener('click', function(e) {
-    if (e.target === mobileMenu || e.target.classList.contains('fixed')) {
-      mobileMenu.classList.add('hidden');
-    }
-  });
-
-  // FAQ expand/collapse functionality
-  const faqButtons = document.querySelectorAll('.faq-button');
-  faqButtons.forEach(function(button) {
-    button.addEventListener('click', function() {
-      const targetId = this.getAttribute('aria-controls');
-      const answer = document.getElementById(targetId);
-      const plusIcon = this.querySelector('.faq-icon-plus');
-      const minusIcon = this.querySelector('.faq-icon-minus');
-      const isExpanded = this.getAttribute('aria-expanded') === 'true';
-
-      // Toggle visibility
-      if (isExpanded) {
-        answer.classList.add('hidden');
-        plusIcon.classList.remove('hidden');
-        minusIcon.classList.add('hidden');
-        this.setAttribute('aria-expanded', 'false');
-      } else {
-        answer.classList.remove('hidden');
-        plusIcon.classList.add('hidden');
-        minusIcon.classList.remove('hidden');
-        this.setAttribute('aria-expanded', 'true');
-      }
-    });
-  });
-});
-</script>
