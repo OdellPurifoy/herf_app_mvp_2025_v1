@@ -76,6 +76,10 @@ Rails.application.configure do
   # Configuration for letter opener gem
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.perform_deliveries = true
+  config.action_mailer.default_options = {
+    from: 'info@herfapp.com',
+    reply_to: 'info@herfapp.com'
+  }
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
