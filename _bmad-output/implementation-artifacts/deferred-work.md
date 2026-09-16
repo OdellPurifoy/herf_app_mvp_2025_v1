@@ -17,3 +17,15 @@
 - source_spec: `_bmad-output/specs/spec-rsvp-notification-fixes/stories/2-event-cancellation-email.md`
   summary: Intermittent test-suite flakes — `spec/requests/explore_spec.rb:57` ("does not show past events") and `spec/requests/event_registrations_spec.rb:159` fail roughly 1 in 8 runs because `spec/factories/events.rb` names events with a single `Faker::Lorem.word`, which can coincidentally appear elsewhere in the rendered page and break `not_to include(event.name)`-style assertions. `membership_inquiry_mailer_spec.rb` showed similar order-dependent flakiness.
   evidence: Reran the two specs 8 times in isolation: 7 passes, 1 failure, with no changes to any file they exercise. Pre-existing; makes full-suite regression checks noisy. Fix would be distinctive factory names (e.g. `"Event #{SecureRandom.hex(4)}"`).
+
+- source_spec: `_bmad-output/specs/spec-delete-link-and-confirms/stories/1-edit-page-delete-event-link.md`
+  summary: Cross-tenant authorization hole — `EventsController#set_event`, `MembershipsController`, and `SpecialOffersController` load records with bare `find(params[:id])` and never check the record belongs to `current_lounge_owner`, so any subscribed owner can edit or delete another lounge's events, memberships, and special offers. User decision: spec an ownership-scoping fix right after the Delete Event / confirm stories (ARCHITECTURE-SPINE AD-4 points at Pundit).
+  evidence: Verified in app/controllers/events_controller.rb:59-61, memberships_controller.rb:54, special_offers_controller.rb:67; only authenticate_lounge_owner! and check_subscription run before them. Found by the Story 1 spec reviewer; pre-existing.
+
+- source_spec: `_bmad-output/specs/spec-delete-link-and-confirms/stories/1-edit-page-delete-event-link.md`
+  summary: Story 1 review re-flagged the unscoped `Event.find(params[:id])` in `EventsController#set_event` — the edit-page Delete Event control now works, so this is one more way to reach the cross-owner delete already logged above.
+  evidence: events_controller.rb:59-61; covered by the planned ownership-scoping spec.
+
+- source_spec: `_bmad-output/specs/spec-delete-link-and-confirms/stories/1-edit-page-delete-event-link.md`
+  summary: No automated test proves dismissing a Turbo confirm prompt cancels the action; needs `js: true` Capybara specs with `dismiss_confirm`, which require Chrome/chromedriver (not installed locally) and ideally CI (none exists).
+  evidence: `spec/rails_helper.rb` sets `javascript_driver = :selenium_chrome_headless`, but `/Applications/Google Chrome.app` and `chromedriver` are absent; rack_test ignores `data-turbo-confirm`. Relevant again for Story 2's 41 prompts.
