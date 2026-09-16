@@ -1,0 +1,16 @@
+- id: "1"
+  title: Fix the edit-page Delete Event link
+  description: >-
+    Make the Delete Event link in events/edit.html.erb send a real DELETE via
+    Turbo with a working confirmation, so the owner lands on the dashboard
+    instead of an error page. See SPEC.md CAP-1.
+  spec_checkpoint: true
+  done_checkpoint: true
+
+- id: "2"
+  title: Restore confirmation prompts app-wide
+  description: >-
+    Convert the 41 rails-ujs data confirm attributes to Turbo's turbo_confirm
+    so every existing prompt appears again, text unchanged. See SPEC.md CAP-2.
+  spec_checkpoint: true
+  done_checkpoint: true

@@ -33,12 +33,8 @@ A pain to solve. Two bugs from the user's backlog break member-facing communicat
 
 - Not building a general notification-dispatch framework or consolidating all notification triggers (tracked as Deferred in the architecture spine).
 - Not changing RSVP expiration semantics — still 1 hour before event start.
-- Not addressing the third backlog item ("cancel routes to a gone event page") — unreproducible against current code (`EventsController#destroy` already redirects to `dashboard_path`); treated as already fixed.
+- Not addressing the third backlog item ("cancel routes to a gone event page"). It is a real, separate bug in the edit page's Delete Event link, specced in `../spec-delete-link-and-confirms/`.
 
 ## Success signal
 
 Both fixes are covered by passing RSpec examples (a request/controller spec re-responding to an already-answered, unexpired RSVP; a job/mailer spec asserting `CancelledEventMailer#notify` fires on event deletion), plus a manual pass in development confirming both flows.
-
-## Open Questions
-
-- Confirm the third backlog item ("cancel routes to a gone event page") can be checked off — it wasn't reproducible against the current codebase.
