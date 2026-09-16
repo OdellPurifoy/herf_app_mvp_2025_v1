@@ -22,22 +22,17 @@ class RsvpsController < ApplicationController
 
   # PATCH/PUT /rsvp/:token
   def update
-    if @rsvp.expired?
+    unless @rsvp.valid_for_response?
       redirect_to rsvp_path(@rsvp.rsvp_token),
                   alert: 'This RSVP has expired and can no longer be updated.'
       return
     end
 
-    if @rsvp.valid_for_response?
-      if @rsvp.respond_with(rsvp_params[:status], rsvp_params[:guest_count])
-        redirect_to rsvp_path(@rsvp.rsvp_token),
-                    notice: rsvp_success_message
-      else
-        render :show, status: :unprocessable_entity
-      end
-    else
+    if @rsvp.respond_with(rsvp_params[:status], rsvp_params[:guest_count])
       redirect_to rsvp_path(@rsvp.rsvp_token),
-                  alert: 'This RSVP has expired and can no longer be updated.'
+                  notice: rsvp_success_message
+    else
+      render :show, status: :unprocessable_entity
     end
   end
 

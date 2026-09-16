@@ -134,6 +134,40 @@ RSpec.describe RsvpsController, type: :controller do
       end
     end
 
+    context 'with an already-answered, non-expired RSVP' do
+      before { rsvp.update!(status: :attending, guest_count: 2) }
+
+      let(:rsvp_params) { { status: 'declined', guest_count: '1' } }
+
+      it 'allows changing the response' do
+        patch :update, params: { token: rsvp.rsvp_token, rsvp: rsvp_params }
+
+        expect(rsvp.reload.status).to eq('declined')
+      end
+
+      it 'redirects with success message rather than an expired error' do
+        patch :update, params: { token: rsvp.rsvp_token, rsvp: rsvp_params }
+
+        expect(response).to redirect_to(rsvp_path(rsvp.rsvp_token))
+        expect(flash[:alert]).to be_nil
+        expect(flash[:notice]).to include("won't be able to make it")
+      end
+
+      it 'allows the reverse direction too (declined back to attending)' do
+        rsvp.update!(status: :declined)
+
+        patch :update, params: { token: rsvp.rsvp_token, rsvp: { status: 'attending', guest_count: '4' } }
+
+        expect(rsvp.reload.status).to eq('attending')
+      end
+
+      it 'allows updating just the guest count while keeping the same status' do
+        patch :update, params: { token: rsvp.rsvp_token, rsvp: { status: 'attending', guest_count: '5' } }
+
+        expect(rsvp.reload).to have_attributes(status: 'attending', guest_count: 5)
+      end
+    end
+
     context 'with invalid token' do
       it 'returns 404' do
         patch :update, params: { token: 'invalid_token', rsvp: { status: 'attending' } }

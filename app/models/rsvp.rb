@@ -48,11 +48,15 @@ class Rsvp < ApplicationRecord
     expires_at <= Time.current
   end
 
+  # Intentionally time-based only: a prior response no longer blocks re-editing,
+  # so this must not also require pending? — that was the original re-edit lockout bug.
   def valid_for_response?
-    !expired? && pending?
+    !expired?
   end
 
   def respond_with(status_value, guest_count_value = nil)
+    # Redundant with the controller's valid_for_response? check at its only call site today,
+    # kept as a model-level invariant so any future caller can't bypass expiry.
     return false if expired?
 
     update(

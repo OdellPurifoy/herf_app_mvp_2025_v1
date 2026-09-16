@@ -169,9 +169,14 @@ RSpec.describe Rsvp, type: :model do
         expect(rsvp.valid_for_response?).to be false
       end
 
-      it 'returns false for non-pending RSVP' do
-        rsvp.update!(status: :attending)
-        expect(rsvp.valid_for_response?).to be false
+      it 'returns true for a non-pending, non-expired RSVP (already responded, can still change)' do
+        rsvp.update!(status: :attending, expires_at: 1.hour.from_now)
+        expect(rsvp.valid_for_response?).to be true
+      end
+
+      it 'is time-authoritative: true even with status :expired if expires_at is still future' do
+        rsvp.update_columns(status: Rsvp.statuses[:expired], expires_at: 1.hour.from_now)
+        expect(rsvp.valid_for_response?).to be true
       end
     end
 
