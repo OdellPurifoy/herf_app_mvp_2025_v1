@@ -100,12 +100,17 @@ RSpec.describe Event, type: :model do
           id: event.id,
           name: event.name,
           date: event.date,
+          start_time: event.start_time,
+          lounge_name: lounge.name,
+          lounge_email: lounge.email,
+          lounge_phone_number: lounge.phone_number,
           member_ids: [1, 2, 3]
         }
 
         expect do
           event.destroy
         end.to have_enqueued_job(EventDeletionNotificationJob).with(event_data)
+          .and have_enqueued_job(EventDeletionEmailNotificationJob).with(event_data)
       end
     end
   end

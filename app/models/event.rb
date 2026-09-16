@@ -188,8 +188,13 @@ class Event < ApplicationRecord
       id: id,
       name: name,
       date: date,
-      member_ids: lounge.memberships.active.pluck(:id) # Assuming you have a members association
+      start_time: start_time,
+      lounge_name: lounge.name,
+      lounge_email: lounge.email,
+      lounge_phone_number: lounge.phone_number,
+      member_ids: lounge.memberships.active.pluck(:id)
     }
     EventDeletionNotificationJob.perform_later(event_data)
+    EventDeletionEmailNotificationJob.perform_later(event_data)
   end
 end
