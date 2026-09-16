@@ -1,0 +1,17 @@
+- id: "1"
+  title: Fix RSVP re-edit lockout after first response
+  description: >-
+    Loosen RsvpsController#update's re-edit gate from Rsvp#valid_for_response?
+    (requires pending) to expired? alone, so an already-answered but unexpired
+    RSVP can still be changed. See SPEC.md CAP-1.
+  spec_checkpoint: true
+  done_checkpoint: true
+
+- id: "2"
+  title: Send event-cancellation email on delete
+  description: >-
+    Wire the existing, already-tested CancelledEventMailer into event
+    deletion so eligible members receive an email, not just SMS. See
+    SPEC.md CAP-2.
+  spec_checkpoint: true
+  done_checkpoint: true
