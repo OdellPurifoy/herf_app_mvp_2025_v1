@@ -38,3 +38,6 @@
 !/app/assets/builds/.keep
 
 .vscode/
+
+# BMad personal install answers (not shared team config).
+/_bmad/config.user.toml
