@@ -25,11 +25,11 @@
         <% if lounge_owner_signed_in? && !current_lounge_owner.subscribed? %>
           <%= link_to "Profile", edit_lounge_owner_registration_path, class: "ml-6 text-sm/6 font-semibold text-white" %>
           <%= link_to "Dashboard", dashboard_path, class: "ml-6 text-sm/6 font-semibold text-white" %>
-          <%= button_to "Log out", destroy_lounge_owner_session_path, method: :delete, class: "ml-6 text-sm/6 font-semibold text-white", data: { confirm: "Are you sure?" } %>
+          <%= button_to "Log out", destroy_lounge_owner_session_path, method: :delete, class: "ml-6 text-sm/6 font-semibold text-white", data: { turbo_confirm: "Are you sure?" } %>
         <% elsif lounge_owner_signed_in? && current_lounge_owner.subscribed? %>
           <%= link_to "Profile", edit_lounge_owner_registration_path, class: "text-sm/6 font-semibold text-white" %>
           <%= link_to "Dashboard", dashboard_path, class: "ml-6 text-sm/6 font-semibold text-white" %>
-          <%= button_to "Log out", destroy_lounge_owner_session_path, method: :delete, class: "ml-6 text-sm/6 font-semibold text-white", data: { confirm: "Are you sure?" } %>
+          <%= button_to "Log out", destroy_lounge_owner_session_path, method: :delete, class: "ml-6 text-sm/6 font-semibold text-white", data: { turbo_confirm: "Are you sure?" } %>
         <% else %>
           <%= link_to "Sign up", new_lounge_owner_registration_path, class: "text-sm/6 font-semibold text-white" %>
           <%= link_to "Log in", new_lounge_owner_session_path, class: "ml-6 text-sm/6 font-semibold text-white", aria: { hidden: true } %>
@@ -63,7 +63,7 @@
               <% if lounge_owner_signed_in? %>
                 <a href="<%= edit_lounge_owner_registration_path %>" class="text-sm/6 font-semibold text-white">Profile</a>
                 <a href="<%= dashboard_path %>" class="ml-6 text-sm/6 font-semibold text-white">Dashboard</a>
-                <%= button_to "Log out", destroy_lounge_owner_session_path, method: :delete, class: "ml-6 text-sm/6 font-semibold text-white", data: { confirm: "Are you sure?" } %>
+                <%= button_to "Log out", destroy_lounge_owner_session_path, method: :delete, class: "ml-6 text-sm/6 font-semibold text-white", data: { turbo_confirm: "Are you sure?" } %>
               <% else %>
                 <a href="<%= new_lounge_owner_registration_path %>" class="text-sm/6 font-semibold text-white">Sign up</a>
                 <a href="<%= new_lounge_owner_session_path %>" class="ml-6 text-sm/6 font-semibold text-white">Log in <span aria-hidden="true">&rarr;</span></a>

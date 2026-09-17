@@ -29,3 +29,15 @@
 - source_spec: `_bmad-output/specs/spec-delete-link-and-confirms/stories/1-edit-page-delete-event-link.md`
   summary: No automated test proves dismissing a Turbo confirm prompt cancels the action; needs `js: true` Capybara specs with `dismiss_confirm`, which require Chrome/chromedriver (not installed locally) and ideally CI (none exists).
   evidence: `spec/rails_helper.rb` sets `javascript_driver = :selenium_chrome_headless`, but `/Applications/Google Chrome.app` and `chromedriver` are absent; rack_test ignores `data-turbo-confirm`. Relevant again for Story 2's 41 prompts.
+
+- source_spec: `_bmad-output/specs/spec-delete-link-and-confirms/stories/2-restore-confirm-prompts.md`
+  summary: Five `app/views/admin_dashboard/*` "Log Out" buttons have no confirmation at all, so admin pages sign out on one click while every other page now prompts.
+  evidence: `grep` for `destroy_lounge_owner_session_path` without `confirm` returns 5 hits on both this branch and baseline `c0130cf` (verified via `git stash`), so it is pre-existing; Story 2's frozen Boundaries forbid adding prompts to controls that lack one. The new guard spec allowlists exactly these 5, so removing them from the allowlist is all that's needed later.
+
+- source_spec: `_bmad-output/specs/spec-delete-link-and-confirms/stories/2-restore-confirm-prompts.md`
+  summary: `app/views/admins/registrations/edit.html.erb` is unreachable dead code — `config/routes.rb:8` declares `devise_for :admins, skip: [:registrations]`, so the `registration_path(resource_name)` it calls has no route. Delete the view or restore the routes.
+  evidence: `bundle exec rails routes | grep -i "admin.*registration"` returns nothing. Pre-existing; found during Story 2 review because the file was edited.
+
+- source_spec: `_bmad-output/specs/spec-delete-link-and-confirms/stories/2-restore-confirm-prompts.md`
+  summary: The confirm message "Are you sure?" is now duplicated 44 times across views in two quote styles and says nothing about consequences (deleting an event emails and texts every member). Consider an i18n key or per-action wording.
+  evidence: Wording was frozen by Story 2's intent ("keep every message verbatim"), so this is a deliberate follow-up rather than a defect.
