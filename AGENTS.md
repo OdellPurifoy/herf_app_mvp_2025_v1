@@ -1,5 +1,5 @@
 <!-- bmad:context -->
-<!-- Verified 2026-09-16 against b1b416f. Managed by bmad-project-context; edits inside this block are replaced on refresh. Keep anything you want preserved outside the markers. -->
+<!-- Verified 2026-09-17 against c0130cf. Managed by bmad-project-context; edits inside this block are replaced on refresh. Keep anything you want preserved outside the markers. -->
 
 ## herf_app_mvp_2025_v1
 
@@ -8,6 +8,7 @@ SaaS platform for cigar lounge owners: subscriptions, events, memberships, RSVPs
 ## Policy
 
 - Never remove the legacy Robusto/Churchill subscription plan code — may be reactivated.
+- Fix the bug with the smallest change that does it; prefer deleting code over adding it; no new classes, callbacks, or abstractions unless the spec names them.
 
 ## Where things are
 

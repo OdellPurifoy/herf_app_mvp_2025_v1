@@ -1,0 +1,8 @@
+[workflow]
+
+# Team coding discipline, carried for the whole build run.
+# Canonical statement lives in AGENTS.md; repeated here because the step-03
+# implementation subagent starts context-free and works from the spec alone.
+persistent_facts = [
+  "Fix the bug with the smallest change that does it; prefer deleting code over adding it; no new classes, callbacks, or abstractions unless the spec names them.",
+]
